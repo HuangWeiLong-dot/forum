@@ -1,0 +1,55 @@
+name: 生成 API 文档
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'openapi.yaml'
+  workflow_dispatch:
+  release:
+    types: [ published ]
+
+jobs:
+  generate-docs:
+    name: 生成 API 文档
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 安装依赖
+        run: |
+          npm install -g @redocly/cli
+          npm install -g @apidevtools/swagger-cli
+      
+      - name: 验证 OpenAPI 规范
+        run: |
+          swagger-cli validate openapi.yaml
+      
+      - name: 生成 Redoc HTML 文档
+        run: |
+          npx @redocly/cli bundle openapi.yaml -o openapi-bundled.yaml
+          npx @redocly/cli build-docs openapi.yaml -o ./docs
+      
+      - name: 设置 GitHub Pages
+        uses: actions/configure-pages@v4
+      
+      - name: 上传文档
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs'
+      
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

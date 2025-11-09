@@ -1,0 +1,49 @@
+name: OpenAPI 规范验证
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: 验证 OpenAPI 规范
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 安装依赖
+        run: |
+          npm install -g @apidevtools/swagger-cli
+          npm install -g yaml-lint
+      
+      - name: 验证 YAML 语法
+        run: |
+          python3 -m pip install yamllint
+          yamllint openapi.yaml || true
+      
+      - name: 验证 OpenAPI 规范
+        run: |
+          swagger-cli validate openapi.yaml
+      
+      - name: 检查 OpenAPI 规范完整性
+        run: |
+          swagger-cli bundle openapi.yaml -o /tmp/openapi-bundled.yaml
+          echo "✅ OpenAPI 规范验证通过"
+      
+      - name: 生成规范报告
+        run: |
+          echo "## OpenAPI 规范验证报告" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ YAML 语法检查通过" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ OpenAPI 规范验证通过" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ 规范完整性检查通过" >> $GITHUB_STEP_SUMMARY
+

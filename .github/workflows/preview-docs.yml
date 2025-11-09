@@ -1,0 +1,56 @@
+name: 预览 API 文档
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'openapi.yaml'
+      - '.github/workflows/**'
+
+jobs:
+  preview:
+    name: 生成文档预览
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 安装依赖
+        run: |
+          npm install -g @redocly/cli
+          npm install -g @apidevtools/swagger-cli
+      
+      - name: 验证 OpenAPI 规范
+        run: |
+          swagger-cli validate openapi.yaml
+      
+      - name: 生成预览文档
+        run: |
+          npx @redocly/cli bundle openapi.yaml -o openapi-bundled.yaml
+          npx @redocly/cli build-docs openapi.yaml -o ./docs-preview
+      
+      - name: 上传预览文档
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-docs-preview
+          path: ./docs-preview
+          retention-days: 7
+      
+      - name: 添加 PR 评论
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📚 API 文档预览已生成，请在 Artifacts 中下载查看。'
+            })
+
