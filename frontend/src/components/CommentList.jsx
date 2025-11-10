@@ -7,11 +7,14 @@ import { commentAPI } from '../services/api'
 import { FaReply } from 'react-icons/fa'
 import './CommentList.css'
 
-const CommentList = ({ comments, onUpdate, depth = 0 }) => {
+const CommentList = ({ comments, onUpdate, depth = 0, maxDepth = 3 }) => {
   const { isAuthenticated } = useAuth()
   const [replyingTo, setReplyingTo] = useState(null)
   const [replyText, setReplyText] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  
+  // 限制嵌套深度
+  const canReply = depth < maxDepth
 
   const formatDate = (dateString) => {
     try {
@@ -51,9 +54,13 @@ const CommentList = ({ comments, onUpdate, depth = 0 }) => {
         <div key={comment.id} className={`comment ${depth > 0 ? 'comment-reply' : ''}`}>
           <div className="comment-content">
             <div className="comment-header">
-              <Link to={`/user/${comment.author?.id}`} className="comment-author">
-                {comment.author?.username || '匿名用户'}
-              </Link>
+              {comment.author?.id ? (
+                <Link to={`/user/${comment.author.id}`} className="comment-author">
+                  {comment.author.username || '匿名用户'}
+                </Link>
+              ) : (
+                <span className="comment-author">匿名用户</span>
+              )}
               <span className="comment-separator">•</span>
               <span className="comment-time">{formatDate(comment.createdAt)}</span>
             </div>
@@ -63,7 +70,7 @@ const CommentList = ({ comments, onUpdate, depth = 0 }) => {
             </div>
 
             <div className="comment-actions">
-              {isAuthenticated && (
+              {isAuthenticated && canReply && (
                 <button
                   className="comment-action-button"
                   onClick={() =>
@@ -72,6 +79,9 @@ const CommentList = ({ comments, onUpdate, depth = 0 }) => {
                 >
                   <FaReply /> 回复
                 </button>
+              )}
+              {isAuthenticated && !canReply && (
+                <span className="comment-depth-limit">已达到最大回复深度</span>
               )}
               {comment.likeCount > 0 && (
                 <span className="comment-like-count">{comment.likeCount} 点赞</span>
@@ -112,11 +122,12 @@ const CommentList = ({ comments, onUpdate, depth = 0 }) => {
               </form>
             )}
 
-            {comment.replies && comment.replies.length > 0 && (
+            {comment.replies && comment.replies.length > 0 && depth < maxDepth && (
               <CommentList
                 comments={comment.replies}
                 onUpdate={onUpdate}
                 depth={depth + 1}
+                maxDepth={maxDepth}
               />
             )}
           </div>
