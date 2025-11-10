@@ -10,6 +10,7 @@ const Header = () => {
   const { user, isAuthenticated, logout } = useAuth()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRegisterModal, setShowRegisterModal] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const navigate = useNavigate()
 
@@ -59,17 +60,34 @@ const Header = () => {
                 <FaPlus /> 创建
               </button>
               <div className="user-menu">
-                <button className="user-avatar-button" title="用户菜单">
+                <button 
+                  className="user-avatar-button" 
+                  title="用户菜单"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  onBlur={() => setTimeout(() => setShowUserMenu(false), 200)}
+                >
                   <FaUserCircle className="user-avatar" />
                 </button>
-                <div className="user-dropdown">
-                  <Link to={`/user/${user.id}`} className="dropdown-item">
-                    我的资料
-                  </Link>
-                  <button onClick={handleLogout} className="dropdown-item">
-                    登出
-                  </button>
-                </div>
+                {showUserMenu && (
+                  <div className="user-dropdown">
+                    <Link 
+                      to={`/user/${user.id}`} 
+                      className="dropdown-item"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      我的资料
+                    </Link>
+                    <button 
+                      onClick={() => {
+                        setShowUserMenu(false)
+                        handleLogout()
+                      }} 
+                      className="dropdown-item"
+                    >
+                      登出
+                    </button>
+                  </div>
+                )}
               </div>
             </>
           ) : (
