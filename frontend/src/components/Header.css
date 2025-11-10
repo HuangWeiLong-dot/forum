@@ -171,12 +171,9 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   min-width: 180px;
-  display: none;
-  overflow: hidden;
-}
-
-.user-menu:hover .user-dropdown {
   display: block;
+  overflow: hidden;
+  z-index: 1000;
   animation: fadeIn 0.2s ease-out;
 }
 
