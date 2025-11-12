@@ -5,9 +5,15 @@ import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import RightSidebar from './components/RightSidebar'
 import Home from './pages/Home'
+import Search from './pages/Search'
 import PostDetail from './pages/PostDetail'
 import UserProfile from './pages/UserProfile'
 import CreatePost from './pages/CreatePost'
+import About from './pages/About'
+import Contact from './pages/Contact'
+import Changelog from './pages/Changelog'
+import Terms from './pages/Terms'
+import Privacy from './pages/Privacy'
 import './App.css'
 
 function App() {
@@ -29,9 +35,15 @@ function App() {
         <main className="app-main">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/post/:postId" element={<PostDetail />} />
             <Route path="/user/:userId" element={<UserProfile />} />
             <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/changelog" element={<Changelog />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
           </Routes>
         </main>
         <RightSidebar />
