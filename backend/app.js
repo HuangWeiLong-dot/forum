@@ -12,6 +12,9 @@ import postRoutes from './routes/posts.js';
 import commentRoutes from './routes/comments.js';
 import categoryRoutes from './routes/categories.js';
 import tagRoutes from './routes/tags.js';
+import uploadRoutes from './routes/upload.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // 加载环境变量
 dotenv.config();
@@ -32,6 +35,11 @@ app.use(cors({
 // 请求体解析
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 静态文件服务（用于提供上传的图片）
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 速率限制
 const limiter = rateLimit({
@@ -70,6 +78,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api', commentRoutes); // 评论路由：/api/posts/:postId/comments 和 /api/comments/:commentId/reply
 app.use('/api/categories', categoryRoutes);
 app.use('/api/tags', tagRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // 404 处理
 app.use((req, res) => {
