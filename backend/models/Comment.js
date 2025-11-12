@@ -81,8 +81,8 @@ class Comment {
     return comments;
   }
 
-  // 获取评论的回复（限制最大深度为3层）
-  static async getReplies(parentId, currentDepth = 0, maxDepth = 3) {
+  // 获取评论的回复（限制最大深度为1层）
+  static async getReplies(parentId, currentDepth = 0, maxDepth = 1) {
     // 如果达到最大深度，不再递归获取
     if (currentDepth >= maxDepth) {
       return [];

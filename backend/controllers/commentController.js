@@ -66,12 +66,12 @@ class CommentController {
           });
         }
         
-        // 检查嵌套深度（限制为3层）
+        // 检查嵌套深度（限制为1层）
         const depth = await CommentController.getCommentDepth(parseInt(parentId));
-        if (depth >= 3) {
+        if (depth >= 1) {
           return res.status(400).json({
             error: 'MAX_DEPTH_REACHED',
-            message: '评论嵌套深度已达到最大值（3层）',
+            message: '别套娃了',
           });
         }
       }
@@ -138,12 +138,12 @@ class CommentController {
         });
       }
 
-      // 检查嵌套深度（限制为3层）
+      // 检查嵌套深度（限制为1层）
       const depth = await CommentController.getCommentDepth(parseInt(commentId));
-      if (depth >= 3) {
+      if (depth >= 1) {
         return res.status(400).json({
           error: 'MAX_DEPTH_REACHED',
-          message: '评论嵌套深度已达到最大值（3层）',
+          message: '别套娃了',
         });
       }
 
