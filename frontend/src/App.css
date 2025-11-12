@@ -68,11 +68,12 @@
   }
 
   .header-container {
-    flex-wrap: wrap;
+    grid-template-columns: auto 1fr;
     gap: 1rem;
   }
 
   .header-search {
+    grid-column: 1 / -1;
     order: 3;
     width: 100%;
     max-width: 100%;
