@@ -26,13 +26,17 @@ class VerificationController {
       }
 
       // 检查是否已有有效验证码（防止频繁发送，60秒内只能发送一次）
-      if (VerificationCodeService.hasActiveCode(email)) {
-        const remainingTime = VerificationCodeService.getRemainingTime(email);
-        if (remainingTime > 240) { // 如果剩余时间超过4分钟（即刚发送不到1分钟）
+      const lastSentTime = VerificationCodeService.getLastSentTime(email);
+      if (lastSentTime) {
+        const timeSinceLastSent = Date.now() - lastSentTime;
+        const minInterval = 60 * 1000; // 60秒（毫秒）
+        
+        if (timeSinceLastSent < minInterval) {
+          const remainingSeconds = Math.ceil((minInterval - timeSinceLastSent) / 1000);
           return res.status(429).json({
             error: 'TOO_MANY_REQUESTS',
-            message: '验证码发送过于频繁，请稍后再试',
-            retryAfter: 60 - (300 - remainingTime),
+            message: `验证码发送过于频繁，请 ${remainingSeconds} 秒后再试`,
+            retryAfter: remainingSeconds,
           });
         }
       }
@@ -44,9 +48,20 @@ class VerificationController {
       VerificationCodeService.storeCode(email, code);
 
       // 发送验证码邮件
-      const emailSent = await EmailService.sendVerificationCodeEmail(email, code);
+      try {
+        const emailSent = await EmailService.sendVerificationCodeEmail(email, code);
 
-      if (!emailSent) {
+        if (!emailSent) {
+          // 如果发送失败，删除已存储的验证码
+          VerificationCodeService.deleteCode(email);
+          return res.status(500).json({
+            error: 'EMAIL_SEND_FAILED',
+            message: '验证码发送失败，请检查邮箱地址是否正确，或稍后重试',
+          });
+        }
+      } catch (emailError) {
+        console.error('发送邮件时发生异常:', emailError);
+        VerificationCodeService.deleteCode(email);
         return res.status(500).json({
           error: 'EMAIL_SEND_FAILED',
           message: '验证码发送失败，请稍后重试',
