@@ -120,7 +120,53 @@ CREATE INDEX idx_comments_parent_id ON comments(parent_id);
 CREATE INDEX idx_comments_created_at ON comments(created_at DESC);
 
 -- ============================================
--- 7. 触发器：自动更新 updated_at 字段
+-- 7. 帖子浏览记录表 (Post Views)
+-- ============================================
+CREATE TABLE post_views (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    ip_address VARCHAR(45),  -- 支持 IPv6
+    viewed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 唯一约束：同一用户对同一帖子只记录一次（如果用户已登录）
+CREATE UNIQUE INDEX idx_post_views_user_unique 
+ON post_views(post_id, user_id) 
+WHERE user_id IS NOT NULL;
+
+-- 唯一约束：同一IP对同一帖子在24小时内只记录一次（如果用户未登录）
+-- 注意：24小时去重逻辑在应用层实现
+CREATE UNIQUE INDEX idx_post_views_ip_unique 
+ON post_views(post_id, ip_address) 
+WHERE user_id IS NULL AND ip_address IS NOT NULL;
+
+-- 帖子浏览记录表索引
+CREATE INDEX idx_post_views_post_id ON post_views(post_id);
+CREATE INDEX idx_post_views_user_id ON post_views(user_id);
+CREATE INDEX idx_post_views_ip ON post_views(ip_address);
+CREATE INDEX idx_post_views_viewed_at ON post_views(viewed_at);
+
+-- ============================================
+-- 8. 帖子点赞记录表 (Post Likes)
+-- ============================================
+CREATE TABLE post_likes (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    -- 唯一约束：同一用户对同一帖子只能点赞一次
+    CONSTRAINT unique_post_like UNIQUE (post_id, user_id)
+);
+
+-- 帖子点赞记录表索引
+CREATE INDEX idx_post_likes_post_id ON post_likes(post_id);
+CREATE INDEX idx_post_likes_user_id ON post_likes(user_id);
+CREATE INDEX idx_post_likes_created_at ON post_likes(created_at DESC);
+
+-- ============================================
+-- 9. 触发器：自动更新 updated_at 字段
 -- ============================================
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -144,7 +190,7 @@ CREATE TRIGGER update_comments_updated_at BEFORE UPDATE ON comments
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================
--- 8. 视图：用户统计信息（用于快速获取 postCount 和 commentCount）
+-- 10. 视图：用户统计信息（用于快速获取 postCount 和 commentCount）
 -- ============================================
 CREATE VIEW user_stats AS
 SELECT 
@@ -158,7 +204,7 @@ LEFT JOIN comments c ON c.author_id = u.id
 GROUP BY u.id, u.username;
 
 -- ============================================
--- 9. 视图：分类统计信息（用于快速获取 postCount）
+-- 11. 视图：分类统计信息（用于快速获取 postCount）
 -- ============================================
 CREATE VIEW category_stats AS
 SELECT 
@@ -172,7 +218,7 @@ LEFT JOIN posts p ON p.category_id = cat.id
 GROUP BY cat.id, cat.name, cat.description, cat.color;
 
 -- ============================================
--- 10. 视图：标签统计信息（用于快速获取 postCount）
+-- 12. 视图：标签统计信息（用于快速获取 postCount）
 -- ============================================
 CREATE VIEW tag_stats AS
 SELECT 
@@ -184,7 +230,7 @@ LEFT JOIN post_tags pt ON pt.tag_id = t.id
 GROUP BY t.id, t.name;
 
 -- ============================================
--- 11. 函数：获取帖子评论数量
+-- 13. 函数：获取帖子评论数量
 -- ============================================
 CREATE OR REPLACE FUNCTION get_post_comment_count(post_id_param INTEGER)
 RETURNS INTEGER AS $$
@@ -194,7 +240,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- ============================================
--- 12. 初始化数据（可选）
+-- 14. 初始化数据（可选）
 -- ============================================
 -- 插入示例分类
 INSERT INTO categories (name, description, color) VALUES
@@ -213,8 +259,14 @@ COMMENT ON TABLE tags IS '标签表，存储帖子标签';
 COMMENT ON TABLE posts IS '帖子表，存储论坛帖子内容';
 COMMENT ON TABLE post_tags IS '帖子标签关联表，多对多关系';
 COMMENT ON TABLE comments IS '评论表，支持嵌套回复';
+COMMENT ON TABLE post_views IS '帖子浏览记录表，用于去重统计浏览次数';
+COMMENT ON TABLE post_likes IS '帖子点赞记录表，记录用户对帖子的点赞';
 
 COMMENT ON COLUMN users.password_hash IS '加密后的密码，不存储明文';
 COMMENT ON COLUMN comments.parent_id IS '父评论ID，NULL表示顶级评论，非NULL表示回复';
 COMMENT ON COLUMN posts.excerpt IS '帖子内容摘要，可从content自动生成';
+COMMENT ON COLUMN post_views.user_id IS '浏览用户ID，NULL表示未登录用户';
+COMMENT ON COLUMN post_views.ip_address IS '浏览IP地址，用于未登录用户的去重';
+COMMENT ON COLUMN post_likes.post_id IS '被点赞的帖子ID';
+COMMENT ON COLUMN post_likes.user_id IS '点赞的用户ID';
 
