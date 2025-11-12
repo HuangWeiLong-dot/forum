@@ -1,0 +1,190 @@
+.contact-page {
+  flex: 1;
+  max-width: 1000px;
+}
+
+.contact-container {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.contact-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.contact-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.contributors-section {
+  width: 100%;
+}
+
+.contributors-section h2 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.section-description {
+  margin: 0 0 2rem 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contributors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.contributor-card {
+  background-color: var(--background-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-sm);
+}
+
+.contributor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+.contributor-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-full);
+}
+
+.avatar-icon {
+  font-size: 2.5rem;
+  color: white;
+  position: absolute;
+}
+
+.contributor-info {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.contributor-name {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.contributor-role {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.contributor-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  background-color: var(--card-background);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.contact-link:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-link-icon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.contact-link span {
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 1.5rem;
+  }
+
+  .contact-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .contributors-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .contributors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contributor-card {
+    padding: 1.5rem;
+  }
+}
