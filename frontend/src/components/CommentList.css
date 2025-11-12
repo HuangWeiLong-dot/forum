@@ -5,37 +5,32 @@
 }
 
 .comment {
-  padding: 1.25rem;
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  margin-bottom: 0.75rem;
+  padding: 1.25rem 0;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
+  margin-bottom: 0;
   transition: all 0.2s;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .comment:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: none;
 }
 
 .comment-reply {
-  margin-left: 1.5rem;
-  margin-top: 0.75rem;
-  border-left: 3px solid var(--primary-color);
-  padding-left: 1rem;
-  background-color: var(--background-alt);
+  margin-left: 2rem;
+  margin-top: 1rem;
+  border-left: 2px solid var(--border-color);
+  padding-left: 1.25rem;
+  background-color: transparent;
   position: relative;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .comment-reply::before {
-  content: '';
-  position: absolute;
-  left: -3px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, var(--primary-color), transparent);
-  opacity: 0.6;
+  display: none;
 }
 
 .comment-depth-limit {
@@ -72,7 +67,7 @@
 
 .comment-separator {
   color: var(--text-tertiary);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .comment-time {
@@ -98,8 +93,8 @@
   gap: 1rem;
   margin-top: 0.75rem;
   align-items: center;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border-light);
+  padding-top: 0;
+  border-top: none;
 }
 
 .comment-like-count {
@@ -124,14 +119,14 @@
 }
 
 .comment-action-button:hover {
-  background-color: var(--hover-background);
+  background-color: transparent;
   color: var(--primary-color);
 }
 
 .comment-reply-form {
   margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-light);
+  padding-top: 0;
+  border-top: none;
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
@@ -140,19 +135,21 @@
 .comment-reply-textarea {
   width: 100%;
   padding: 0.875rem;
-  border: 1.5px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
   font-size: 0.9375rem;
   font-family: inherit;
   resize: vertical;
   min-height: 100px;
+  background-color: transparent;
   transition: all 0.2s;
 }
 
 .comment-reply-textarea:focus {
-  border-color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: none;
 }
 
 .comment-reply-actions {
@@ -163,38 +160,40 @@
 
 .comment-reply-cancel {
   padding: 0.625rem 1rem;
-  background: none;
-  border: 1.5px solid var(--border-color);
+  background: transparent;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 0.2s;
   font-size: 0.9375rem;
 }
 
 .comment-reply-cancel:hover {
-  background-color: var(--hover-background);
-  border-color: var(--border-color);
+  background-color: transparent;
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .comment-reply-submit {
   padding: 0.625rem 1rem;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  background: var(--primary-color);
   color: white;
-  border: none;
+  border: 1px solid var(--primary-color);
   border-radius: var(--radius-md);
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
   font-size: 0.9375rem;
 }
 
 .comment-reply-submit:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-color) 100%);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: none;
+  box-shadow: none;
 }
 
 .comment-reply-submit:disabled {
@@ -204,11 +203,11 @@
 }
 
 .comments-empty {
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
   padding: 3rem 2rem;
   text-align: center;
   color: var(--text-secondary);
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }

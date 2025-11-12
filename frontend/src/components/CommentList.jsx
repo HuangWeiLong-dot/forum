@@ -7,13 +7,13 @@ import { commentAPI } from '../services/api'
 import { FaReply } from 'react-icons/fa'
 import './CommentList.css'
 
-const CommentList = ({ comments, onUpdate, depth = 0, maxDepth = 3 }) => {
+const CommentList = ({ comments, onUpdate, depth = 0, maxDepth = 1, postId }) => {
   const { isAuthenticated } = useAuth()
   const [replyingTo, setReplyingTo] = useState(null)
   const [replyText, setReplyText] = useState('')
   const [submitting, setSubmitting] = useState(false)
   
-  // 限制嵌套深度
+  // 限制嵌套深度 - 允许回复到第1层（depth 0），第2层（depth 1）不允许
   const canReply = depth < maxDepth
 
   const formatDate = (dateString) => {
@@ -81,7 +81,7 @@ const CommentList = ({ comments, onUpdate, depth = 0, maxDepth = 3 }) => {
                 </button>
               )}
               {isAuthenticated && !canReply && (
-                <span className="comment-depth-limit">已达到最大回复深度</span>
+                <span className="comment-depth-limit">别套娃了</span>
               )}
               {comment.likeCount > 0 && (
                 <span className="comment-like-count">{comment.likeCount} 点赞</span>
@@ -128,6 +128,7 @@ const CommentList = ({ comments, onUpdate, depth = 0, maxDepth = 3 }) => {
                 onUpdate={onUpdate}
                 depth={depth + 1}
                 maxDepth={maxDepth}
+                postId={postId}
               />
             )}
           </div>
