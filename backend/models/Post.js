@@ -193,14 +193,18 @@ class Post {
 
     params.push(limit, offset);
 
+    const baseFromClause = `
+       FROM posts p
+       LEFT JOIN users u ON p.author_id = u.id
+       LEFT JOIN categories c ON p.category_id = c.id
+    `;
+
     const result = await query(
       `SELECT p.*,
               u.id as author_id, u.username as author_username, u.avatar as author_avatar,
               c.id as category_id, c.name as category_name, c.description as category_description, c.color as category_color,
               (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
-       FROM posts p
-       LEFT JOIN users u ON p.author_id = u.id
-       LEFT JOIN categories c ON p.category_id = c.id
+       ${baseFromClause}
        ${whereClause}
        ORDER BY ${orderBy}
        LIMIT $${paramCount++} OFFSET $${paramCount++}`,
@@ -209,7 +213,7 @@ class Post {
 
     // 获取总数
     const countResult = await query(
-      `SELECT COUNT(*) as total FROM posts p ${whereClause}`,
+      `SELECT COUNT(*) as total ${baseFromClause} ${whereClause}`,
       params.slice(0, -2)
     );
     const total = parseInt(countResult.rows[0].total);
