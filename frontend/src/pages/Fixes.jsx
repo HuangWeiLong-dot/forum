@@ -28,7 +28,7 @@ export default function Fixes() {
   return (
     <div className="fixes-page">
       <h1 className="fixes-title">问题修复</h1>
-      <p className="fixes-subtitle">这里汇总每次已对用户产生影响的缺陷修复，用通俗易懂的方式说明修复内容与影响范围。</p>
+      <p className="fixes-subtitle">这里汇总近期的缺陷修复，说明修复内容与影响范围。</p>
 
       <div className="fixes-list">
         {fixes.map((fix, idx) => (
