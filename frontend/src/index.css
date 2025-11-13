@@ -60,6 +60,55 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
+
+  /* 顶部导航与浮层 */
+  --header-background: rgba(255, 255, 255, 0.85);
+  --dropdown-background: rgba(255, 255, 255, 0.95);
+}
+
+:root.theme-dark {
+  --primary-color: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-light: #93c5fd;
+  --primary-dark: #2563eb;
+
+  --secondary-color: #38bdf8;
+  --secondary-hover: #0ea5e9;
+
+  --background: #0f172a;
+  --background-alt: #111c2f;
+  --card-background: #152238;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5f5;
+  --text-tertiary: #94a3b8;
+
+  --border-color: #1e293b;
+  --border-light: #1f2a40;
+  --divider: #1e293b;
+
+  --hover-background: rgba(30, 41, 59, 0.65);
+  --active-background: rgba(51, 65, 85, 0.7);
+  --focus-ring: #60a5fa;
+
+  --button-primary: #3b82f6;
+  --button-primary-hover: #2563eb;
+  --button-secondary: #64748b;
+  --button-secondary-hover: #475569;
+  --button-gray: rgba(30, 41, 59, 0.9);
+  --button-gray-hover: rgba(51, 65, 85, 0.9);
+
+  --error-color: #f87171;
+  --error-hover: #ef4444;
+  --warning-color: #fbbf24;
+  --success-color: #22c55e;
+
+  --shadow-sm: none;
+  --shadow-md: 0 1px 3px 0 rgb(15 23 42 / 0.5);
+  --shadow-lg: 0 4px 6px -1px rgb(15 23 42 / 0.65);
+
+  --header-background: rgba(15, 23, 42, 0.9);
+  --dropdown-background: rgba(30, 41, 59, 0.95);
 }
 
 body {
