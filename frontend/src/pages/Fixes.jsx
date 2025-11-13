@@ -4,6 +4,16 @@ import './Fixes.css'
 const fixes = [
   {
     date: '2025-11-13',
+    title: '图片加载跨域策略导致无法显示',
+    description: '修复因安全策略限制导致的图片“NotSameOrigin”报错，图片现在可正常加载。',
+    details: [
+      '后端调整安全头：允许跨源资源加载（设置 crossOriginResourcePolicy 为 cross-origin，关闭 crossOriginEmbedderPolicy）',
+      '规范 Nginx 反向代理写法：为 / 与 /uploads/ 使用带结尾斜杠的 proxy_pass，避免重定向与路径拼接问题'
+    ],
+    impact: '帖子中的图片在生产环境可稳定显示，不再出现跨域错误。',
+  },
+  {
+    date: '2025-11-13',
     title: '图片地址异常（https://uploads/ 开头）',
     description: '修复生产环境下图片地址拼接错误，导致图片无法加载的问题。',
     details: [
