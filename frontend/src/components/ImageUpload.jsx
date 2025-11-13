@@ -74,18 +74,15 @@ const ImageUpload = ({ images = [], onChange, maxImages = 10 }) => {
             if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
               imageUrl = data.url  // 直接使用相对路径，Vite 会代理
             } else {
-              // 生产环境：从环境变量获取基础URL
+              // 生产环境：根据 API 基础地址解析出 origin，避免出现 "https://uploads" 之类的错误
               const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
-              let baseUrl = apiBase
-              // 如果包含 /api，去掉 /api 及其后面的路径
-              if (baseUrl.includes('/api')) {
-                baseUrl = baseUrl.split('/api')[0]
+              let origin
+              try {
+                origin = new URL(apiBase, window.location.origin).origin
+              } catch {
+                origin = window.location.origin
               }
-              // 如果 baseUrl 为空，使用当前域名
-              if (!baseUrl || baseUrl === '') {
-                baseUrl = window.location.origin
-              }
-              imageUrl = `${baseUrl}${data.url}`
+              imageUrl = `${origin}${data.url}`
             }
           }
           

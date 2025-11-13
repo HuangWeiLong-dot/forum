@@ -106,16 +106,15 @@ const PostCard = ({ post }) => {
                   if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
                     imageUrl = url
                   } else {
-                    // 生产环境：从环境变量获取基础URL
+                    // 生产环境：使用 URL 解析保证得到正确的 origin，避免出现 https://uploads/...
                     const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
-                    let baseUrl = apiBase
-                    if (baseUrl.includes('/api')) {
-                      baseUrl = baseUrl.split('/api')[0]
+                    let origin
+                    try {
+                      origin = new URL(apiBase, window.location.origin).origin
+                    } catch {
+                      origin = window.location.origin
                     }
-                    if (!baseUrl || baseUrl === '') {
-                      baseUrl = window.location.origin
-                    }
-                    imageUrl = `${baseUrl}${url}`
+                    imageUrl = `${origin}${url}`
                   }
                 }
                 return (

@@ -161,18 +161,15 @@ const PostDetail = () => {
                     if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
                       imageUrl = url  // 直接使用相对路径，Vite 会代理
                     } else {
-                      // 生产环境：从环境变量获取基础URL
+                      // 生产环境：通过 URL 解析拿到正确的 origin，避免生成 https://uploads/...
                       const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
-                      let baseUrl = apiBase
-                      // 如果包含 /api，去掉 /api 及其后面的路径
-                      if (baseUrl.includes('/api')) {
-                        baseUrl = baseUrl.split('/api')[0]
+                      let origin
+                      try {
+                        origin = new URL(apiBase, window.location.origin).origin
+                      } catch {
+                        origin = window.location.origin
                       }
-                      // 如果 baseUrl 为空，使用当前域名
-                      if (!baseUrl || baseUrl === '') {
-                        baseUrl = window.location.origin
-                      }
-                      imageUrl = `${baseUrl}${url}`
+                      imageUrl = `${origin}${url}`
                     }
                   } else if (!url.startsWith('http')) {
                     // 如果不是http开头也不是/uploads开头，可能是其他相对路径
@@ -180,14 +177,13 @@ const PostDetail = () => {
                       imageUrl = url.startsWith('/') ? url : `/${url}`
                     } else {
                       const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
-                      let baseUrl = apiBase
-                      if (baseUrl.includes('/api')) {
-                        baseUrl = baseUrl.split('/api')[0]
+                      let origin
+                      try {
+                        origin = new URL(apiBase, window.location.origin).origin
+                      } catch {
+                        origin = window.location.origin
                       }
-                      if (!baseUrl || baseUrl === '') {
-                        baseUrl = window.location.origin
-                      }
-                      imageUrl = `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`
+                      imageUrl = `${origin}${url.startsWith('/') ? '' : '/'}${url}`
                     }
                   }
                   return (
