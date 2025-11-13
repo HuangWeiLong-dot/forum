@@ -100,6 +100,7 @@
   align-items: center;
   gap: 0.75rem;
   justify-self: end;
+  flex-wrap: nowrap;
 }
 
 .header-button {
@@ -112,6 +113,7 @@
   gap: 0.5rem;
   transition: all 0.2s;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .login-button {
@@ -159,6 +161,8 @@
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   padding: 0.625rem 1rem;
+  display: inline-flex;
+  align-items: center;
 }
 
 .theme-toggle-button:hover {
@@ -253,4 +257,55 @@
   height: 1px;
   background-color: var(--border-color);
   margin: 0.25rem 0;
+}
+
+@media (max-width: 992px) {
+  .header-container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .header-logo {
+    justify-self: center;
+  }
+
+  .header-search {
+    justify-self: stretch;
+  }
+
+  .header-actions {
+    justify-self: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .header {
+    padding: 0.75rem 0;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-button {
+    flex: 0 1 auto;
+  }
+
+  .theme-toggle-button span {
+    display: none;
+  }
+
+  .theme-toggle-button {
+    padding: 0.625rem;
+  }
+
+  .theme-toggle-button svg {
+    font-size: 1.1rem;
+  }
 }
