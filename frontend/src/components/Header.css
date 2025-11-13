@@ -1,5 +1,5 @@
 .header {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--header-background);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
@@ -154,6 +154,17 @@
   transform: translateY(-1px);
 }
 
+.theme-toggle-button {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.625rem 1rem;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--hover-background);
+}
+
 
 .user-menu {
   position: relative;
@@ -186,7 +197,7 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--dropdown-background);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
