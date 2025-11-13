@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { FaSearch, FaPlus, FaUserCircle } from 'react-icons/fa'
+import { FaSearch, FaPlus, FaUserCircle, FaMoon, FaSun } from 'react-icons/fa'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 import './Header.css'
@@ -12,6 +12,10 @@ const Header = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'light'
+    return localStorage.getItem('theme') || 'light'
+  })
   const navigate = useNavigate()
 
   const handleSearch = (e) => {
@@ -19,6 +23,20 @@ const Header = () => {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
     }
+  }
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === 'dark') {
+      root.classList.add('theme-dark')
+    } else {
+      root.classList.remove('theme-dark')
+    }
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   }
 
   const handleLogout = async () => {
@@ -48,6 +66,16 @@ const Header = () => {
         </form>
 
         <div className="header-actions">
+          <button
+            type="button"
+            className="header-button theme-toggle-button"
+            onClick={toggleTheme}
+            aria-pressed={theme === 'dark'}
+            title={theme === 'dark' ? '切换到日间模式' : '切换到夜间模式'}
+          >
+            {theme === 'dark' ? <FaSun /> : <FaMoon />}
+            <span>{theme === 'dark' ? '日间模式' : '夜间模式'}</span>
+          </button>
           {isAuthenticated ? (
             <>
               <button 
