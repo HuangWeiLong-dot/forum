@@ -19,6 +19,7 @@ const Contact = () => {
     {
       name: '社区管理员',
       role: '开发工程师',
+      bio: '目前主要参与需求评审，暂未负责具体的开发工作。',
       email: '3242772908@qq.com',
       qq: '3242772908',
       wechat: 'jhp061224',
@@ -68,6 +69,9 @@ const Contact = () => {
                   <div className="contributor-info">
                     <h3 className="contributor-name">{contributor.name}</h3>
                     <p className="contributor-role">{contributor.role}</p>
+                  {contributor.bio && (
+                    <p className="contributor-bio">{contributor.bio}</p>
+                  )}
                   </div>
                   <div className="contributor-contacts">
                     <a
