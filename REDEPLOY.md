@@ -28,6 +28,34 @@ docker-compose logs --tail=50 backend
 docker-compose logs --tail=50 frontend
 ```
 
+### （可选）前端容器内启用 API 与上传代理
+
+仓库已在 `frontend/nginx.conf` 中开启：
+- `location /api` 代理到容器内 `backend:3000`
+- `location /uploads` 代理到容器内 `backend:3000/uploads`
+
+若希望前端同域访问后端，请在构建前端镜像时将环境变量设置为：
+
+```bash
+# docker-compose.yml 已默认传入
+VITE_API_BASE_URL=/api
+```
+
+### 服务器 Nginx 配置 API 域名（推荐）
+
+如果使用独立域名 `api.reforum.space`，可使用模板：`server/nginx/api.reforum.space.conf`
+
+```bash
+sudo cp server/nginx/api.reforum.space.conf /etc/nginx/sites-available/api.reforum.space
+sudo ln -sf /etc/nginx/sites-available/api.reforum.space /etc/nginx/sites-enabled/api.reforum.space
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+验证上传直出是否可用：
+```bash
+curl -I https://api.reforum.space/uploads/<实际文件名>
+```
+
 ## 🔍 验证部署
 
 ### 1. 检查容器状态
