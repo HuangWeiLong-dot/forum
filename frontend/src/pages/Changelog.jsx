@@ -28,6 +28,84 @@ const changelogCopy = {
 const updates = [
   {
     date: '2025-12-02',
+    version: '1.5.0',
+    translations: {
+      zh: {
+        title: 'UI 视觉升级 - 动态标签与气泡分类',
+        description: '全新设计的标签和分类区域，带来更生动有趣的视觉体验。',
+        features: [
+          '标签区域改为悬浮滚动板块，标签持续循环滚动展示',
+          '分类区域改为气泡浮动效果，每个分类独立浮动动画',
+          '标签滚动支持鼠标悬停暂停，方便查看',
+          '分类气泡采用渐变背景容器，视觉效果更佳',
+          '优化响应式设计，移动端自动切换为静态布局',
+          '增强交互效果，悬停时标签变色、气泡放大',
+        ],
+      },
+      en: {
+        title: 'UI Visual Upgrade - Dynamic Tags & Floating Categories',
+        description: 'Redesigned tags and categories area with more dynamic and engaging visual experience.',
+        features: [
+          'Tags area redesigned as floating scroll panel with continuous loop animation',
+          'Categories area redesigned as floating bubbles with independent animations',
+          'Tag scrolling pauses on hover for better readability',
+          'Category bubbles use gradient background container for enhanced visuals',
+          'Optimized responsive design, automatically switches to static layout on mobile',
+          'Enhanced hover effects with color changes and scale animations',
+        ],
+      },
+      ja: {
+        title: 'UI ビジュアルアップグレード - 動的タグとフローティングカテゴリー',
+        description: 'タグとカテゴリーエリアを再設計し、より動的で魅力的な視覚体験を提供します。',
+        features: [
+          'タグエリアをフローティングスクロールパネルに変更、連続ループアニメーション',
+          'カテゴリーエリアをフローティングバブルに変更、独立したアニメーション',
+          'タグスクロールはホバーで一時停止、閲覧性向上',
+          'カテゴリーバブルはグラデーション背景コンテナを使用、視覚効果向上',
+          'レスポンシブデザインを最適化、モバイルで自動的に静的レイアウトに切り替え',
+          'ホバー時の色変更とスケールアニメーションでインタラクション強化',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-02',
+    version: '1.4.1',
+    translations: {
+      zh: {
+        title: '移动端通知显示优化',
+        description: '修复移动设备上通知下拉菜单显示不全的问题。',
+        features: [
+          '通知下拉菜单在移动端使用固定定位，确保完全显示',
+          '优化小屏幕上的通知列表布局和文字大小',
+          '调整通知项的内边距和间距，提升可读性',
+          '改进通知菜单的最大高度计算，避免被截断',
+        ],
+      },
+      en: {
+        title: 'Mobile Notification Display Fix',
+        description: 'Fixed notification dropdown display issues on mobile devices.',
+        features: [
+          'Notification dropdown uses fixed positioning on mobile for full visibility',
+          'Optimized notification list layout and text sizes on small screens',
+          'Adjusted notification item padding and spacing for better readability',
+          'Improved max-height calculation to prevent truncation',
+        ],
+      },
+      ja: {
+        title: 'モバイル通知表示の最適化',
+        description: 'モバイルデバイスで通知ドロップダウンが完全に表示されない問題を修正しました。',
+        features: [
+          'モバイルで通知ドロップダウンを固定配置に変更し、完全表示を確保',
+          '小画面での通知リストのレイアウトと文字サイズを最適化',
+          '通知項目の余白と間隔を調整し、可読性を向上',
+          '最大高さの計算を改善し、切り詰めを防止',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-02',
     version: '1.4.0',
     translations: {
       zh: {

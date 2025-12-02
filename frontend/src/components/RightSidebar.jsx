@@ -54,15 +54,23 @@ const RightSidebar = () => {
             {t('right.emptyCategories')}
           </p>
         ) : (
-          <div className="category-list">
-            {categories.map((category) => {
+          <div className="category-bubble-container">
+            {categories.map((category, index) => {
               const isActive = location.pathname === '/' && 
                 new URLSearchParams(location.search).get('category') === String(category.id)
+              
+              // 为每个分类项生成不同的动画延迟和持续时间
+              const animationDelay = index * 0.3
+              const animationDuration = 3 + (index % 3) * 0.5
               
               return (
                 <div
                   key={category.id}
-                  className={`category-item ${isActive ? 'active' : ''}`}
+                  className={`category-bubble ${isActive ? 'active' : ''}`}
+                  style={{
+                    '--animation-delay': `${animationDelay}s`,
+                    '--animation-duration': `${animationDuration}s`,
+                  }}
                   onClick={() => {
                     if (location.pathname === '/') {
                       // 如果已经在首页，检查是否点击的是已选中的分类
@@ -106,17 +114,33 @@ const RightSidebar = () => {
             {t('right.emptyTags')}
           </p>
         ) : (
-          <div className="tag-list">
-            {tags.map((tag) => (
-              <span
-                key={tag.id}
-                className="tag-item"
-                style={{ cursor: 'default', pointerEvents: 'none' }}
-              >
-                <span className="tag-name">#{tag.name}</span>
-                <span className="tag-count">{tag.postCount || 0}</span>
-              </span>
-            ))}
+          <div className="tag-scroll-container">
+            <div className="tag-scroll-wrapper">
+              <div className="tag-scroll-content">
+                {/* 第一组标签 */}
+                {tags.map((tag) => (
+                  <span
+                    key={tag.id}
+                    className="tag-item"
+                    style={{ cursor: 'default', pointerEvents: 'none' }}
+                  >
+                    <span className="tag-name">#{tag.name}</span>
+                    <span className="tag-count">{tag.postCount || 0}</span>
+                  </span>
+                ))}
+                {/* 第二组标签（用于无缝循环） */}
+                {tags.map((tag) => (
+                  <span
+                    key={`${tag.id}-duplicate`}
+                    className="tag-item"
+                    style={{ cursor: 'default', pointerEvents: 'none' }}
+                  >
+                    <span className="tag-name">#{tag.name}</span>
+                    <span className="tag-count">{tag.postCount || 0}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

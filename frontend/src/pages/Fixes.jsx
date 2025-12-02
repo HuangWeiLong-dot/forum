@@ -4,6 +4,44 @@ import './Fixes.css'
 
 const fixes = [
   {
+    date: '2025-12-02',
+    translations: {
+      zh: {
+        title: '移动端通知下拉菜单显示不全',
+        description: '修复移动设备上通知下拉菜单被截断或显示不完整的问题。',
+        details: [
+          '通知下拉菜单在移动端改为固定定位，确保完全显示在视口内',
+          '调整下拉菜单的宽度和位置，适配不同屏幕尺寸',
+          '优化通知项的字体大小和内边距，提升移动端可读性',
+          '改进最大高度计算，避免内容被底部导航栏遮挡',
+          '添加 768px 和 480px 断点的响应式样式',
+        ],
+      },
+      en: {
+        title: 'Mobile Notification Dropdown Truncation',
+        description: 'Fixed notification dropdown being cut off or incompletely displayed on mobile devices.',
+        details: [
+          'Changed notification dropdown to fixed positioning on mobile for full visibility',
+          'Adjusted dropdown width and position to fit different screen sizes',
+          'Optimized notification item font sizes and padding for mobile readability',
+          'Improved max-height calculation to prevent content being blocked by bottom navigation',
+          'Added responsive styles for 768px and 480px breakpoints',
+        ],
+      },
+      ja: {
+        title: 'モバイル通知ドロップダウンの表示不全',
+        description: 'モバイルデバイスで通知ドロップダウンが切り詰められたり不完全に表示される問題を修正しました。',
+        details: [
+          'モバイルで通知ドロップダウンを固定配置に変更し、完全表示を確保',
+          'ドロップダウンの幅と位置を調整し、異なる画面サイズに対応',
+          '通知項目のフォントサイズと余白を最適化し、モバイルでの可読性を向上',
+          '最大高さの計算を改善し、コンテンツが下部ナビゲーションに遮られないように調整',
+          '768px と 480px のブレークポイントにレスポンシブスタイルを追加',
+        ],
+      },
+    },
+  },
+  {
     date: '2025-12-01',
     translations: {
       zh: {
