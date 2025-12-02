@@ -28,40 +28,115 @@ const changelogCopy = {
 const updates = [
   {
     date: '2025-12-02',
+    version: '1.5.2',
+    translations: {
+      zh: {
+        title: '标签位置缓存优化',
+        description: '修复路由切换时标签位置和动画参数被重置的问题，提升用户体验。',
+        features: [
+          '使用 useMemo 和 useRef 缓存标签位置，仅在标签数据真正改变时重新生成',
+          '动画参数（持续时间、延迟、方向）持久化，避免每次渲染都重新生成',
+          '标签签名机制确保相同标签数据使用相同位置',
+          '切换页面时标签保持连续浮动，不会中断或重置',
+        ],
+      },
+      en: {
+        title: 'Tag Position Cache Optimization',
+        description: 'Fixed issue where tag positions and animation parameters were reset on route changes, improving user experience.',
+        features: [
+          'Used useMemo and useRef to cache tag positions, regenerating only when tag data actually changes',
+          'Animation parameters (duration, delay, direction) persist across renders',
+          'Tag signature mechanism ensures same tag data uses same positions',
+          'Tags maintain continuous floating animation when switching pages without interruption',
+        ],
+      },
+      ja: {
+        title: 'タグ位置キャッシュ最適化',
+        description: 'ルート切替時にタグ位置とアニメーションパラメータがリセットされる問題を修正し、ユーザー体験を向上させました。',
+        features: [
+          'useMemo と useRef を使用してタグ位置をキャッシュし、タグデータが実際に変更された場合のみ再生成',
+          'アニメーションパラメータ（継続時間、遅延、方向）を永続化し、毎回のレンダリングで再生成を防止',
+          'タグ署名メカニズムにより、同じタグデータは同じ位置を使用',
+          'ページ切替時もタグが連続的に浮遊し、中断やリセットが発生しない',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-02',
+    version: '1.5.1',
+    translations: {
+      zh: {
+        title: '标签区域随机布局优化',
+        description: '标签区域改为随机错落分布，带来更自然生动的视觉效果。',
+        features: [
+          '标签从规则滚动改为随机错落分布，每个标签根据发帖数量重复显示',
+          '移除标签数字显示和井号前缀，界面更简洁',
+          '隐藏右侧边栏滚动条，保持界面整洁',
+          '鼠标悬停时标签继续浮动，不会暂停动画',
+          '使用防重叠算法确保标签之间保持间距，不会相互覆盖',
+        ],
+      },
+      en: {
+        title: 'Tag Area Random Layout Optimization',
+        description: 'Tags area redesigned with random scattered distribution for a more natural and dynamic visual effect.',
+        features: [
+          'Tags changed from regular scrolling to random scattered distribution, each tag repeats based on post count',
+          'Removed tag numbers and hash prefix for cleaner interface',
+          'Hidden scrollbar in right sidebar for cleaner appearance',
+          'Tags continue floating on hover without pausing animation',
+          'Collision detection algorithm ensures tags maintain spacing without overlapping',
+        ],
+      },
+      ja: {
+        title: 'タグエリアのランダムレイアウト最適化',
+        description: 'タグエリアをランダムに散らばった配置に変更し、より自然で動的な視覚効果を実現しました。',
+        features: [
+          'タグを規則的なスクロールからランダム配置に変更、投稿数に応じて各タグを繰り返し表示',
+          'タグの数字表示とハッシュプレフィックスを削除し、よりシンプルなインターフェースに',
+          '右サイドバーのスクロールバーを非表示にし、よりクリーンな見た目に',
+          'ホバー時もタグが浮遊し続け、アニメーションが一時停止しない',
+          '衝突検出アルゴリズムでタグ間の間隔を確保し、重なりを防止',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-02',
     version: '1.5.0',
     translations: {
       zh: {
-        title: 'UI 视觉升级 - 动态标签与气泡分类',
-        description: '全新设计的标签和分类区域，带来更生动有趣的视觉体验。',
+        title: 'UI 更新- 动态标签与气泡分类',
+        description: '标签区域改为多行错开滚动，分类区域改为气泡浮动效果，带来更生动有趣的视觉体验。',
         features: [
-          '标签区域改为悬浮滚动板块，标签持续循环滚动展示',
-          '分类区域改为气泡浮动效果，每个分类独立浮动动画',
-          '标签滚动支持鼠标悬停暂停，方便查看',
-          '分类气泡采用渐变背景容器，视觉效果更佳',
+          '标签区域改为多行错开滚动，标签持续循环滚动展示，每个标签根据发帖数量重复显示',
+          '分类区域改为气泡浮动效果，每个分类独立浮动动画，位置错落有致',
+          '标签滚动支持鼠标悬停暂停，方便查看标签内容',
+          '分类气泡采用渐变背景容器，标签显示发帖数量，视觉效果更佳',
           '优化响应式设计，移动端自动切换为静态布局',
           '增强交互效果，悬停时标签变色、气泡放大',
         ],
       },
       en: {
-        title: 'UI Visual Upgrade - Dynamic Tags & Floating Categories',
-        description: 'Redesigned tags and categories area with more dynamic and engaging visual experience.',
+        title: 'UI Update - Dynamic Tags & Floating Categories',
+        description: 'Tags area redesigned with multi-row staggered scrolling, categories area redesigned as floating bubbles for a more dynamic visual experience.',
         features: [
-          'Tags area redesigned as floating scroll panel with continuous loop animation',
-          'Categories area redesigned as floating bubbles with independent animations',
+          'Tags area changed to multi-row staggered scrolling with continuous loop animation, each tag repeats based on post count',
+          'Categories area redesigned as floating bubbles with independent animations and scattered positions',
           'Tag scrolling pauses on hover for better readability',
-          'Category bubbles use gradient background container for enhanced visuals',
+          'Category bubbles use gradient background container, tags display post count for enhanced visuals',
           'Optimized responsive design, automatically switches to static layout on mobile',
           'Enhanced hover effects with color changes and scale animations',
         ],
       },
       ja: {
-        title: 'UI ビジュアルアップグレード - 動的タグとフローティングカテゴリー',
-        description: 'タグとカテゴリーエリアを再設計し、より動的で魅力的な視覚体験を提供します。',
+        title: 'UI 更新 - 動的タグとフローティングカテゴリー',
+        description: 'タグエリアを複数行のずらしたスクロールに変更、カテゴリーエリアをフローティングバブルに変更し、より動的で魅力的な視覚体験を提供します。',
         features: [
-          'タグエリアをフローティングスクロールパネルに変更、連続ループアニメーション',
-          'カテゴリーエリアをフローティングバブルに変更、独立したアニメーション',
+          'タグエリアを複数行のずらしたスクロールに変更、連続ループアニメーション、投稿数に応じて各タグを繰り返し表示',
+          'カテゴリーエリアをフローティングバブルに変更、独立したアニメーションと散らばった配置',
           'タグスクロールはホバーで一時停止、閲覧性向上',
-          'カテゴリーバブルはグラデーション背景コンテナを使用、視覚効果向上',
+          'カテゴリーバブルはグラデーション背景コンテナを使用、タグは投稿数を表示、視覚効果向上',
           'レスポンシブデザインを最適化、モバイルで自動的に静的レイアウトに切り替え',
           'ホバー時の色変更とスケールアニメーションでインタラクション強化',
         ],

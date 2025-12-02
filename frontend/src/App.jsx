@@ -17,7 +17,6 @@ import Fixes from './pages/Fixes'
 import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
 import './App.css'
-import LanguageSwitcher from './components/LanguageSwitcher'
 
 function App() {
   const { loading } = useAuth()
@@ -53,7 +52,6 @@ function App() {
         </main>
         <RightSidebar />
       </div>
-      <LanguageSwitcher />
     </div>
   )
 }

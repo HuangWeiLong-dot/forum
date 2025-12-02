@@ -5,6 +5,46 @@ import './Fixes.css'
 const fixes = [
   {
     date: '2025-12-02',
+    version: '1.5.2',
+    translations: {
+      zh: {
+        title: '路由切换时标签位置重置',
+        description: '修复切换页面（如更新日志、问题修复等）时，右侧标签浮动位置和动画参数被重置的问题。',
+        details: [
+          '使用 useMemo 和 useRef 缓存标签位置和动画参数',
+          '仅在标签数据真正改变时才重新生成位置',
+          '标签签名机制确保相同标签数据使用相同位置',
+          '动画参数（持续时间、延迟、方向）持久化，避免每次渲染重新生成',
+          '切换页面时标签保持连续浮动，不会中断或重置',
+        ],
+      },
+      en: {
+        title: 'Tag Position Reset on Route Change',
+        description: 'Fixed issue where tag positions and animation parameters were reset when navigating between pages (e.g., changelog, fixes).',
+        details: [
+          'Used useMemo and useRef to cache tag positions and animation parameters',
+          'Positions regenerate only when tag data actually changes',
+          'Tag signature mechanism ensures same tag data uses same positions',
+          'Animation parameters (duration, delay, direction) persist across renders',
+          'Tags maintain continuous floating animation when switching pages without interruption',
+        ],
+      },
+      ja: {
+        title: 'ルート切替時のタグ位置リセット',
+        description: 'ページを切り替える際（更新履歴、問題修正など）に、右側のタグの浮遊位置とアニメーションパラメータがリセットされる問題を修正しました。',
+        details: [
+          'useMemo と useRef を使用してタグ位置とアニメーションパラメータをキャッシュ',
+          'タグデータが実際に変更された場合のみ位置を再生成',
+          'タグ署名メカニズムにより、同じタグデータは同じ位置を使用',
+          'アニメーションパラメータ（継続時間、遅延、方向）を永続化し、毎回のレンダリングで再生成を防止',
+          'ページ切替時もタグが連続的に浮遊し、中断やリセットが発生しない',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-02',
+    version: '1.5.1',
     translations: {
       zh: {
         title: '移动端通知下拉菜单显示不全',

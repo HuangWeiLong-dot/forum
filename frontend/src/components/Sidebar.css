@@ -11,8 +11,19 @@
   margin-bottom: 1rem;
 }
 
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .sidebar-nav {
-  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.sidebar-categories {
+  width: 100%;
+  padding-top: 0;
 }
 
 .nav-item {
@@ -127,4 +138,103 @@
   background-color: var(--hover-background);
   color: var(--primary-color);
   transform: translateX(4px);
+}
+
+/* 分类标题 */
+.categories-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.categories-loading,
+.categories-empty {
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+}
+
+/* 分类列表 - 气泡样式 */
+.category-list-bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.category-bubble-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem 1rem;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.category-bubble-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--hover-background);
+}
+
+.category-bubble-item.active {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  background: var(--hover-background);
+}
+
+.category-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.category-bubble-item:hover .category-color-dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.category-bubble-item.active .category-color-dot {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.category-bubble-item .category-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.category-bubble-item .category-name {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.category-bubble-item .category-count {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .sidebar-content {
+    gap: 1.5rem;
+  }
+  
+  .sidebar-categories {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+  }
 }

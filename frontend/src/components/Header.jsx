@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { FaSearch, FaPlus, FaUserCircle, FaMoon, FaSun } from 'react-icons/fa'
+import { FaSearch, FaPlus, FaUserCircle, FaMoon, FaSun, FaGlobeAsia } from 'react-icons/fa'
 import { useLanguage } from '../context/LanguageContext'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
@@ -10,16 +10,41 @@ import './Header.css'
 
 const Header = () => {
   const { user, isAuthenticated, logout } = useAuth()
-  const { t } = useLanguage()
+  const { t, language, setLanguage } = useLanguage()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light'
     return localStorage.getItem('theme') || 'light'
   })
   const navigate = useNavigate()
+  const languageMenuRef = useRef(null)
+
+  const languages = [
+    { code: 'zh', label: '中文', symbol: '文' },
+    { code: 'en', label: 'English', symbol: 'A' },
+    { code: 'ja', label: '日本語', symbol: 'あ' },
+  ]
+
+  // 点击外部区域时关闭语言菜单
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
+        setShowLanguageMenu(false)
+      }
+    }
+
+    if (showLanguageMenu) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showLanguageMenu])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -78,6 +103,39 @@ const Header = () => {
           >
             {theme === 'dark' ? <FaSun /> : <FaMoon />}
           </button>
+          <div 
+            className="language-switcher-header"
+            ref={languageMenuRef}
+            onMouseEnter={() => setShowLanguageMenu(true)}
+            onMouseLeave={() => setShowLanguageMenu(false)}
+          >
+            <button
+              type="button"
+              className="header-button language-toggle-button"
+              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              title="Switch language"
+            >
+              <FaGlobeAsia />
+            </button>
+            {showLanguageMenu && (
+              <div className="language-menu">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    className={`language-option ${language === lang.code ? 'active' : ''}`}
+                    onClick={() => {
+                      setLanguage(lang.code)
+                      setShowLanguageMenu(false)
+                    }}
+                  >
+                    <span className="language-symbol">{lang.symbol}</span>
+                    <span className="language-label">{lang.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           {isAuthenticated && <Inbox />}
           {isAuthenticated ? (
             <>
