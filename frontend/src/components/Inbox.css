@@ -4,7 +4,7 @@
 
 .inbox-button {
   position: relative;
-  background: none;
+  background: transparent;
   border: none;
   padding: 0.625rem;
   cursor: pointer;

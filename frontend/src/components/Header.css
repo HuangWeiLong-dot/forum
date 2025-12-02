@@ -162,14 +162,17 @@
 .theme-toggle-button {
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  border: none;
   padding: 0.625rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.2s;
+  border-radius: var(--radius-md);
 }
 
 .theme-toggle-button:hover {
+  color: var(--primary-color);
   background-color: var(--hover-background);
 }
 
