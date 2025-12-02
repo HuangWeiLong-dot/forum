@@ -7,6 +7,44 @@ const fixes = [
     date: '2025-12-01',
     translations: {
       zh: {
+        title: '移动端响应式布局问题',
+        description: '修复移动端和小屏幕设备上的布局显示问题，优化标题、间距和元素排列。',
+        details: [
+          '帖子详情页标题在小屏幕上过大，已调整为响应式字体大小',
+          '首页和帖子卡片的间距在移动端优化，避免内容拥挤',
+          '错误状态提示在窄屏上显示更合理，文字大小和间距适配',
+          '按钮和操作元素在移动端支持换行，避免横向溢出',
+          '优化统计信息和操作按钮在小屏幕上的排列方式',
+        ],
+      },
+      en: {
+        title: 'Mobile Responsive Layout Issues',
+        description: 'Fixed layout display issues on mobile and small-screen devices, optimized titles, spacing, and element arrangement.',
+        details: [
+          'Post detail page titles were too large on small screens, now responsive font sizes',
+          'Home page and post card spacing optimized on mobile to prevent crowding',
+          'Error state messages display more reasonably on narrow screens with adapted text sizes',
+          'Buttons and action elements support wrapping on mobile to prevent horizontal overflow',
+          'Optimized arrangement of stats and action buttons on small screens',
+        ],
+      },
+      ja: {
+        title: 'モバイルレスポンシブレイアウトの問題',
+        description: 'モバイルと小画面デバイスでのレイアウト表示の問題を修正し、タイトル、余白、要素の配置を最適化しました。',
+        details: [
+          '投稿詳細ページのタイトルが小画面で大きすぎたため、レスポンシブフォントサイズに調整',
+          'ホームページと投稿カードの余白をモバイルで最適化し、内容の詰まりを防止',
+          'エラー状態メッセージを狭い画面で適切に表示し、文字サイズと余白を調整',
+          'ボタンと操作要素をモバイルで折り返し対応し、横方向のオーバーフローを防止',
+          '小画面での統計情報と操作ボタンの配置を最適化',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-01',
+    translations: {
+      zh: {
         title: '频繁请求导致后端数据加载失败',
         description: '修复用户快速操作（切换排序、搜索、切换分类等）时，请求过于频繁导致后端数据加载不出来的问题。',
         details: [

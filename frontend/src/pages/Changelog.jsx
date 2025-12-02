@@ -28,6 +28,42 @@ const changelogCopy = {
 const updates = [
   {
     date: '2025-12-01',
+    version: '1.3.2',
+    translations: {
+      zh: {
+        title: '响应式布局优化',
+        description: '全面优化移动端和小屏幕设备的显示效果，提升用户体验。',
+        features: [
+          '优化帖子详情页标题和内容在小屏幕上的显示',
+          '改进首页和帖子卡片在移动端的布局和间距',
+          '调整错误状态提示的响应式样式',
+          '优化按钮和操作元素在窄屏上的排列',
+        ],
+      },
+      en: {
+        title: 'Responsive Layout Improvements',
+        description: 'Comprehensive mobile and small-screen optimizations for better user experience.',
+        features: [
+          'Optimized post detail page titles and content on small screens',
+          'Improved layout and spacing for home page and post cards on mobile',
+          'Adjusted responsive styles for error state messages',
+          'Enhanced button and action element arrangement on narrow screens',
+        ],
+      },
+      ja: {
+        title: 'レスポンシブレイアウトの最適化',
+        description: 'モバイルと小画面デバイスでの表示を全面的に改善しました。',
+        features: [
+          '投稿詳細ページのタイトルとコンテンツを小画面で最適化',
+          'ホームページと投稿カードのモバイルレイアウトと余白を改善',
+          'エラー状態メッセージのレスポンシブスタイルを調整',
+          '狭い画面でのボタンと操作要素の配置を最適化',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-01',
     version: '1.3.1',
     translations: {
       zh: {
