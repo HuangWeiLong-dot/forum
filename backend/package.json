@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "check": "node scripts/check-backend.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

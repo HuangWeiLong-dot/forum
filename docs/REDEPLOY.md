@@ -11,6 +11,8 @@ cd /opt/ReForum
 # 2. 拉取最新代码
 git pull origin master
 
+git pull origin feature/i18n-multilang-fixes
+
 # 3. 停止现有容器
 docker-compose down
 

@@ -19,6 +19,7 @@ const Home = () => {
   })
   const [sort, setSort] = useState('time')
   const [selectedCategory, setSelectedCategory] = useState(null)
+  const [error, setError] = useState(null)
   const lastRequestTimeRef = useRef(0)
   const MIN_REQUEST_INTERVAL = 500 // 最小请求间隔：500毫秒
 
@@ -55,8 +56,32 @@ const Home = () => {
         const response = await postAPI.getPosts(params)
         setPosts(response.data.data || [])
         setPagination(response.data.pagination || pagination)
+        setError(null) // 清除之前的错误
       } catch (error) {
         console.error('Failed to fetch posts:', error)
+        // 设置更详细的错误信息
+        if (!error.response) {
+          // 网络错误，后端可能未运行
+          setError({
+            type: 'network',
+            message: '无法连接到服务器，请检查后端服务是否运行',
+            detail: error.message
+          })
+        } else if (error.response.status === 500) {
+          // 服务器内部错误
+          setError({
+            type: 'server',
+            message: '服务器错误，可能是数据库连接问题',
+            detail: error.response.data?.message || '服务器内部错误'
+          })
+        } else {
+          setError({
+            type: 'unknown',
+            message: '加载帖子失败',
+            detail: error.response.data?.message || error.message
+          })
+        }
+        setPosts([]) // 清空帖子列表
       } finally {
         setLoading(false)
       }
@@ -114,6 +139,51 @@ const Home = () => {
       <div className="posts-container">
         {loading ? (
           <div className="loading">{t('home.loading')}</div>
+        ) : error ? (
+          <div className="error-state" style={{
+            padding: '2rem',
+            textAlign: 'center',
+            backgroundColor: '#fff3cd',
+            border: '1px solid #ffc107',
+            borderRadius: '8px',
+            margin: '1rem 0'
+          }}>
+            <h3 style={{ color: '#856404', marginBottom: '0.5rem' }}>⚠️ 加载失败</h3>
+            <p style={{ color: '#856404', marginBottom: '0.5rem' }}>{error.message}</p>
+            {error.detail && (
+              <p style={{ fontSize: '0.85rem', color: '#856404', marginBottom: '1rem' }}>
+                详情: {error.detail}
+              </p>
+            )}
+            <button
+              onClick={() => {
+                setError(null)
+                fetchPosts()
+              }}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#ffc107',
+                color: '#000',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.9rem'
+              }}
+            >
+              重试
+            </button>
+            {error.type === 'network' && (
+              <div style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#856404' }}>
+                <p>💡 提示：请确保后端服务正在运行</p>
+                <p style={{ marginTop: '0.5rem' }}>
+                  检查步骤：
+                  <br />1. 确认后端服务已启动（通常在 http://localhost:3000）
+                  <br />2. 检查浏览器控制台的网络请求错误
+                  <br />3. 查看后端日志是否有错误信息
+                </p>
+              </div>
+            )}
+          </div>
         ) : posts.length === 0 ? (
           <div className="empty-state">
             <p>{t('home.emptyTitle')}</p>
