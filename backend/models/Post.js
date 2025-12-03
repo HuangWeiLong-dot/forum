@@ -191,9 +191,12 @@ class Post {
       paramCount++;
     }
 
-    // 按日期过滤（前端传入 YYYY-MM-DD，匹配该日的 created_at）
+    // 按日期过滤（前端传入 YYYY-MM-DD，按「本地日期」匹配 created_at）
+    // 注意：前端使用本地时区生成日期键（例如 Asia/Shanghai），
+    // 这里通过 AT TIME ZONE 将数据库中的时间转换到相同时区再取 date，
+    // 避免出现「10 月 1 日被当成 9 月 30 日」的时区偏移问题。
     if (date) {
-      whereClause += ` AND DATE(p.created_at) = $${paramCount++}`;
+      whereClause += ` AND DATE(p.created_at AT TIME ZONE 'Asia/Shanghai') = $${paramCount++}`;
       params.push(date);
     }
 
