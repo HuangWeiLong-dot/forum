@@ -172,7 +172,7 @@
 .theme-picker-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 0.75rem;
   font-weight: 600;
   color: var(--text-primary);

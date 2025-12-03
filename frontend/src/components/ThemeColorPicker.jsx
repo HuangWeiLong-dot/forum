@@ -260,12 +260,11 @@ const ThemeColorPicker = () => {
       return createPortal(
         <div className="theme-picker-overlay" onClick={closePicker}>
           <div className="theme-picker-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="theme-picker-header">
-              <span>主题颜色</span>
-              <button className="theme-picker-close" onClick={closePicker} aria-label="Close">
-                ×
-              </button>
-            </div>
+          <div className="theme-picker-header">
+            <button className="theme-picker-close" onClick={closePicker} aria-label="Close">
+              ×
+            </button>
+          </div>
             {pickerContent}
           </div>
         </div>,
