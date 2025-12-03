@@ -428,7 +428,8 @@
   .calendar-controls {
     gap: 0.25rem;
     flex: 1 1 auto;
-    justify-content: flex-end;
+    /* 小屏幕上让一组控制按钮整体居中，避免在右侧“偏一边”的视觉错位 */
+    justify-content: center;
   }
   
   .calendar-nav-btn {
@@ -486,6 +487,8 @@
   
   .calendar-header {
     margin-bottom: 0.4375rem;
+    /* 极小屏幕上标题和控制按钮上下堆叠并整体居中 */
+    align-items: center;
   }
   
   .calendar-title {
@@ -494,7 +497,8 @@
   
   .calendar-controls {
     width: 100%;
-    justify-content: space-between;
+    /* 让上一周/下一周/月份/展开按钮在一条线上居中显示 */
+    justify-content: center;
   }
   
   .calendar-nav-btn {

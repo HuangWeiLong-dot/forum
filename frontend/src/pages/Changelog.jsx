@@ -31,6 +31,46 @@ const changelogCopy = {
 const updates = [
   {
     date: '2025-12-03',
+    version: '1.7.2',
+    type: 'fix',
+    translations: {
+      zh: {
+        title: '移动端日历头部、Cookie 提示与通知列表修复',
+        description:
+          '针对移动端视图下日历头部图标对齐、Cookie 提示被底部工具集遮挡、以及通知未读数量与列表内容不一致的问题进行集中修复。',
+        details: [
+          '优化首页日历在 768px / 480px 以下断点的头部布局，让上一周 / 下一周 / 月份按钮 / 展开图标在小屏幕上一行自然居中',
+          '在移动端将 Cookie 提示横幅固定到页面顶部展示，避免 Accept 按钮被底部工具集浮动按钮遮挡',
+          '统一 Inbox 通知下拉的拉取逻辑：无论在桌面端还是移动端，每次打开通知列表都会主动向后端获取最新通知数据',
+          '通知图标上的未读徽章数量与实际列表内容保持一致，新帖子通知可以在手机上正常看到',
+        ],
+      },
+      en: {
+        title: 'Mobile Calendar Header, Cookie Banner & Inbox Sync Fixes',
+        description:
+          'Polished the mobile calendar header alignment, moved the cookie banner out from under the bottom toolset, and fixed mismatches between unread badges and the notifications list.',
+        details: [
+          'Adjusted the home calendar header at the 768px/480px breakpoints so previous/next, month label, and expand icons sit neatly centered on small screens',
+          'On mobile, the cookie consent banner now anchors to the top of the viewport so its Accept button is never hidden behind the bottom toolset button',
+          'Standardized the Inbox dropdown fetch behavior so opening the panel (desktop or mobile) always triggers a fresh notifications request',
+          'Unread badge counts now line up with what you actually see in the list, including new‑post notifications on phones',
+        ],
+      },
+      ja: {
+        title: 'モバイル版カレンダーヘッダー / Cookie バナー / 通知一覧の修正',
+        description:
+          'モバイル環境でのカレンダーヘッダーアイコンのずれ、Cookie バナーが下部ツール集ボタンに隠れる問題、未読バッジと通知一覧の不一致をまとめて改善しました。',
+        details: [
+          '768px/480px 以下のブレークポイントでホームのカレンダーヘッダーを調整し、「前週 / 次週」「月表示」「展開アイコン」が小さい画面でも一列で自然に中央揃えになるように変更',
+          'モバイル時は Cookie 同意バナーを画面下ではなく上部に固定し、Accept ボタンが下部ツール集ボタンの裏に隠れないように修正',
+          'Inbox 通知ドロップダウンを開いたタイミングで、デスクトップ/モバイル問わず必ず最新の通知一覧をフェッチするように統一',
+          '通知アイコンの未読バッジ数と一覧の内容が一致するようになり、新しい投稿通知もスマホから正しく確認できます',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-03',
     version: '1.7.1',
     translations: {
       zh: {
@@ -1320,6 +1360,7 @@ const Changelog = () => {
       date: entry.date,
       version: entry.version,
       type: 'update',
+      type: entry.type || 'update',
       ...translation,
     }
   })

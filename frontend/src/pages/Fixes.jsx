@@ -10,6 +10,46 @@ import './Fixes.css'
 export const fixes = [
   {
     date: '2025-12-03',
+    version: '1.7.2',
+    issue: 17,
+    translations: {
+      zh: {
+        title: '移动端日历头部对齐、Cookie 提示遮挡与通知列表不同步',
+        description:
+          '修复移动端首页日历头部图标在小屏上偏移、Cookie 横幅被底部工具集按钮挡住，以及 Inbox 未读徽章数量与通知列表内容不一致的问题。',
+        details: [
+          '在 768px / 480px 以下断点调整 `.calendar-header` 与 `.calendar-controls` 的对齐方式，让上一周 / 下一周 / 月份切换 / 展开按钮在一条线上整体居中，而不是挤在右侧',
+          '为移动端单独覆写 `.cookie-consent-overlay` 的定位，将 Cookie 提示从底部改为固定在顶部展示，避免 Accept 按钮被底部工具集按钮覆盖',
+          '拆分 Inbox 通知下拉的逻辑，保留桌面端点击外部关闭的事件监听，同时新增一个在 `showDropdown === true` 且已登录时统一调用 `fetchNotifications()` 的副作用，保证手机端打开弹窗也能拉取最新通知',
+          '验证在移动端：当有新帖子通知时，通知图标显示的未读数量与列表内容一致，不再出现“有未读但列表为空”的情况',
+        ],
+      },
+      en: {
+        title: 'Mobile Calendar Header Alignment, Cookie Banner Overlap & Inbox Desync',
+        description:
+          'Fixed issues where the calendar header controls looked off on phones, the cookie banner’s Accept button was hidden behind the bottom toolset, and the Inbox unread badge count did not match the actual notifications list.',
+        details: [
+          'Tweaked `.calendar-header` and `.calendar-controls` at 768px/480px breakpoints so previous/next, month switcher, and expand icon render in a single centered row instead of being pushed to the far right',
+          'Added a mobile-only override for `.cookie-consent-overlay` that anchors the banner to the top of the screen, preventing the Accept button from sitting under the bottom toolset button',
+          'Refactored Inbox dropdown effects so desktop still uses a click‑outside listener to close, while a new effect calls `fetchNotifications()` whenever `showDropdown` becomes true for authenticated users, on both desktop and mobile',
+          'Confirmed on mobile that when a new post notification exists, the unread badge matches the list contents and no longer shows “1 unread” with an empty list',
+        ],
+      },
+      ja: {
+        title: 'モバイル版カレンダーヘッダーのずれ・Cookie バナーの遮蔽・通知一覧の非同期',
+        description:
+          'モバイル環境でカレンダーヘッダーのアイコン位置がずれて見える問題、Cookie バナーの Accept ボタンが下部ツール集ボタンに隠れる問題、Inbox の未読バッジ数と通知一覧が一致しない問題を修正しました。',
+        details: [
+          '768px/480px 以下のブレークポイントで `.calendar-header` と `.calendar-controls` の整列ルールを見直し、「前週 / 次週」「月切替」「展開アイコン」が一列の中央揃えで表示されるように変更',
+          'モバイル専用の `.cookie-consent-overlay` 上書きを追加し、Cookie 同意バナーを画面下ではなく上部に固定して表示、Accept ボタンがツール集ボタンの背後に隠れないように調整',
+          'Inbox 通知ドロップダウンの副作用を分離し、デスクトップでは従来どおり外側クリックで閉じる処理を維持しつつ、`showDropdown` が true かつログイン済みの場合に `fetchNotifications()` を必ず呼び出すように変更（デスクトップ/モバイル共通）',
+          'モバイルで新規投稿通知が存在するケースを確認し、未読バッジの数字と一覧に表示される件数が一致することを検証',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-03',
     version: '1.7.1',
     issue: 15,
     translations: {

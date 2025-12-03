@@ -122,12 +122,17 @@ const Inbox = ({ showLabel = false }) => {
       }
     }
 
-      document.addEventListener('mousedown', handleClickOutside)
-      fetchNotifications()
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [showDropdown, isAuthenticated, isMobile])
+
+  // 打开下拉时获取通知列表（桌面端和移动端都适用）
+  useEffect(() => {
+    if (!showDropdown || !isAuthenticated) return
+    fetchNotifications()
+  }, [showDropdown, isAuthenticated])
 
   // 移动端锁定背景滚动
   useEffect(() => {

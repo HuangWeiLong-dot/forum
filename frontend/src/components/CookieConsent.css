@@ -119,6 +119,12 @@
 }
 
 @media (max-width: 768px) {
+  .cookie-consent-overlay {
+    /* 移动端将 Cookie 提示固定在顶部，避免被底部工具集按钮遮挡 */
+    top: 0;
+    bottom: auto;
+  }
+
   .cookie-consent-banner {
     padding: 1.25rem;
   }
