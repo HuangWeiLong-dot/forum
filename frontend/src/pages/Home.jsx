@@ -449,12 +449,8 @@ const Home = () => {
   
   const currentWeekDays = weekDays[language] || weekDays.en
   
-  // 获取当前显示的月份名称（周视图显示当前周所在的月份）
+  // 获取当前显示的月份名称（统一使用 calendarMonth，避免周跨月时显示成上个月）
   const getCurrentMonthName = () => {
-    if (calendarView === 'week' && calendarData.length > 0) {
-      const firstDate = calendarData[0]
-      return monthNames[language]?.[firstDate.month] || monthNames.en[firstDate.month]
-    }
     return monthNames[language]?.[calendarMonth] || monthNames.en[calendarMonth]
   }
   

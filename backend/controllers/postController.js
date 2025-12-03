@@ -6,7 +6,7 @@ class PostController {
   // 获取帖子列表
   static async getPosts(req, res) {
     try {
-      const { page = 1, limit = 20, sort = 'time', category, tag, author, search } = req.query;
+      const { page = 1, limit = 20, sort = 'time', category, tag, author, search, date } = req.query;
 
       const result = await Post.findAll({
         page: parseInt(page),
@@ -16,6 +16,7 @@ class PostController {
         tag,
         author: author ? parseInt(author) : undefined,
         search: search ? search.trim() : undefined,
+        date: date || undefined,
       });
 
       // 格式化帖子数据

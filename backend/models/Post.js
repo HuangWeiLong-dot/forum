@@ -145,8 +145,8 @@ class Post {
     return result.rows[0] || null;
   }
 
-  // 获取帖子列表（分页、排序、筛选、搜索）
-  static async findAll({ page = 1, limit = 20, sort = 'time', category, tag, author, search }) {
+  // 获取帖子列表（分页、排序、筛选、搜索、按日期过滤）
+  static async findAll({ page = 1, limit = 20, sort = 'time', category, tag, author, search, date }) {
     const offset = (page - 1) * limit;
     let orderBy = 'p.created_at DESC';
     
@@ -189,6 +189,12 @@ class Post {
       )`;
       params.push(searchTerm);
       paramCount++;
+    }
+
+    // 按日期过滤（前端传入 YYYY-MM-DD，匹配该日的 created_at）
+    if (date) {
+      whereClause += ` AND DATE(p.created_at) = $${paramCount++}`;
+      params.push(date);
     }
 
     params.push(limit, offset);
