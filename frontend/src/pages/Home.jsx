@@ -6,12 +6,20 @@ import { useLanguage } from '../context/LanguageContext'
 import { debounce } from '../utils/debounce'
 import './Home.css'
 
+// 生成本地日期键（不使用 UTC，避免出现 10月1日被算成 9月30日的问题）
+const getLocalDateKey = (date) => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 // 按日期分组帖子
 const groupPostsByDate = (posts) => {
   const grouped = {}
   posts.forEach(post => {
     const date = new Date(post.createdAt)
-    const dateKey = date.toISOString().split('T')[0] // YYYY-MM-DD
+    const dateKey = getLocalDateKey(date) // 使用本地日期键 YYYY-MM-DD
     if (!grouped[dateKey]) {
       grouped[dateKey] = []
     }
@@ -25,7 +33,7 @@ const groupPostsByDate = (posts) => {
 const generateWeekView = (year, month, day, postsByDate) => {
   try {
     const today = new Date()
-    const todayStr = today.toISOString().split('T')[0]
+    const todayStr = getLocalDateKey(today)
     
     // 使用传入的年月日，如果没有则使用当前日期
     let baseDate
@@ -49,7 +57,7 @@ const generateWeekView = (year, month, day, postsByDate) => {
     for (let i = 0; i < 7; i++) {
       const date = new Date(firstDayOfWeek)
       date.setDate(firstDayOfWeek.getDate() + i)
-      const dateStr = date.toISOString().split('T')[0]
+      const dateStr = getLocalDateKey(date)
       const isToday = dateStr === todayStr
       const postCount = postsByDate[dateStr]?.length || 0
       const hasPosts = postCount > 0
@@ -101,7 +109,7 @@ const generateMonthView = (year, month, postsByDate) => {
     
     const calendar = []
     const today = new Date()
-    const todayStr = today.toISOString().split('T')[0]
+    const todayStr = getLocalDateKey(today)
     
     // 填充空白（上个月的日期）
     for (let i = 0; i < startingDayOfWeek; i++) {
@@ -111,7 +119,7 @@ const generateMonthView = (year, month, postsByDate) => {
     // 填充当前月的日期
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(validYear, validMonth, day)
-      const dateStr = date.toISOString().split('T')[0]
+      const dateStr = getLocalDateKey(date)
       const isToday = dateStr === todayStr
       const postCount = postsByDate[dateStr]?.length || 0
       const hasPosts = postCount > 0
@@ -148,9 +156,9 @@ const formatDateDisplay = (dateString, t, language = 'en') => {
     const yesterday = new Date(today)
     yesterday.setDate(yesterday.getDate() - 1)
     
-    const dateStr = date.toISOString().split('T')[0]
-    const todayStr = today.toISOString().split('T')[0]
-    const yesterdayStr = yesterday.toISOString().split('T')[0]
+    const dateStr = getLocalDateKey(date)
+    const todayStr = getLocalDateKey(today)
+    const yesterdayStr = getLocalDateKey(yesterday)
     
     if (dateStr === todayStr) {
       return t('home.today')
@@ -295,7 +303,7 @@ const Home = () => {
         let processedPosts = response.data.data || []
         
         // 如果是热门模式，需要获取更多帖子来计算热门分数并排序
-        if (sort === 'hot' && !date) {
+        if (sort === 'hot' && !dateParam) {
           // 获取更多帖子用于热门排序（获取前50条来计算）
           const hotParams = {
             page: 1,
@@ -328,7 +336,7 @@ const Home = () => {
               }))
               .sort((a, b) => b.hotScore - a.hotScore)
           }
-        } else if (sort === 'hot' && date) {
+        } else if (sort === 'hot' && dateParam) {
           // 有日期筛选时，对当前日期的帖子按热门分数排序
           processedPosts = processedPosts
             .map(post => ({
