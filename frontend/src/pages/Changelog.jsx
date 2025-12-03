@@ -73,6 +73,42 @@ const updates = [
     version: '1.7.0',
     translations: {
       zh: {
+        title: '移动端头像菜单在工具集中的展开方向修复',
+        description:
+          '修复移动端底部“工具集”弹窗内头像按钮点击后，用户菜单仍沿用桌面端向下展开逻辑、导致内容被底部按钮和屏幕边缘遮挡的问题。',
+        features: [
+          '在移动端工具集弹窗中，头像菜单会根据布局自动从按钮上方向上展开，而不是向下超出视口',
+          '仅针对 `.header-actions-group-mobile` 场景覆写 `.user-dropdown` 的定位，不影响桌面端右上角头像菜单的行为',
+          '优化后在小屏幕上查看“个人资料”和“退出登录”等选项时，不会再被底部工具集按钮遮住',
+        ],
+      },
+      en: {
+        title: 'Mobile Avatar Menu Direction Fix Inside Toolset Panel',
+        description:
+          'Fixed an issue where the user menu opened below the avatar button inside the mobile toolset panel, causing it to be hidden behind the bottom button cluster and viewport edge.',
+        features: [
+          'When the avatar is rendered inside the mobile actions/toolset panel, its dropdown now opens upward above the button instead of downward off-screen',
+          'The positioning override is scoped to `.header-actions-group-mobile .user-menu` so the desktop header avatar menu keeps its original “open below” behavior',
+          'On phones and small devices, profile and logout options stay fully visible and tappable above the bottom toolset button',
+        ],
+      },
+      ja: {
+        title: 'モバイル版ツール集内のアバターメニュー展開方向の修正',
+        description:
+          'モバイルの「ツール集」パネル最下部にあるアバターボタンを押したとき、ユーザーメニューが下向きに開き、下部ボタンや画面端に隠れてしまう問題を修正しました。',
+        features: [
+          'モバイルのツール集パネル内では、アバターメニューがボタンの下ではなく上方向に展開されるように変更',
+          'スタイルの上書きは `.header-actions-group-mobile .user-menu` に限定されており、デスクトップ右上のアバターメニューは従来どおり下向きに開きます',
+          '小さな画面でも「プロフィール」と「ログアウト」などの項目がボタンの上に完全に表示され、タップしやすくなりました',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-03',
+    version: '1.7.0',
+    translations: {
+      zh: {
         title: '首屏加载动画与移动端工具集 / 侧边栏大幅升级',
         description:
           '在保留全新 IntroLoader 的基础上，本次还对移动端底部工具集按钮、Header 工具弹窗和左侧侧边栏折叠样式做了系统级 UI/交互升级。',

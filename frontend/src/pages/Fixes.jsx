@@ -51,6 +51,43 @@ export const fixes = [
   {
     date: '2025-12-03',
     version: '1.7.0',
+    issue: 16,
+    translations: {
+      zh: {
+        title: '移动端工具集中的头像菜单被底部按钮遮挡',
+        description:
+          '修复移动端底部“工具集”弹窗中，头像菜单仍沿用桌面端向下展开逻辑，导致个人资料 / 退出登录选项被底部按钮和屏幕边缘遮住的问题。',
+        details: [
+          '在 `.header-actions-group-mobile` 场景下单独覆写 `.user-dropdown` 的定位，让头像菜单从按钮上方向上展开，而不是继续向下溢出视口',
+          '保持桌面端 Header 右上角头像菜单的原有行为不变，仅在移动端 actions 面板内部应用该样式修正',
+          '在多种手机分辨率下验证，确保菜单内容完整可见、不会再被底部工具集按钮遮挡',
+        ],
+      },
+      en: {
+        title: 'Avatar Menu Hidden Behind Mobile Toolset Button',
+        description:
+          'Fixed an issue where the user menu inside the mobile bottom “toolset” panel still opened downward and got covered by the toolset button and screen edge.',
+        details: [
+          'Added a scoped CSS override so that `.header-actions-group-mobile .user-menu .user-dropdown` opens upward above the avatar button instead of below it',
+          'Kept the desktop header avatar dropdown behavior unchanged by only applying the new positioning within the mobile actions panel',
+          'Tested across multiple mobile breakpoints to ensure profile/logout entries remain fully visible and easy to tap',
+        ],
+      },
+      ja: {
+        title: 'モバイルツール集ボタンの背後に隠れていたアバターメニュー',
+        description:
+          'モバイル画面下部の「ツール集」パネル内で、アバターのメニューが下向きに開き、ツール集ボタンや画面端に隠れてしまう問題を修正しました。',
+        details: [
+          '`.header-actions-group-mobile .user-menu .user-dropdown` に限定したスタイルを追加し、メニューがボタンの下ではなく上方向に展開されるように変更',
+          'デスクトップヘッダー右上のアバターメニューには影響を与えず、従来どおり下方向に表示されるように維持',
+          '複数のスマートフォン解像度で動作を確認し、プロフィール/ログアウトなどの項目が常に完全に表示され、タップしやすいことをチェック',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-03',
+    version: '1.7.0',
     issue: 14,
     translations: {
       zh: {

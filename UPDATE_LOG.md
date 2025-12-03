@@ -55,7 +55,7 @@ v1.7.0
 
 ### 修改文件
 - `frontend/src/components/Header.jsx` - 工具集开关逻辑、移动端 actions 弹窗行为和动画状态管理
-- `frontend/src/components/Header.css` - 底部悬浮按钮定位、工具集弹窗（打开/关闭）动画、按钮行对齐与间距、关闭按钮位置修正
+- `frontend/src/components/Header.css` - 底部悬浮按钮定位、工具集弹窗（打开/关闭）动画、按钮行对齐与间距、关闭按钮位置修正、移动端头像菜单向上展开样式
 - `frontend/src/components/ThemeColorPicker.jsx`、`frontend/src/components/ThemeColorPicker.css` - 主题色按钮在工具集中的排版与移动端模态样式
 - `frontend/src/components/Inbox.jsx`、`frontend/src/components/Inbox.css` - 通知按钮在工具集中的排版与移动端通知模态样式
 - `frontend/src/components/Sidebar.jsx`、`frontend/src/components/Sidebar.css` - 左侧导航与分类手风琴结构、图标与行样式的统一
@@ -66,12 +66,14 @@ v1.7.0
 - **工具行排版统一**：所有带文字的工具按钮在移动端变体中都使用统一的 flex 布局，label 加 `flex: 1`，图标自适应靠右，保证纵向看齐
 - **模态与滚动管理**：移动端语言、主题、通知弹窗统一通过 `createPortal` + `body overflow` 锁定处理，防止背景滚动穿透
 - **侧边栏手风琴样式重构**：压缩装饰性背景与阴影，仅保留必要的对齐、间距与悬停反馈，使菜单与分类在视觉上更加简洁统一
+- **头像菜单方向自适应**：在 `.header-actions-group-mobile` 场景下为 `.user-dropdown` 添加 `top: auto; bottom: calc(100% + 0.5rem);`，让头像菜单在底部工具集内从按钮上方展开，避免被底部按钮或屏幕边缘遮挡
 
 ### 对用户的影响
 - 移动端用户在任何滚动位置都能快速打开工具集，且按钮位置稳定、手感一致
 - 工具集内部各个按钮对齐整齐、间距统一，图标列与描述列视觉上在同一垂直线，阅读和点击都更舒服
 - 主题颜色、通知与语言弹窗在小屏幕上不会再被裁切，操作区域始终完整可见
 - 左侧导航和分类层级更清晰，图标风格一致，整体视觉更加简洁现代
+- 在已登录状态下，移动端底部工具集中的头像按钮可以正常展开菜单，个人资料与退出登录选项不会再被底部区域遮挡
 
 ---
 
