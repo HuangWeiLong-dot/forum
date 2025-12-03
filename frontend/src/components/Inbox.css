@@ -253,7 +253,7 @@
 }
 
 .inbox-overlay {
-  position: fixed;
+    position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(4px);
@@ -262,15 +262,15 @@
   align-items: center;
   padding: 1rem;
   z-index: 1300;
-}
-
+  }
+  
 .inbox-modal {
   width: min(420px, 100%);
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-}
-
+  }
+  
 .inbox-modal .inbox-dropdown {
   position: relative;
   top: auto;

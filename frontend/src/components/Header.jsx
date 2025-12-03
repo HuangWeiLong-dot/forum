@@ -142,21 +142,21 @@ const Header = () => {
 
   const languageMenuContent = (
     <div className="language-menu-list">
-      {languages.map((lang) => (
-        <button
-          key={lang.code}
-          type="button"
-          className={`language-option ${language === lang.code ? 'active' : ''}`}
-          onClick={() => {
-            setLanguage(lang.code)
-            setShowLanguageMenu(false)
-          }}
-        >
-          <span className="language-symbol">{lang.symbol}</span>
-          <span className="language-label">{lang.label}</span>
-        </button>
-      ))}
-    </div>
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    className={`language-option ${language === lang.code ? 'active' : ''}`}
+                    onClick={() => {
+                      setLanguage(lang.code)
+                      setShowLanguageMenu(false)
+                    }}
+                  >
+                    <span className="language-symbol">{lang.symbol}</span>
+                    <span className="language-label">{lang.label}</span>
+                  </button>
+                ))}
+              </div>
   )
 
   const languageOverlay = showLanguageMenu && isMobile
@@ -242,16 +242,16 @@ const Header = () => {
           showLabels ? 'header-actions-group-mobile' : ''
         }`}
       >
-        {isAuthenticated ? (
-          <>
-            <button
+          {isAuthenticated ? (
+            <>
+              <button 
               className={`header-button create-button ${showLabels ? 'with-label' : ''}`}
               onClick={() => {
                 navigate('/create-post')
                 if (isMobile) closeActionsMenu()
               }}
-              title={t('header.createTitle')}
-            >
+                title={t('header.createTitle')}
+              >
               {showLabels ? (
                 <>
                   <span className="action-button-label">{t('header.create')}</span>
@@ -263,67 +263,67 @@ const Header = () => {
                   <span className="create-button-label">{t('header.create')}</span>
                 </>
               )}
-            </button>
-            <div className={`user-menu ${showLabels ? 'with-label' : ''}`}>
-              <button
-                className={`user-avatar-button ${showLabels ? 'with-label' : ''}`}
-                title={t('header.userMenu')}
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                onBlur={() => setTimeout(() => setShowUserMenu(false), 200)}
-              >
-                {showLabels && <span className="action-button-label">{t('header.userMenu')}</span>}
-                <FaUserCircle className="user-avatar" />
               </button>
-              {showUserMenu && (
-                <div className="user-dropdown">
-                  <Link
-                    to={`/user/${user.id}`}
-                    className="dropdown-item"
+            <div className={`user-menu ${showLabels ? 'with-label' : ''}`}>
+                <button 
+                className={`user-avatar-button ${showLabels ? 'with-label' : ''}`}
+                  title={t('header.userMenu')}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  onBlur={() => setTimeout(() => setShowUserMenu(false), 200)}
+                >
+                {showLabels && <span className="action-button-label">{t('header.userMenu')}</span>}
+                  <FaUserCircle className="user-avatar" />
+                </button>
+                {showUserMenu && (
+                  <div className="user-dropdown">
+                    <Link 
+                      to={`/user/${user.id}`} 
+                      className="dropdown-item"
                     onClick={() => {
                       setShowUserMenu(false)
                       if (isMobile) closeActionsMenu()
                     }}
-                  >
-                    {t('header.profile')}
-                  </Link>
-                  <div className="dropdown-divider"></div>
-                  <button
-                    onClick={() => {
-                      setShowUserMenu(false)
-                      handleLogout()
+                    >
+                      {t('header.profile')}
+                    </Link>
+                    <div className="dropdown-divider"></div>
+                    <button 
+                      onClick={() => {
+                        setShowUserMenu(false)
+                        handleLogout()
                       if (isMobile) closeActionsMenu()
-                    }}
-                    className="dropdown-item"
-                  >
-                    {t('header.logout')}
-                  </button>
-                </div>
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <button
-              className="header-button login-button"
+                      }} 
+                      className="dropdown-item"
+                    >
+                      {t('header.logout')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <button
+                className="header-button login-button"
               onClick={() => {
                 setShowLoginModal(true)
                 if (isMobile) closeActionsMenu()
               }}
-            >
-              {t('header.login')}
-            </button>
-            <button
-              className="header-button register-button"
+              >
+                  {t('header.login')}
+              </button>
+              <button
+                className="header-button register-button"
               onClick={() => {
                 setShowRegisterModal(true)
                 if (isMobile) closeActionsMenu()
               }}
-            >
-              {t('header.register')}
-            </button>
-          </>
-        )}
-      </div>
+              >
+                  {t('header.register')}
+              </button>
+            </>
+          )}
+        </div>
     )
   }
 
@@ -408,7 +408,7 @@ const Header = () => {
               <span className="date-year-month">{formattedDate}</span>
             </div>
             <span className="time-block">{timeString}</span>
-          </div>
+      </div>
 
           {!isMobile && renderActionsLayout()}
         </div>

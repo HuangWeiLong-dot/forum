@@ -31,6 +31,45 @@ const changelogCopy = {
 const updates = [
   {
     date: '2025-12-03',
+    version: '1.7.1',
+    translations: {
+      zh: {
+        title: '日历按日期筛选与帖子数量徽章修复',
+        description:
+          '修复首页日历在接入真实后端数据后，点击日期无法按天筛选帖子，以及日期角标数量只在 Mock 环境下正常的问题。',
+        features: [
+          '点击日历中的任意日期，会在地址栏写入 ?date=YYYY-MM-DD，并重新请求该日期的帖子列表',
+          '日期右上角的小圆点数量改为使用后端真实返回的所有帖子进行日期分组统计，而不是只依赖本地 Mock 数据',
+          '当同时选择日期和“热门”排序时，会在该日期的帖子范围内按热门分数排序，行为与默认视图保持一致',
+          'URL 带有日期与排序参数，刷新页面或分享链接时会保持同一天同一排序视图，体验更可预期',
+        ],
+      },
+      en: {
+        title: 'Calendar Date Filter & Post Count Badges Fix',
+        description:
+          'Fixed issues where the home calendar would not filter posts by date against the real backend and where per‑day post count badges only worked with mock data.',
+        features: [
+          'Clicking a day in the calendar now writes ?date=YYYY-MM-DD into the URL and re-fetches posts for that specific day',
+          'The small badge in the top-right of each date cell now uses real backend posts grouped by date, not just local mock data',
+          'When combining a selected date with the “Hot” sort, posts are ranked by hot score within that day instead of ignoring the filter',
+          'Date and sort are both encoded into the URL so refreshes and shared links reliably preserve the same day and view mode',
+        ],
+      },
+      ja: {
+        title: 'カレンダーの日付フィルタと投稿数バッジの修正',
+        description:
+          'ホームのカレンダーが本番バックエンドに接続した際に日付ごとの絞り込みが効かない問題と、日付ごとの投稿数バッジがモック環境でしか正しく表示されない問題を修正しました。',
+        features: [
+          'カレンダーの日付をクリックすると URL に ?date=YYYY-MM-DD が付与され、その日の投稿だけを再取得して表示します',
+          '各日付セル右上の投稿数バッジは、モックではなくバックエンドから返ってきた全投稿データを日付ごとに集計して表示します',
+          '日付を選択した状態で「人気順」を選んだ場合でも、その日の投稿だけを対象に人気スコアでソートするように統一しました',
+          '日付とソート条件を URL に含めることで、ページの再読み込みやリンク共有時にも同じ日・同じビューを再現できます',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-03',
     version: '1.7.0',
     translations: {
       zh: {

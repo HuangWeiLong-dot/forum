@@ -10,6 +10,46 @@ import './Fixes.css'
 export const fixes = [
   {
     date: '2025-12-03',
+    version: '1.7.1',
+    issue: 15,
+    translations: {
+      zh: {
+        title: '日历按日期筛选与帖子数量徽章在真实数据下失效',
+        description:
+          '修复首页日历在接入真实后端数据后，点击日期无法按天筛选帖子，以及日期角标数量只在 Mock 环境下正常的问题。',
+        details: [
+          '点击日历中的某一天会在 URL 中写入 ?date=YYYY-MM-DD，并据此重新向后端请求该日期的帖子列表',
+          '日期单元格右上角的帖子数量徽章统一使用后端返回的 posts 进行日期分组，Mock 与真实环境表现一致',
+          '热门排序模式在带日期筛选时，会在该日期的帖子集合内计算热门分数并排序，而不是忽略日期条件',
+          '通过在 useEffect 依赖中加入 searchParams，确保当用户通过日历或地址栏修改 ?date 参数时都会自动刷新数据',
+        ],
+      },
+      en: {
+        title: 'Calendar Date Filter & Daily Post Count with Real Backend',
+        description:
+          'Fixed the home calendar so that date clicks and per-day post count badges work correctly when talking to the real backend, not just mock data.',
+        details: [
+          'Clicking a calendar day now updates the URL with ?date=YYYY-MM-DD and re-fetches posts filtered to that exact date',
+          'The small badge in the top-right of each day cell now uses posts from the backend, grouped by publish date, instead of relying on mocks',
+          'When the “Hot” sort is active together with a selected date, posts are ranked by hot score within that day’s results',
+          'Updated the data-fetching effect to depend on searchParams so any change to the ?date query (via calendar or URL) triggers a fresh request',
+        ],
+      },
+      ja: {
+        title: '本番バックエンドでのカレンダー日付フィルタと投稿数バッジの修正',
+        description:
+          'ホームのカレンダーが本番バックエンドに接続されているときでも、日付クリックと日別投稿数バッジが正しく動作するように修正しました。',
+        details: [
+          'カレンダーの日付をクリックすると URL に ?date=YYYY-MM-DD を付与し、その日付の投稿のみをバックエンドから取得して表示します',
+          '各日付セル右上の投稿数バッジは、バックエンドから返された投稿一覧を日付ごとにグルーピングして算出するように変更',
+          '「人気順」ソートと日付フィルタを同時に使った場合も、その日の投稿だけを対象に人気スコア順に並べ替え',
+          'searchParams を useEffect の依存に含めることで、カレンダー操作や URL の ?date 変更時に自動でデータを再取得します',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-03',
     version: '1.7.0',
     issue: 14,
     translations: {

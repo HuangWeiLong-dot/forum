@@ -406,8 +406,9 @@ const Home = () => {
 
   useEffect(() => {
     debouncedFetchPosts()
+    // 注意：这里刻意依赖 searchParams，这样点击日历改变 ?date=xxx 时也会重新拉取帖子
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination.page, sort, selectedCategory])
+  }, [pagination.page, sort, selectedCategory, searchParams])
 
   const handleSortChange = (newSort) => {
     setSort(newSort)
