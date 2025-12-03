@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { FaSearch, FaPlus, FaUserCircle, FaMoon, FaSun, FaGlobeAsia } from 'react-icons/fa'
@@ -31,22 +32,44 @@ const Header = () => {
     { code: 'ja', label: '日本語', symbol: 'あ' },
   ]
 
-  // 点击外部区域时关闭语言菜单
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth <= 768
+  })
+
   useEffect(() => {
+    const handleResize = () => {
+      if (typeof window === 'undefined') return
+      setIsMobile(window.innerWidth <= 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // 点击外部区域时关闭语言菜单（桌面端）
+  useEffect(() => {
+    if (!showLanguageMenu || isMobile) return
     const handleClickOutside = (event) => {
       if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
         setShowLanguageMenu(false)
       }
     }
 
-    if (showLanguageMenu) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [showLanguageMenu])
+  }, [showLanguageMenu, isMobile])
+
+  // 移动端打开语言菜单时禁用滚动
+  useEffect(() => {
+    if (!showLanguageMenu || !isMobile) return
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = originalOverflow
+    }
+  }, [showLanguageMenu, isMobile])
 
   const localeMap = {
     zh: 'zh-CN',
@@ -100,6 +123,47 @@ const Header = () => {
     navigate('/')
   }
 
+  const languageMenuContent = (
+    <div className="language-menu-list">
+      {languages.map((lang) => (
+        <button
+          key={lang.code}
+          type="button"
+          className={`language-option ${language === lang.code ? 'active' : ''}`}
+          onClick={() => {
+            setLanguage(lang.code)
+            setShowLanguageMenu(false)
+          }}
+        >
+          <span className="language-symbol">{lang.symbol}</span>
+          <span className="language-label">{lang.label}</span>
+        </button>
+      ))}
+    </div>
+  )
+
+  const languageOverlay = showLanguageMenu && isMobile
+    ? createPortal(
+        <div className="language-overlay" onClick={() => setShowLanguageMenu(false)}>
+          <div className="language-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="language-modal-header">
+              <span>{t('header.languageTitle')}</span>
+              <button
+                type="button"
+                className="language-modal-close"
+                onClick={() => setShowLanguageMenu(false)}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            {languageMenuContent}
+          </div>
+        </div>,
+        document.body
+      )
+    : null
+
   return (
     <header className="header">
       <div className="header-container">
@@ -131,106 +195,99 @@ const Header = () => {
           <span className="time-block">{timeString}</span>
         </div>
 
-        <div className="header-actions">
-          <ThemeColorPicker />
-          <button
-            type="button"
-            className="header-button theme-toggle-button"
-            onClick={toggleTheme}
-            aria-pressed={theme === 'dark'}
-            title={theme === 'dark' ? t('header.toLight') : t('header.toDark')}
-          >
-            {theme === 'dark' ? <FaSun /> : <FaMoon />}
-          </button>
-          <div 
-            className="language-switcher-header"
-            ref={languageMenuRef}
-          >
+        <div className="header-actions-row">
+          <div className="header-actions-group header-actions-group-tools">
+            <ThemeColorPicker />
             <button
               type="button"
-              className="header-button language-toggle-button"
-              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
-              title="Switch language"
+              className="header-button theme-toggle-button"
+              onClick={toggleTheme}
+              aria-pressed={theme === 'dark'}
+              title={theme === 'dark' ? t('header.toLight') : t('header.toDark')}
             >
-              <FaGlobeAsia />
+              {theme === 'dark' ? <FaSun /> : <FaMoon />}
             </button>
-            {showLanguageMenu && (
-              <div className="language-menu">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    type="button"
-                    className={`language-option ${language === lang.code ? 'active' : ''}`}
-                    onClick={() => {
-                      setLanguage(lang.code)
-                      setShowLanguageMenu(false)
-                    }}
+            <div 
+              className="language-switcher-header"
+              ref={!isMobile ? languageMenuRef : null}
+            >
+              <button
+                type="button"
+                className="header-button language-toggle-button"
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+                title="Switch language"
+              >
+                <FaGlobeAsia />
+              </button>
+              {!isMobile && showLanguageMenu && (
+                <div className="language-menu">
+                  {languageMenuContent}
+                </div>
+              )}
+            </div>
+            {languageOverlay}
+            {isAuthenticated && <Inbox />}
+          </div>
+          <div className="header-actions-group header-actions-group-primary">
+            {isAuthenticated ? (
+              <>
+                <button 
+                  className="header-button create-button"
+                  onClick={() => navigate('/create-post')}
+                  title={t('header.createTitle')}
+                >
+                  <FaPlus />
+                  <span className="create-button-label">{t('header.create')}</span>
+                </button>
+                <div className="user-menu">
+                  <button 
+                    className="user-avatar-button" 
+                    title={t('header.userMenu')}
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    onBlur={() => setTimeout(() => setShowUserMenu(false), 200)}
                   >
-                    <span className="language-symbol">{lang.symbol}</span>
-                    <span className="language-label">{lang.label}</span>
+                    <FaUserCircle className="user-avatar" />
                   </button>
-                ))}
-              </div>
+                  {showUserMenu && (
+                    <div className="user-dropdown">
+                      <Link 
+                        to={`/user/${user.id}`} 
+                        className="dropdown-item"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        {t('header.profile')}
+                      </Link>
+                      <div className="dropdown-divider"></div>
+                      <button 
+                        onClick={() => {
+                          setShowUserMenu(false)
+                          handleLogout()
+                        }} 
+                        className="dropdown-item"
+                      >
+                        {t('header.logout')}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <button
+                  className="header-button login-button"
+                  onClick={() => setShowLoginModal(true)}
+                >
+                    {t('header.login')}
+                </button>
+                <button
+                  className="header-button register-button"
+                  onClick={() => setShowRegisterModal(true)}
+                >
+                    {t('header.register')}
+                </button>
+              </>
             )}
           </div>
-          {isAuthenticated && <Inbox />}
-          {isAuthenticated ? (
-            <>
-              <button 
-                className="header-button create-button"
-                onClick={() => navigate('/create-post')}
-                title={t('header.createTitle')}
-              >
-                <FaPlus /> {t('header.create')}
-              </button>
-              <div className="user-menu">
-                <button 
-                  className="user-avatar-button" 
-                  title={t('header.userMenu')}
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  onBlur={() => setTimeout(() => setShowUserMenu(false), 200)}
-                >
-                  <FaUserCircle className="user-avatar" />
-                </button>
-                {showUserMenu && (
-                  <div className="user-dropdown">
-                    <Link 
-                      to={`/user/${user.id}`} 
-                      className="dropdown-item"
-                      onClick={() => setShowUserMenu(false)}
-                    >
-                      {t('header.profile')}
-                    </Link>
-                    <div className="dropdown-divider"></div>
-                    <button 
-                      onClick={() => {
-                        setShowUserMenu(false)
-                        handleLogout()
-                      }} 
-                      className="dropdown-item"
-                    >
-                      {t('header.logout')}
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              <button
-                className="header-button login-button"
-                onClick={() => setShowLoginModal(true)}
-              >
-                  {t('header.login')}
-              </button>
-              <button
-                className="header-button register-button"
-                onClick={() => setShowRegisterModal(true)}
-              >
-                  {t('header.register')}
-              </button>
-            </>
-          )}
         </div>
       </div>
 

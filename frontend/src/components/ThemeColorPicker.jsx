@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { FaEyeDropper } from 'react-icons/fa'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import './ThemeColorPicker.css'
 
 const ThemeColorPicker = () => {
   const { themeColor, setThemeColor } = useTheme()
+  const { t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [hue, setHue] = useState(0)
   const [saturation, setSaturation] = useState(100)
@@ -261,6 +263,7 @@ const ThemeColorPicker = () => {
         <div className="theme-picker-overlay" onClick={closePicker}>
           <div className="theme-picker-modal" onClick={(e) => e.stopPropagation()}>
           <div className="theme-picker-header">
+            <span className="theme-picker-title">{t('header.themeColorTitle')}</span>
             <button className="theme-picker-close" onClick={closePicker} aria-label="Close">
               ×
             </button>
@@ -285,6 +288,7 @@ const ThemeColorPicker = () => {
         className="theme-color-button icon-button"
         onClick={() => setIsOpen(!isOpen)}
         title="主题颜色"
+        style={{ backgroundColor: themeColor, color: '#fff' }}
       >
         <FaEyeDropper />
       </button>

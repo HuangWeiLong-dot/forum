@@ -3,9 +3,9 @@
 }
 
 .theme-color-button {
-  background-color: var(--button-gray);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
   border-radius: var(--radius-md);
   padding: 0.5rem;
   font-size: 1.1rem;
@@ -16,13 +16,12 @@
   transition: all 0.2s;
   width: 2.5rem;
   height: 2.5rem;
-  box-shadow: none;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
 }
 
 .theme-color-button:hover {
-  background-color: var(--hover-background);
-  color: var(--primary-color);
-  transform: translateY(-1px);
+  opacity: 0.92;
+  transform: translateY(-1px) scale(1.01);
 }
 
 .theme-color-picker {
@@ -172,10 +171,15 @@
 .theme-picker-header {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.theme-picker-title {
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .theme-picker-close {
