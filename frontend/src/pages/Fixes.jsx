@@ -9,6 +9,111 @@ import './Fixes.css'
 
 export const fixes = [
   {
+    date: '2025-12-09',
+    version: '1.9.5',
+    issue: 41,
+    translations: {
+      zh: {
+        title: '部分页面骨架屏不显示',
+        description:
+          '补齐 Home / Search 的 skeleton 样式，加载时有统一骨架占位，避免空白闪动。',
+        details: [
+          '新增 skeleton 渐变与尺寸样式（sm/md/lg/fade），加入 shimmer 动画',
+          'Home / Search 加载时的骨架占位使用统一样式呈现',
+        ],
+      },
+      en: {
+        title: 'Skeleton loader missing on some pages',
+        description:
+          'Added unified skeleton styles for Home/Search so loading states show proper placeholders.',
+        details: [
+          'Added skeleton gradients and size presets (sm/md/lg/fade) with shimmer animation',
+          'Home/Search loading skeletons now render with consistent styling',
+        ],
+      },
+      ja: {
+        title: '一部ページでスケルトンが表示されない',
+        description:
+          'Home / Search にスケルトンのスタイルを追加し、読み込み中に適切なプレースホルダーを表示。',
+        details: [
+          'スケルトンのグラデーションとサイズ（sm/md/lg/fade）を追加し、シマーアニメーションを付与',
+          'Home/Search のロード時に統一されたスケルトンが表示されるように調整',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-09',
+    version: '1.9.5',
+    issue: 40,
+    translations: {
+      zh: {
+        title: '移动端用户资料卡片左右贴边',
+        description:
+          '为移动端资料页增加左右内边距，避免内容贴边带来的视觉压迫。',
+        details: [
+          '在 768px 断点为 .user-profile/.profile-header/.profile-content 增加横向 padding',
+          '保持卡片留白，提升移动端阅读舒适度',
+        ],
+      },
+      en: {
+        title: 'Mobile profile card too close to edges',
+        description:
+          'Added horizontal padding on mobile profile page to avoid edge-clinging content.',
+        details: [
+          'Add horizontal padding to .user-profile/.profile-header/.profile-content at 768px breakpoint',
+          'Keep card whitespace for better readability on mobile',
+        ],
+      },
+      ja: {
+        title: 'モバイルのプロフィールカードが左右に密着',
+        description:
+          'モバイルのプロフィールページに横方向の余白を追加し、圧迫感を解消しました。',
+        details: [
+          '768px ブレークポイントで .user-profile/.profile-header/.profile-content に横方向のパディングを追加',
+          'カードに余白を確保し、モバイルでの読みやすさを向上',
+        ],
+      },
+    },
+  },
+  {
+    date: '2025-12-09',
+    version: '1.9.5',
+    issue: 39,
+    translations: {
+      zh: {
+        title: '每日任务多端不同步，经验值/升级异常',
+        description:
+          '新增服务端每日任务表与接口，前端任务/经验同步；防重复领取，新增签到任务；所有任务奖励统一 +30。',
+        details: [
+          '后端：新增 daily_tasks 表与 get/complete 接口，写入用户 exp，防重复领取',
+          '前端：DailyTasks 调用后端，测试账号保留本地兜底；新增签到任务；奖励统一 +30',
+          '同步经验到用户对象与本地缓存，经验条/等级即时更新',
+        ],
+      },
+      en: {
+        title: 'Daily tasks desynced across devices, exp/level incorrect',
+        description:
+          'Added server-side daily task table/APIs and frontend sync; prevent double rewards; added check-in; all tasks now give +30 exp.',
+        details: [
+          'Backend: new daily_tasks table plus get/complete APIs, write user exp, prevent duplicate rewards',
+          'Frontend: DailyTasks calls backend with fallback for test accounts; added check-in task; rewards unified to +30',
+          'Sync exp to user object/local cache for instant progress/level updates',
+        ],
+      },
+      ja: {
+        title: 'デイリータスクが端末間で同期せず、経験値/レベルが不正',
+        description:
+          'サーバー側のデイリータスク表とAPIを追加し、フロントで同期。二重受取防止、チェックイン追加、報酬は+30に統一。',
+        details: [
+          'バックエンド: daily_tasks テーブルと get/complete API を追加し、ユーザーexpへ書き込み、重複受取を防止',
+          'フロント: DailyTasks はバックエンドを呼び出し、テストアカウントにはローカルフォールバックを保持。チェックインを追加し、報酬を+30に統一',
+          'exp をユーザーオブジェクトとローカルキャッシュへ同期し、進捗とレベルを即時更新',
+        ],
+      },
+    },
+  },
+  {
     date: '2025-12-08',
     version: '1.9.4',
     issue: 38,

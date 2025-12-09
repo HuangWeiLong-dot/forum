@@ -621,7 +621,7 @@
     background: var(--card-background, #ffffff);
     border: 1px solid var(--border-color, #e5e7eb);
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1.5rem 1.25rem; /* 增加左右内边距 */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
@@ -700,6 +700,7 @@
   .user-profile {
     width: 100%;
     max-width: none;
+    padding: 0 1rem; /* 保持两侧留白，避免贴边 */
   }
 
   .profile-header {
@@ -707,7 +708,7 @@
     align-items: center;
     text-align: center;
     gap: 1.5rem;
-    padding: 1.5rem 0;
+    padding: 1.5rem 1.25rem; /* 增加左右内边距 */
   }
 
   .profile-info {

@@ -1,3 +1,40 @@
+.skeleton-line {
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.15),
+    rgba(148, 163, 184, 0.35),
+    rgba(148, 163, 184, 0.15)
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton-line-sm {
+  height: 12px;
+}
+
+.skeleton-line-md {
+  height: 16px;
+}
+
+.skeleton-line-lg {
+  height: 22px;
+}
+
+.skeleton-line-fade {
+  width: 70%;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .home-page {
   flex: 1;
   max-width: 800px;

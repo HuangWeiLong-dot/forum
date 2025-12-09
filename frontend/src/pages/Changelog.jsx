@@ -30,6 +30,46 @@ const changelogCopy = {
 
 const updates = [
   {
+    date: '2025-12-09',
+    version: '1.9.5',
+    type: 'fix',
+    translations: {
+      zh: {
+        title: '每日任务多端同步、签到与骨架屏补齐',
+        description:
+          '新增每日任务服务端同步与签到任务，所有任务奖励统一 +30；补齐列表/搜索骨架屏，移动端资料页留白更舒适；迁移文档精简为 Docker 执行版。',
+        details: [
+          '后端新增 daily_tasks 表与接口，写入经验、防止重复领取；前端 DailyTasks 调用后端，测试账号保留本地兜底',
+          '新增签到任务，发布/点赞/评论/签到奖励均为 +30，并即时同步经验到用户对象',
+          '补齐 Home/Search 的骨架屏样式，加载中有统一占位；移动端资料卡片增加左右内边距避免贴边',
+          '迁移指南精简为 Docker 场景，新增 v1.9.5 脚本（add_daily_tasks_table.sql）',
+        ],
+      },
+      en: {
+        title: 'Daily task sync, check-in, and skeletons completed',
+        description:
+          'Added server-synced daily tasks with check-in; unified rewards to +30; filled list/search skeletons; added mobile padding; migration guide simplified to Docker.',
+        details: [
+          'Backend daily_tasks table + APIs write exp and prevent double rewards; frontend DailyTasks calls backend with test-user fallback',
+          'Added check-in task; post/like/comment/check-in all grant +30 exp with instant sync to user object',
+          'Completed skeleton styles for Home/Search loading; added horizontal padding to mobile profile card to avoid edge clinging',
+          'Migration guide trimmed to Docker-only and includes v1.9.5 script add_daily_tasks_table.sql',
+        ],
+      },
+      ja: {
+        title: 'デイリータスク同期・チェックイン・スケルトン補完',
+        description:
+          'デイリータスクをサーバー同期しチェックインを追加、報酬を+30に統一。リスト/検索のスケルトンを整備し、モバイルに余白を追加。移行ガイドは Docker に簡素化。',
+        details: [
+          'バックエンドの daily_tasks テーブルと API で経験値を書き込み重複受取を防止。フロントは DailyTasks でバックエンドを呼び出し、テストユーザーはローカルフォールバック',
+          'チェックインを追加し、投稿/いいね/コメント/チェックインは全て +30 の報酬で即時同期',
+          'Home/Search のスケルトンスタイルを整備し、読み込み中に統一プレースホルダーを表示。モバイルプロフィールカードに横余白を追加し、縁への密着を防止',
+          '移行ガイドを Docker 専用に簡素化し、v1.9.5 の add_daily_tasks_table.sql を追記',
+        ],
+      },
+    },
+  },
+  {
     date: '2025-12-08',
     version: '1.9.4',
     type: 'fix',

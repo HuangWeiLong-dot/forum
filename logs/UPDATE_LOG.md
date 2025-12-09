@@ -1466,6 +1466,32 @@ DELETE /api/posts/:postId - 删除帖子（需要认证，仅限作者）
 
 ---
 
+## 18. v1.9.5 每日任务多端同步与签到、骨架屏与移动端体验
+
+### 修改内容
+- ✅ 新增每日任务服务端持久化与多端同步，防止重复领取，统一任务奖励为 +30
+- ✅ 新增“签到”任务，完成奖励 +30，计入每日任务列表
+- ✅ 前端 DailyTasks 调用后端接口，测试账号保留本地兜底；同步经验值到用户对象
+- ✅ 补齐 Home/Search 页骨架屏样式，加载中有统一骨架占位
+- ✅ 移动端用户资料卡片左右留白，避免贴边
+- ✅ 迁移文档精简为 Docker 执行版（v1.9.0 + v1.9.5）
+
+### 修改文件
+- `backend/migrations/add_daily_tasks_table.sql`
+- `backend/models/DailyTask.js`
+- `backend/controllers/userController.js`
+- `backend/routes/users.js`
+- `frontend/src/utils/dailyTasks.js`
+- `frontend/src/utils/levelSystem.js`
+- `frontend/src/components/DailyTasks.jsx`
+- `frontend/src/components/DailyTasks.css`
+- `frontend/src/pages/Home.css`
+- `frontend/src/pages/UserProfile.css`
+- `frontend/src/services/api.js`
+- `docs/MIGRATION_GUIDE.md`
+
+---
+
 ---
 
 ## 更新记录
@@ -1480,4 +1506,5 @@ DELETE /api/posts/:postId - 删除帖子（需要认证，仅限作者）
 - 2025-12-08: 添加 v1.9.2 的更新记录（帖子作者等级和经验值显示修复）
 - 2025-12-08: 添加 v1.9.3 的更新记录（startsWith 方法调用错误修复）
 - 2025-12-08: 添加 v1.9.4 的更新记录（编辑资料验证和响应式布局修复）
+- 2025-12-09: 添加 v1.9.5 的更新记录（每日任务多端同步、签到任务、骨架屏样式、移动端留白）
 
