@@ -4,10 +4,6 @@ An open-source, modern forum platform with a **separated frontend and backend** 
 
 ---
 
-# REForum - 现代论坛系统
-
-一个论坛社区系统，采用 **前后端分离** 架构。
-
 ## 项目结构
 
 ```bash
@@ -163,16 +159,11 @@ VITE_ENABLE_TEST_LOGIN=true
 
 ## 许可证
 
-本项目采用 **MIT License** 开源协议，详见仓库根目录 `LICENSE` 文件。
-
-## 联系方式
-
-- 邮箱：3571676852@qq.com
-- 项目维护者：Ki Re I
+本项目采用 **MIT License** 开源协议，详见仓库根目录 `LICENSE` 文件
 
 ## 最后更新日期
 
-2025年12月8日
+2025年12月21日
 
 ## 当前版本
 
