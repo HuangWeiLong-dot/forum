@@ -171,52 +171,153 @@ const PostCard = ({ post }) => {
         </Link>
 
         {post.content && (
-          <div className="post-content-preview">
-            {post.content.split('\n').slice(0, 3).map((line, index) => {
-              // 检查是否是Markdown图片格式 ![alt](url)
-              const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/)
-              if (imageMatch) {
-                const [, alt, url] = imageMatch
-                // 处理图片URL
-                let imageUrl = url
-                if (url.startsWith('/uploads/')) {
-                  // 开发环境：使用相对路径，通过 Vite 代理
-                  if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
-                    imageUrl = url
-                  } else {
-                    // 生产环境：使用 URL 解析保证得到正确的 origin，避免出现 https://uploads/...
-                    const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
-                    let origin
-                    try {
-                      origin = new URL(apiBase, window.location.origin).origin
-                    } catch {
-                      origin = window.location.origin
+          <>
+            {/* 首先检查整个内容中是否包含音频文件 */}
+            {(() => {
+              // 搜索整个内容中的音频文件链接
+              const audioRegex = /!\[([^\]]*)\]\(([^)]+\.(mp3|wav|ogg|m4a|aac|flac))\)/gi
+              const audioMatches = [...post.content.matchAll(audioRegex)]
+              
+              // 搜索整个内容中的音频链接（链接格式）
+              const audioLinkRegex = /\[([^\]]*)\]\(([^)]+\.(mp3|wav|ogg|m4a|aac|flac))\)/gi
+              const audioLinkMatches = [...post.content.matchAll(audioLinkRegex)]
+              
+              // 合并所有音频匹配结果
+              const allAudioMatches = [...audioMatches, ...audioLinkMatches]
+              
+              // 如果有音频文件，显示音频播放器
+                if (allAudioMatches.length > 0) {
+                  const [match] = allAudioMatches
+                  const [fullMatch, alt, url] = match
+                  
+                  // 处理音频URL
+                  let audioUrl = url
+                  if (url.startsWith('/uploads/')) {
+                    // 开发环境：使用相对路径，通过 Vite 代理
+                    if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
+                      audioUrl = url
+                    } else {
+                      // 生产环境：使用 URL 解析保证得到正确的 origin，避免出现 https://uploads/...
+                      const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
+                      let origin
+                      try {
+                        origin = new URL(apiBase, window.location.origin).origin
+                      } catch {
+                        origin = window.location.origin
+                      }
+                      audioUrl = `${origin}${url}`
                     }
-                    imageUrl = `${origin}${url}`
+                  } else if (!url.startsWith('http')) {
+                    // 如果不是http开头也不是/uploads开头，可能是其他相对路径
+                    if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
+                      audioUrl = url.startsWith('/') ? url : `/${url}`
+                    } else {
+                      const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
+                      let origin
+                      try {
+                        origin = new URL(apiBase, window.location.origin).origin
+                      } catch {
+                        origin = window.location.origin
+                      }
+                      audioUrl = `${origin}${url.startsWith('/') ? '' : '/'}${url}`
+                    }
                   }
+                  
+                  // 从URL中提取文件名，去掉后缀
+                  const getFilenameFromUrl = (url) => {
+                    // 移除查询参数和哈希
+                    const cleanUrl = url.split('?')[0].split('#')[0]
+                    // 从路径中提取文件名
+                    let filename = cleanUrl.split('/').pop()
+                    // 解码URL编码的文件名
+                    filename = decodeURIComponent(filename)
+                    // 去掉文件扩展名
+                    const filenameWithoutExt = filename.replace(/\.[^/.]+$/, '')
+                    return filenameWithoutExt
+                  }
+                  
+                  // 使用从URL提取的文件名作为标题，忽略alt文本
+                  const audioTitle = getFilenameFromUrl(url)
+                  
+                  return (
+                    <div className="post-audio-preview">
+                      <audio 
+                        src={audioUrl} 
+                        controls 
+                        className="post-audio-player"
+                        preload="metadata"
+                        onError={(e) => {
+                          console.error('音频加载失败:', audioUrl)
+                          e.target.style.display = 'none'
+                        }}
+                      >
+                        您的浏览器不支持音频播放
+                      </audio>
+                      <div className="audio-title">{audioTitle}</div>
+                    </div>
+                  )
                 }
-                return (
-                  <div key={index} className="post-image-preview">
-                    <img 
-                      src={imageUrl} 
-                      alt={alt || '帖子图片'} 
-                      className="post-preview-image"
-                      loading="lazy"
-                      onError={(e) => {
-                        console.error('图片加载失败:', imageUrl)
-                        e.target.style.display = 'none'
-                      }}
-                    />
-                  </div>
-                )
-              }
-              // 普通文本行（只显示前3行）
-              if (line.trim() && index < 3) {
-                return <p key={index} className="post-excerpt">{line}</p>
-              }
+              
+              // 没有音频文件，返回null
               return null
-            })}
-          </div>
+            })()}
+            
+            {/* 然后显示文本预览（前3行） */}
+            <div className="post-content-preview">
+              {post.content.split('\n').slice(0, 3).map((line, index) => {
+                // 跳过包含音频的行，避免重复显示
+                const hasAudio = /!\[([^\]]*)\]\(([^)]+\.(mp3|wav|ogg|m4a|aac|flac))\)/i.test(line) || 
+                               /\[([^\]]*)\]\(([^)]+\.(mp3|wav|ogg|m4a|aac|flac))\)/i.test(line)
+                if (hasAudio) {
+                  return null
+                }
+                
+                // 检查是否是Markdown图片格式（非音频）
+                const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)(?<!\.(mp3|wav|ogg|m4a|aac|flac))\)/i)
+                if (imageMatch) {
+                  const [, alt, url] = imageMatch
+                  // 处理图片URL
+                  let mediaUrl = url
+                  if (url.startsWith('/uploads/')) {
+                    // 开发环境：使用相对路径，通过 Vite 代理
+                    if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
+                      mediaUrl = url
+                    } else {
+                      // 生产环境：使用 URL 解析保证得到正确的 origin，避免出现 https://uploads/...
+                      const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
+                      let origin
+                      try {
+                        origin = new URL(apiBase, window.location.origin).origin
+                      } catch {
+                        origin = window.location.origin
+                      }
+                      mediaUrl = `${origin}${url}`
+                    }
+                  }
+                  return (
+                    <div key={index} className="post-image-preview">
+                      <img 
+                        src={mediaUrl} 
+                        alt={alt || '帖子图片'} 
+                        className="post-preview-image"
+                        loading="lazy"
+                        onError={(e) => {
+                          console.error('图片加载失败:', mediaUrl)
+                          e.target.style.display = 'none'
+                        }}
+                      />
+                    </div>
+                  )
+                }
+                
+                // 普通文本行
+                if (line.trim()) {
+                  return <p key={index} className="post-excerpt">{line}</p>
+                }
+                return null
+              })}
+            </div>
+          </>
         )}
         
         {!post.content && post.excerpt && (

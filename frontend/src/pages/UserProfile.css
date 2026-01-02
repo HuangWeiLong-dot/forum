@@ -306,13 +306,18 @@
     white-space: nowrap;
   }
 
-  .edit-profile-button {
+  .profile-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .edit-profile-button,
+  .logout-button {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.625rem 1.25rem;
-    background: var(--primary-color, #2563eb);
-    color: white;
     border: none;
     border-radius: 8px;
     font-size: 0.875rem;
@@ -321,6 +326,33 @@
     transition: all 0.2s ease;
     white-space: nowrap;
     flex-shrink: 0;
+    height: 3rem;
+    min-height: 3rem;
+    line-height: 1;
+  }
+
+  .edit-profile-button {
+    background: var(--primary-color, #2563eb);
+    color: white;
+  }
+
+  .logout-button {
+    background: var(--danger-color, #ef4444);
+    color: white;
+  }
+
+  .edit-profile-button svg,
+  .logout-button svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .logout-button:hover {
+    background: var(--danger-color-hover, #dc2626);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
   }
 
   .edit-profile-button:hover {
@@ -328,11 +360,6 @@
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   }
-
-  .edit-profile-button svg {
-    width: 14px;
-    height: 14px;
-}
 
 .profile-bio {
   color: var(--text-secondary);
@@ -397,12 +424,60 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
-  .profile-avatar-section {
+  .profile-username-row {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     width: 100%;
+  }
+
+  .profile-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .edit-profile-button,
+  .logout-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    height: 3rem;
+    min-height: 3rem;
+    line-height: 1;
+    width: auto;
+    justify-content: center;
+  }
+
+  .logout-button {
+    background: var(--danger-color, #ef4444);
+    color: white;
+  }
+
+  .logout-button:hover {
+    background: var(--danger-color-hover, #dc2626);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  }
+
+  .edit-profile-button svg,
+  .logout-button svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin: 0;
   }
 
   .profile-level-row {
@@ -504,22 +579,34 @@
     letter-spacing: 0.5px;
   }
 
-  .edit-profile-button {
-    width: 100%;
+  .edit-profile-button,
+  .logout-button {
+    width: auto;
     justify-content: center;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.625rem 1.25rem;
-    background: var(--primary-color, #2563eb);
-    color: white;
     border: none;
     border-radius: 8px;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 0.5rem;
+    margin-top: 0;
+    height: 3rem;
+    min-height: 3rem;
+    line-height: 1;
+  }
+
+  .edit-profile-button {
+    background: var(--primary-color, #2563eb);
+    color: white;
+  }
+
+  .logout-button {
+    background: var(--danger-color, #ef4444);
+    color: white;
   }
 
   .edit-profile-button:hover {
@@ -528,9 +615,10 @@
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   }
 
-  .edit-profile-button svg {
-    width: 14px;
-    height: 14px;
+  .logout-button:hover {
+    background: var(--danger-color-hover, #dc2626);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
   }
 
   .profile-bio {
@@ -767,7 +855,7 @@
   .edit-profile-button {
     width: 100%;
     justify-content: center;
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
   }
 
   .profile-bio {
@@ -787,7 +875,7 @@
     right: 0.5rem;
   }
 
-  .post-card {
+  .profile-post-item .post-card {
     padding-right: 2.5rem;
   }
 }
@@ -810,7 +898,7 @@
     height: 12px;
   }
 
-  .post-card {
+  .profile-post-item .post-card {
     padding-right: 2.25rem;
     padding-top: 1rem;
     padding-bottom: 1rem;

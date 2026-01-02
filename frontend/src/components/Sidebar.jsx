@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import {
   FaHome,
   FaHistory,
@@ -9,6 +10,7 @@ import {
   FaThList,
   FaLayerGroup,
   FaFileContract,
+  FaTimes,
 } from 'react-icons/fa'
 import { useLanguage } from '../context/LanguageContext'
 import { categoryAPI } from '../services/api'
@@ -19,7 +21,7 @@ import './Sidebar.css'
 // 在 frontend/.env 文件中设置 VITE_USE_MOCK_DATA=true 使用假数据，VITE_USE_MOCK_DATA=false 使用真实API
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { t, getCategoryName } = useLanguage()
@@ -29,9 +31,30 @@ const Sidebar = () => {
     if (typeof window === 'undefined') return false
     return window.innerWidth <= 768
   })
-  const [navExpanded, setNavExpanded] = useState(!isMobile)
-  const [categoryExpanded, setCategoryExpanded] = useState(!isMobile)
-  const [policyExpanded, setPolicyExpanded] = useState(!isMobile)
+
+  // 点击分类后关闭侧边栏
+  const handleCategoryClick = (category) => {
+    if (location.pathname === '/') {
+      const currentCategory = new URLSearchParams(location.search).get('category')
+      if (currentCategory === String(category.id)) {
+        navigate('/', { replace: true })
+      } else {
+        navigate(`/?category=${category.id}`, { replace: true })
+      }
+    } else {
+      navigate(`/?category=${category.id}`)
+    }
+    if (isMobile) {
+      setSidebarOpen(false)
+    }
+  }
+
+  // 点击导航项后关闭侧边栏
+  const handleNavClick = () => {
+    if (isMobile) {
+      setSidebarOpen(false)
+    }
+  }
 
   const fetchCategories = async () => {
     try {
@@ -69,180 +92,163 @@ const Sidebar = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  useEffect(() => {
-    if (isMobile) {
-      setNavExpanded(false)
-      setCategoryExpanded(false)
-      setPolicyExpanded(false)
-    } else {
-      setNavExpanded(true)
-      setCategoryExpanded(true)
-      setPolicyExpanded(true)
-    }
-  }, [isMobile])
+  // 移除了分类手风琴的折叠逻辑，始终显示完整内容
 
-  return (
-    <aside className="sidebar">
+  // 侧边栏内容组件
+  const SidebarContent = () => (
+    <aside className={`sidebar ${isMobile ? 'mobile-sidebar' : ''} ${sidebarOpen ? 'open' : ''}`}>
       <div className="sidebar-content">
-        <div className="sidebar-accordion">
-          <button
-            type="button"
-            className="sidebar-accordion-header"
-            onClick={() => setNavExpanded((prev) => !prev)}
-            aria-expanded={navExpanded}
-            aria-controls="sidebar-nav-section"
-          >
+        <div className="sidebar-section">
+          <div className="sidebar-section-header">
             <div className="sidebar-accordion-label">
-              <FaThList className="accordion-leading-icon" />
-              <span>{t('sidebar.navToggle')}</span>
+              {isMobile ? (
+                <>
+                  <FaFileContract className="accordion-leading-icon" />
+                  <span>版本说明</span>
+                </>
+              ) : (
+                <>
+                  <FaThList className="accordion-leading-icon" />
+                  <span>{t('sidebar.navToggle')}</span>
+                </>
+              )}
             </div>
-            <FaChevronDown className={`sidebar-accordion-icon ${navExpanded ? 'open' : ''}`} />
-          </button>
-          <div
-            id="sidebar-nav-section"
-            className={`sidebar-accordion-content ${navExpanded ? 'expanded' : 'collapsed'}`}
-          >
-            <nav className="sidebar-nav">
+          </div>
+          <nav className="sidebar-nav">
+            {/* 桌面端显示首页按钮，移动端不显示 */}
+            {!isMobile && (
               <Link
                 to="/"
                 className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
+                onClick={handleNavClick}
               >
                 <FaHome className="nav-icon" />
                 <span>{t('sidebar.home')}</span>
               </Link>
-              <Link
-                to="/changelog"
-                className={`nav-item ${location.pathname === '/changelog' ? 'active' : ''}`}
-              >
-                <FaHistory className="nav-icon" />
-                <span>{t('sidebar.changelog')}</span>
-              </Link>
-              <Link
-                to="/fixes"
-                className={`nav-item ${location.pathname === '/fixes' ? 'active' : ''}`}
-              >
-                <FaBug className="nav-icon" />
-                <span>{t('sidebar.fixes')}</span>
-              </Link>
-            </nav>
-          </div>
+            )}
+            <Link
+              to="/changelog"
+              className={`nav-item ${location.pathname === '/changelog' ? 'active' : ''}`}
+              onClick={handleNavClick}
+            >
+              <FaHistory className="nav-icon" />
+              <span>{t('sidebar.changelog')}</span>
+            </Link>
+            <Link
+              to="/fixes"
+              className={`nav-item ${location.pathname === '/fixes' ? 'active' : ''}`}
+              onClick={handleNavClick}
+            >
+              <FaBug className="nav-icon" />
+              <span>{t('sidebar.fixes')}</span>
+            </Link>
+          </nav>
         </div>
 
-        <div className="sidebar-accordion">
-            <button
-              type="button"
-              className="sidebar-accordion-header"
-              onClick={() => setCategoryExpanded((prev) => !prev)}
-              aria-expanded={categoryExpanded}
-              aria-controls="sidebar-category-section"
-            >
-              <div className="sidebar-accordion-label">
-                <FaLayerGroup className="accordion-leading-icon" />
-                <span>{t('right.categoriesTitle')}</span>
-              </div>
-            <FaChevronDown className={`sidebar-accordion-icon ${categoryExpanded ? 'open' : ''}`} />
-            </button>
-          <div
-            id="sidebar-category-section"
-            className={`sidebar-accordion-content ${categoryExpanded ? 'expanded' : 'collapsed'}`}
-          >
-            <div className="sidebar-categories">
-              {loading ? (
-                <div className="categories-skeleton">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="category-skeleton-item">
-                      <div className="skeleton-dot"></div>
-                      <div className="skeleton-category-info">
-                        <div className="skeleton-line skeleton-line-sm" style={{ width: '80px', marginBottom: '0.25rem' }}></div>
-                        <div className="skeleton-line skeleton-line-sm" style={{ width: '60px' }}></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : categories.length === 0 ? (
-                <p className="categories-empty">{t('right.emptyCategories')}</p>
-              ) : (
-                <div className="category-list-bubble">
-                  {categories.map((category) => {
-                    const isActive =
-                      location.pathname === '/' &&
-                      new URLSearchParams(location.search).get('category') === String(category.id)
-
-                    return (
-                      <div
-                        key={category.id}
-                        className={`category-bubble-item ${isActive ? 'active' : ''}`}
-                        onClick={() => {
-                          if (location.pathname === '/') {
-                            const currentCategory = new URLSearchParams(location.search).get('category')
-                            if (currentCategory === String(category.id)) {
-                              navigate('/', { replace: true })
-                            } else {
-                              navigate(`/?category=${category.id}`, { replace: true })
-                            }
-                          } else {
-                            navigate(`/?category=${category.id}`)
-                          }
-                        }}
-                      >
-                        <div
-                          className="category-color-dot"
-                          style={{ backgroundColor: category.color || '#6366f1' }}
-                        />
-                        <div className="category-info">
-                          {/* {getCategoryIcon(getCategoryName(category.name))} */}
-                          <span className="category-name">{getCategoryName(category.name)}</span>
-                          <span className="category-count">
-                            {category.postCount || 0} {t('right.postsSuffix')}
-                          </span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
+        <div className="sidebar-section">
+          <div className="sidebar-section-header">
+            <div className="sidebar-accordion-label">
+              <FaLayerGroup className="accordion-leading-icon" />
+              <span>{t('right.categoriesTitle')}</span>
             </div>
           </div>
+          <div className="sidebar-categories">
+            {loading ? (
+              <div className="categories-skeleton">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="category-skeleton-item">
+                    <div className="skeleton-dot"></div>
+                    <div className="skeleton-category-info">
+                      <div className="skeleton-line skeleton-line-sm" style={{ width: '80px', marginBottom: '0.25rem' }}></div>
+                      <div className="skeleton-line skeleton-line-sm" style={{ width: '60px' }}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : categories.length === 0 ? (
+              <p className="categories-empty">{t('right.emptyCategories')}</p>
+            ) : (
+              <div className="category-list-bubble">
+                {categories.map((category) => {
+                  const isActive =
+                    location.pathname === '/' &&
+                    new URLSearchParams(location.search).get('category') === String(category.id)
+
+                  return (
+                    <div
+                      key={category.id}
+                      className={`category-bubble-item ${isActive ? 'active' : ''}`}
+                      onClick={() => handleCategoryClick(category)}
+                    >
+                      <div
+                        className="category-color-dot"
+                        style={{ backgroundColor: category.color || '#6366f1' }}
+                      />
+                      <div className="category-info">
+                        {/* {getCategoryIcon(getCategoryName(category.name))} */}
+                        <span className="category-name">{getCategoryName(category.name)}</span>
+                        <span className="category-count">
+                          {category.postCount || 0} {t('right.postsSuffix')}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="sidebar-accordion">
-          <button
-            type="button"
-            className="sidebar-accordion-header"
-            onClick={() => setPolicyExpanded((prev) => !prev)}
-            aria-expanded={policyExpanded}
-            aria-controls="sidebar-policy-section"
-          >
+        <div className="sidebar-section">
+          <div className="sidebar-section-header">
             <div className="sidebar-accordion-label">
               <FaShieldAlt className="accordion-leading-icon" />
               <span>{t('sidebar.policies')}</span>
             </div>
-            <FaChevronDown className={`sidebar-accordion-icon ${policyExpanded ? 'open' : ''}`} />
-          </button>
-          <div
-            id="sidebar-policy-section"
-            className={`sidebar-accordion-content ${policyExpanded ? 'expanded' : 'collapsed'}`}
-          >
-            <nav className="sidebar-nav">
-              <Link
-                to="/terms"
-                className={`nav-item ${location.pathname === '/terms' ? 'active' : ''}`}
-              >
-                <FaFileContract className="nav-icon" />
-                <span>{t('sidebar.terms')}</span>
-              </Link>
-              <Link
-                to="/privacy"
-                className={`nav-item ${location.pathname === '/privacy' ? 'active' : ''}`}
-              >
-                <FaShieldAlt className="nav-icon" />
-                <span>{t('sidebar.privacy')}</span>
-              </Link>
-            </nav>
           </div>
+          <nav className="sidebar-nav">
+            <Link
+              to="/terms"
+              className={`nav-item ${location.pathname === '/terms' ? 'active' : ''}`}
+              onClick={handleNavClick}
+            >
+              <FaFileContract className="nav-icon" />
+              <span>{t('sidebar.terms')}</span>
+            </Link>
+            <Link
+              to="/privacy"
+              className={`nav-item ${location.pathname === '/privacy' ? 'active' : ''}`}
+              onClick={handleNavClick}
+            >
+              <FaShieldAlt className="nav-icon" />
+              <span>{t('sidebar.privacy')}</span>
+            </Link>
+          </nav>
         </div>
       </div>
     </aside>
+  )
+
+  return (
+    <>
+      {/* 桌面端：直接渲染侧边栏内容 */}
+      {!isMobile && <SidebarContent />}
+      
+      {/* 移动端：使用Portal将侧边栏和覆盖层挂载到document.body，使其成为浏览器的直接子集 */}
+      {isMobile && createPortal(
+        <>
+          {/* 移动端侧边栏覆盖层 */}
+          <div 
+            className={`sidebar-overlay ${sidebarOpen ? 'visible' : ''}`} 
+            onClick={() => setSidebarOpen(false)}
+          ></div>
+          
+          {/* 移动端侧边栏内容 */}
+          <SidebarContent />
+        </>,
+        document.body
+      )}
+    </>
   )
 }
 

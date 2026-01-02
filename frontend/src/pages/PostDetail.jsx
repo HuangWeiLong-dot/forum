@@ -204,17 +204,17 @@ const PostDetail = () => {
           {post.content && (
             <div className="post-body">
               {post.content.split('\n').map((line, index) => {
-                // 检查是否是Markdown图片格式 ![alt](url)
-                const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/)
-                if (imageMatch) {
-                  const [, alt, url] = imageMatch
-                  // 处理图片URL
-                  let imageUrl = url
+                // 检查是否是Markdown媒体格式 ![alt](url)
+                const mediaMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/)
+                if (mediaMatch) {
+                  const [, alt, url] = mediaMatch
+                  // 处理媒体URL
+                  let mediaUrl = url
                   // 如果是相对路径 /uploads/xxx，需要转换为完整URL
                   if (url.startsWith('/uploads/')) {
                     // 开发环境：使用相对路径，通过 Vite 代理
                     if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
-                      imageUrl = url  // 直接使用相对路径，Vite 会代理
+                      mediaUrl = url  // 直接使用相对路径，Vite 会代理
                     } else {
                       // 生产环境：通过 URL 解析拿到正确的 origin，避免生成 https://uploads/...
                       const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -224,12 +224,12 @@ const PostDetail = () => {
                       } catch {
                         origin = window.location.origin
                       }
-                      imageUrl = `${origin}${url}`
+                      mediaUrl = `${origin}${url}`
                     }
                   } else if (!url.startsWith('http')) {
                     // 如果不是http开头也不是/uploads开头，可能是其他相对路径
                     if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
-                      imageUrl = url.startsWith('/') ? url : `/${url}`
+                      mediaUrl = url.startsWith('/') ? url : `/${url}`
                     } else {
                       const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
                       let origin
@@ -238,19 +238,57 @@ const PostDetail = () => {
                       } catch {
                         origin = window.location.origin
                       }
-                      imageUrl = `${origin}${url.startsWith('/') ? '' : '/'}${url}`
+                      mediaUrl = `${origin}${url.startsWith('/') ? '' : '/'}${url}`
                     }
                   }
-                  return (
-                    <div key={index} className="post-image-container">
-                      <img 
-                        src={imageUrl} 
-                        alt={alt || t('post.imageAlt')} 
-                        className="post-image"
-                        loading="lazy"
-                      />
-                    </div>
-                  )
+                  
+                  // 检查是否是音频文件
+                  const audioExtensions = /\.(mp3|wav|ogg|m4a|aac|flac)$/i
+                  if (audioExtensions.test(mediaUrl)) {
+                    // 从URL中提取文件名，去掉后缀
+                    const getFilenameFromUrl = (url) => {
+                      const cleanUrl = url.split('?')[0].split('#')[0]
+                      let filename = cleanUrl.split('/').pop()
+                      filename = decodeURIComponent(filename)
+                      // 去掉文件扩展名
+                      const filenameWithoutExt = filename.replace(/\.[^/.]+$/, '')
+                      return filenameWithoutExt
+                    }
+                    
+                    // 使用从URL提取的文件名作为标题，忽略alt文本
+                    const audioTitle = getFilenameFromUrl(url)
+                    
+                    // 音频文件，使用音频播放器
+                    return (
+                      <div key={index} className="post-audio-container">
+                        <audio 
+                          src={mediaUrl} 
+                          controls 
+                          className="post-audio-player"
+                          preload="metadata"
+                          onError={(e) => {
+                            console.error('音频加载失败:', mediaUrl)
+                            e.target.style.display = 'none'
+                          }}
+                        >
+                          您的浏览器不支持音频播放
+                        </audio>
+                        <div className="audio-caption">{audioTitle}</div>
+                      </div>
+                    )
+                  } else {
+                    // 图片文件，使用图片标签
+                    return (
+                      <div key={index} className="post-image-container">
+                        <img 
+                          src={mediaUrl} 
+                          alt={alt || t('post.imageAlt')} 
+                          className="post-image"
+                          loading="lazy"
+                        />
+                      </div>
+                    )
+                  }
                 }
                 // 普通文本行
                 if (line.trim()) {

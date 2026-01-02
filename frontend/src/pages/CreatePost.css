@@ -3,6 +3,14 @@
   max-width: 800px;
 }
 
+/* 桌面端让创建帖子页占据右侧所有区域 */
+@media (min-width: 769px) {
+  .create-post {
+    width: 100%;
+    max-width: none;
+  }
+}
+
 .create-post-card {
   background-color: transparent;
   border: none;

@@ -15,7 +15,7 @@ class UploadController {
       if (!req.file) {
         return res.status(400).json({
           error: 'NO_FILE',
-          message: '请选择要上传的图片',
+          message: '请选择要上传的文件',
         });
       }
 
@@ -23,7 +23,7 @@ class UploadController {
       const fileUrl = `/uploads/${req.file.filename}`;
 
       return res.status(200).json({
-        message: '图片上传成功',
+        message: '文件上传成功',
         url: fileUrl,
         filename: req.file.filename,
         size: req.file.size,
@@ -32,13 +32,13 @@ class UploadController {
       console.error('文件上传错误:', error);
       return res.status(500).json({
         error: 'UPLOAD_ERROR',
-        message: error.message || '图片上传失败',
+        message: error.message || '文件上传失败',
       });
     }
   }
 
   // 处理多个文件上传
-  static uploadMultiple = upload.array('images', 10); // 最多10张
+  static uploadMultiple = upload.array('files', 1); // 最多1个文件
 
   // 处理多文件上传响应
   static handleMultipleUpload(req, res) {
@@ -46,7 +46,7 @@ class UploadController {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({
           error: 'NO_FILES',
-          message: '请选择要上传的图片',
+          message: '请选择要上传的文件',
         });
       }
 
@@ -57,14 +57,14 @@ class UploadController {
       }));
 
       return res.status(200).json({
-        message: '图片上传成功',
+        message: '文件上传成功',
         files: files,
       });
     } catch (error) {
       console.error('文件上传错误:', error);
       return res.status(500).json({
         error: 'UPLOAD_ERROR',
-        message: error.message || '图片上传失败',
+        message: error.message || '文件上传失败',
       });
     }
   }

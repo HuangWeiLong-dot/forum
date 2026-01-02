@@ -9,35 +9,112 @@ import './Fixes.css'
 
 export const fixes = [
   {
+    date: '2026-01-02',
+    version: '1.10.0',
+    issue: 42,
+    translations: {
+      zh: {
+        title: '帖子卡片左右边距不一致',
+        description:
+          '修复帖子卡片左右边距不一致，确保内容完整显示。',
+        details: [
+          '帖子卡片左右两侧添加相同的内边距',
+          '修复日期容器超出卡片的问题',
+          '确保移动端和小屏幕也有一致的边距',
+          '修复用户资料页面的帖子卡片样式',
+          '确保日期和浏览次数完整显示',
+        ],
+      },
+      en: {
+        title: 'Post Card Inconsistent Padding',
+        description:
+          'Fixed inconsistent left-right padding on post cards for complete content display.',
+        details: [
+          'Added consistent padding to both sides of post cards',
+          'Fixed date container overflow issue',
+          'Ensured consistent padding on mobile and small screens',
+          'Fixed profile page post card styles',
+          'Ensured complete display of date and view counts',
+        ],
+      },
+      ja: {
+        title: '投稿カードの左右パディング不一致',
+        description:
+          '投稿カードの左右パディングの不一致を修正し、コンテンツを完全に表示できるようにしました。',
+        details: [
+          '投稿カードの左右両側に同じパディングを追加',
+          '日付コンテナのオーバーフロー問題を修正',
+          'モバイルおよび小さな画面でも一貫したパディングを確保',
+          'プロフィールページの投稿カードスタイルを修正',
+          '日付と閲覧数を完全に表示できるようにする',
+        ],
+      },
+    },
+  },
+  {
+    date: '2026-01-02',
+    version: '1.10.0',
+    issue: 43,
+    translations: {
+      zh: {
+        title: '音频文件名显示扩展名',
+        description:
+          '修复音频文件名显示完整扩展名的问题，只显示文件名，使界面更简洁。',
+        details: [
+          '修改文件名提取逻辑，自动去掉扩展名',
+          '确保首页和详情页都显示不带扩展名的文件名',
+        ],
+      },
+      en: {
+        title: 'Audio Filenames Showing Extensions',
+        description:
+          'Fixed audio filenames showing complete extensions, now displaying only filenames for cleaner interface.',
+        details: [
+          'Modified filename extraction logic to remove extensions',
+          'Ensured consistent display across homepage and detail pages',
+        ],
+      },
+      ja: {
+        title: 'オーディオファイル名の拡張子表示',
+        description:
+          'オーディオファイル名が完全な拡張子を表示する問題を修正し、インターフェースをよりシンプルにしました。',
+        details: [
+          'ファイル名抽出ロジックを修正し、拡張子を削除',
+          'ホームページと詳細ページで一貫して表示',
+        ],
+      },
+    },
+  },
+  {
     date: '2025-12-09',
     version: '1.9.5',
     issue: 41,
     translations: {
       zh: {
-        title: '部分页面骨架屏不显示',
+        title: '页面加载骨架屏优化',
         description:
-          '补齐 Home / Search 的 skeleton 样式，加载时有统一骨架占位，避免空白闪动。',
+          '为首页和搜索页添加统一的骨架屏样式，避免加载时空白闪烁。',
         details: [
-          '新增 skeleton 渐变与尺寸样式（sm/md/lg/fade），加入 shimmer 动画',
-          'Home / Search 加载时的骨架占位使用统一样式呈现',
+          '优化骨架屏渐变效果和尺寸样式',
+          '首页和搜索页加载时显示统一的骨架屏',
         ],
       },
       en: {
-        title: 'Skeleton loader missing on some pages',
+        title: 'Page Loading Skeleton Optimization',
         description:
-          'Added unified skeleton styles for Home/Search so loading states show proper placeholders.',
+          'Added consistent skeleton styles to Home and Search pages to prevent blank loading states.',
         details: [
-          'Added skeleton gradients and size presets (sm/md/lg/fade) with shimmer animation',
-          'Home/Search loading skeletons now render with consistent styling',
+          'Optimized skeleton gradients and size styles',
+          'Home and Search pages now show consistent skeleton loaders',
         ],
       },
       ja: {
-        title: '一部ページでスケルトンが表示されない',
+        title: 'ページローディングスケルトンの最適化',
         description:
-          'Home / Search にスケルトンのスタイルを追加し、読み込み中に適切なプレースホルダーを表示。',
+          'ホームページと検索ページに統一されたスケルトンスタイルを追加し、ロード時の空白を防ぎました。',
         details: [
-          'スケルトンのグラデーションとサイズ（sm/md/lg/fade）を追加し、シマーアニメーションを付与',
-          'Home/Search のロード時に統一されたスケルトンが表示されるように調整',
+          'スケルトンのグラデーションとサイズスタイルを最適化',
+          'ホームページと検索ページに統一されたスケルトンが表示されるように',
         ],
       },
     },
@@ -48,30 +125,30 @@ export const fixes = [
     issue: 40,
     translations: {
       zh: {
-        title: '移动端用户资料卡片左右贴边',
+        title: '移动端资料页边距优化',
         description:
-          '为移动端资料页增加左右内边距，避免内容贴边带来的视觉压迫。',
+          '为移动端资料页增加左右内边距，提升阅读舒适度。',
         details: [
-          '在 768px 断点为 .user-profile/.profile-header/.profile-content 增加横向 padding',
-          '保持卡片留白，提升移动端阅读舒适度',
+          '移动端资料页增加左右边距，避免内容贴边',
+          '优化卡片留白，提升视觉体验',
         ],
       },
       en: {
-        title: 'Mobile profile card too close to edges',
+        title: 'Mobile Profile Page Padding Optimization',
         description:
-          'Added horizontal padding on mobile profile page to avoid edge-clinging content.',
+          'Added side padding to mobile profile pages for better readability.',
         details: [
-          'Add horizontal padding to .user-profile/.profile-header/.profile-content at 768px breakpoint',
-          'Keep card whitespace for better readability on mobile',
+          'Added horizontal padding to mobile profile pages to avoid edge clinging',
+          'Optimized card whitespace for improved visual experience',
         ],
       },
       ja: {
-        title: 'モバイルのプロフィールカードが左右に密着',
+        title: 'モバイルプロフィールページの余白最適化',
         description:
-          'モバイルのプロフィールページに横方向の余白を追加し、圧迫感を解消しました。',
+          'モバイルのプロフィールページに横方向の余白を追加し、読みやすさを向上しました。',
         details: [
-          '768px ブレークポイントで .user-profile/.profile-header/.profile-content に横方向のパディングを追加',
-          'カードに余白を確保し、モバイルでの読みやすさを向上',
+          'モバイルプロフィールページに横方向のパディングを追加、端に貼り付くのを防止',
+          'カードの余白を最適化、視覚体験を向上',
         ],
       },
     },
@@ -82,33 +159,33 @@ export const fixes = [
     issue: 39,
     translations: {
       zh: {
-        title: '每日任务多端不同步，经验值/升级异常',
+        title: '每日任务多端同步修复',
         description:
-          '新增服务端每日任务表与接口，前端任务/经验同步；防重复领取，新增签到任务；所有任务奖励统一 +30。',
+          '修复每日任务多端不同步问题，新增签到功能，统一任务奖励。',
         details: [
-          '后端：新增 daily_tasks 表与 get/complete 接口，写入用户 exp，防重复领取',
-          '前端：DailyTasks 调用后端，测试账号保留本地兜底；新增签到任务；奖励统一 +30',
-          '同步经验到用户对象与本地缓存，经验条/等级即时更新',
+          '修复每日任务在多端同步问题，防止重复领取奖励',
+          '新增签到任务，所有任务奖励统一为+30经验值',
+          '经验值实时同步，等级和进度条即时更新',
         ],
       },
       en: {
-        title: 'Daily tasks desynced across devices, exp/level incorrect',
+        title: 'Daily Tasks Sync Fix',
         description:
-          'Added server-side daily task table/APIs and frontend sync; prevent double rewards; added check-in; all tasks now give +30 exp.',
+          'Fixed daily tasks desync across devices, added check-in feature, and unified task rewards.',
         details: [
-          'Backend: new daily_tasks table plus get/complete APIs, write user exp, prevent duplicate rewards',
-          'Frontend: DailyTasks calls backend with fallback for test accounts; added check-in task; rewards unified to +30',
-          'Sync exp to user object/local cache for instant progress/level updates',
+          'Fixed daily tasks syncing across devices, preventing duplicate rewards',
+          'Added check-in task, all tasks now give +30 exp',
+          'Real-time exp sync with instant level and progress updates',
         ],
       },
       ja: {
-        title: 'デイリータスクが端末間で同期せず、経験値/レベルが不正',
+        title: 'デイリータスクの同期修復',
         description:
-          'サーバー側のデイリータスク表とAPIを追加し、フロントで同期。二重受取防止、チェックイン追加、報酬は+30に統一。',
+          'デイリータスクが端末間で同期しない問題を修復し、チェックイン機能を追加、タスク報酬を統一。',
         details: [
-          'バックエンド: daily_tasks テーブルと get/complete API を追加し、ユーザーexpへ書き込み、重複受取を防止',
-          'フロント: DailyTasks はバックエンドを呼び出し、テストアカウントにはローカルフォールバックを保持。チェックインを追加し、報酬を+30に統一',
-          'exp をユーザーオブジェクトとローカルキャッシュへ同期し、進捗とレベルを即時更新',
+          'デイリータスクの端末間同期問題を修復、重複報酬を防止',
+          'チェックインタスクを追加、すべてのタスク報酬を+30に統一',
+          '経験値のリアルタイム同期、レベルと進捗を即時更新',
         ],
       },
     },
@@ -119,36 +196,33 @@ export const fixes = [
     issue: 38,
     translations: {
       zh: {
-        title: 'VITE_ENABLE_TEST_LOGIN 环境变量逻辑不正确',
+        title: '测试登录功能优化',
         description:
-          '修复测试登录环境变量的逻辑，确保只在开发/测试环境中生效，且必须明确设置为 true 才能启用。',
+          '修复测试登录环境变量逻辑，确保只在开发/测试环境中生效。',
         details: [
-          '修改逻辑：只有在开发/测试环境中，且 VITE_ENABLE_TEST_LOGIN 明确设置为 true 时才启用测试登录',
-          '在生产环境中，无论设置什么值都禁用测试登录',
-          '更新 AuthContext 和 Header 组件中的测试登录检查逻辑',
-          '添加调试信息帮助诊断问题',
+          '测试登录功能仅在开发/测试环境中可用',
+          '必须明确设置为true才能启用测试登录',
+          '生产环境中自动禁用测试登录',
         ],
       },
       en: {
-        title: 'VITE_ENABLE_TEST_LOGIN Environment Variable Logic Incorrect',
+        title: 'Test Login Function Optimization',
         description:
-          'Fixed the logic for test login environment variable, ensuring it only works in development/test environments and must be explicitly set to true to enable.',
+          'Fixed test login environment variable logic, ensuring it only works in development/test environments.',
         details: [
-          'Modified logic: Only enable test login in development/test environments when VITE_ENABLE_TEST_LOGIN is explicitly set to true',
-          'In production environment, disable test login regardless of the value set',
-          'Updated test login check logic in AuthContext and Header components',
-          'Added debug information to help diagnose issues',
+          'Test login only available in development/test environments',
+          'Must be explicitly set to true to enable test login',
+          'Automatically disabled in production environment',
         ],
       },
       ja: {
-        title: 'VITE_ENABLE_TEST_LOGIN 環境変数のロジックが正しくない',
+        title: 'テストログイン機能の最適化',
         description:
-          'テストログイン環境変数のロジックを修正し、開発/テスト環境でのみ有効になり、明示的に true に設定する必要があることを確認しました。',
+          'テストログイン環境変数のロジックを修正し、開発/テスト環境でのみ有効になるようにしました。',
         details: [
-          'ロジックを変更：開発/テスト環境でのみ、VITE_ENABLE_TEST_LOGIN が明示的に true に設定されている場合にテストログインを有効化',
-          '本番環境では、設定された値に関係なくテストログインを無効化',
-          'AuthContext と Header コンポーネントのテストログインチェックロジックを更新',
-          '問題の診断を支援するデバッグ情報を追加',
+          'テストログインは開発/テスト環境でのみ使用可能',
+          'テストログインを有効にするには明示的にtrueに設定する必要があります',
+          '本番環境では自動的に無効化',
         ],
       },
     },
@@ -159,36 +233,33 @@ export const fixes = [
     issue: 37,
     translations: {
       zh: {
-        title: '响应式设备上用户名、称号和编辑按钮间距冲突',
+        title: '移动端资料页按钮间距优化',
         description:
-          '修复移动端用户资料页面中用户名、称号和编辑资料按钮之间的间距问题，确保布局清晰易读。',
+          '修复移动端用户资料页面中用户名、称号和编辑按钮的间距问题。',
         details: [
-          '增加 profile-username-row 的 gap 从 0.75rem 到 1rem',
-          '为 profile-username-wrapper 添加底部间距',
-          '为 edit-profile-button 添加顶部间距',
-          '确保在 768px 和 480px 断点都应用这些修复',
+          '增加用户名、称号和编辑按钮之间的间距',
+          '优化移动端布局，确保清晰易读',
+          '适配不同屏幕尺寸',
         ],
       },
       en: {
-        title: 'Username, Tag and Edit Button Spacing Conflict on Responsive Devices',
+        title: 'Mobile Profile Page Button Spacing Optimization',
         description:
-          'Fixed spacing issues between username, tag and edit profile button on mobile user profile page, ensuring clear and readable layout.',
+          'Fixed spacing issues between username, tag and edit button on mobile user profile page.',
         details: [
-          'Increased profile-username-row gap from 0.75rem to 1rem',
-          'Added bottom margin to profile-username-wrapper',
-          'Added top margin to edit-profile-button',
-          'Applied these fixes at both 768px and 480px breakpoints',
+          'Increased spacing between username, tag and edit button',
+          'Optimized mobile layout for better readability',
+          'Adapted to different screen sizes',
         ],
       },
       ja: {
-        title: 'レスポンシブデバイスでのユーザー名、称号、編集ボタンの間隔の競合',
+        title: 'モバイルプロフィールページのボタン間隔最適化',
         description:
-          'モバイルユーザープロフィールページでユーザー名、称号、プロフィール編集ボタン間の間隔の問題を修正し、明確で読みやすいレイアウトを確保しました。',
+          'モバイルユーザープロフィールページでのユーザー名、称号、編集ボタンの間隔問題を修正しました。',
         details: [
-          'profile-username-row の gap を 0.75rem から 1rem に増加',
-          'profile-username-wrapper に下部マージンを追加',
-          'edit-profile-button に上部マージンを追加',
-          '768px と 480px の両方のブレークポイントでこれらの修正を適用',
+          'ユーザー名、称号、編集ボタンの間隔を増加',
+          'モバイルレイアウトを最適化、読みやすさを向上',
+          '異なる画面サイズに対応',
         ],
       },
     },
@@ -199,36 +270,33 @@ export const fixes = [
     issue: 36,
     translations: {
       zh: {
-        title: '编辑资料时请求参数验证失败',
+        title: '编辑资料保存问题修复',
         description:
-          '修复点击编辑资料保存按钮后报错"请求参数验证失败"的问题，确保可以正常保存资料修改。',
+          '修复点击编辑资料保存按钮后报错的问题，确保可以正常保存资料修改。',
         details: [
-          '后端：修改 validateUpdateProfile 验证规则，使用自定义验证函数，允许空值字段',
-          '前端：只发送有变化的字段，空值转换为 null，避免发送未修改的数据',
-          '如果没有字段被修改，直接关闭弹窗，不发送请求',
-          '确保空值字段可以正常处理',
+          '修复请求参数验证失败问题',
+          '支持空值字段保存',
+          '优化请求逻辑，只发送有变化的字段',
         ],
       },
       en: {
-        title: 'Request Parameter Validation Failed When Editing Profile',
+        title: 'Edit Profile Save Issue Fix',
         description:
-          'Fixed the "Request parameter validation failed" error when clicking save button in edit profile, ensuring profile modifications can be saved normally.',
+          'Fixed the error when clicking save button in edit profile, ensuring profile modifications can be saved normally.',
         details: [
-          'Backend: Modified validateUpdateProfile validation rules, using custom validation functions to allow null value fields',
-          'Frontend: Only send changed fields, convert empty values to null, avoid sending unmodified data',
-          'If no fields are modified, close modal directly without sending request',
-          'Ensure null value fields can be processed normally',
+          'Fixed request parameter validation failure',
+          'Support saving null value fields',
+          'Optimized request logic to only send changed fields',
         ],
       },
       ja: {
-        title: 'プロフィール編集時のリクエストパラメータ検証エラー',
+        title: 'プロフィール編集保存問題の修復',
         description:
-          'プロフィール編集で保存ボタンをクリックした際の「リクエストパラメータ検証エラー」を修正し、プロフィールの変更を正常に保存できるようにしました。',
+          'プロフィール編集で保存ボタンをクリックした際のエラーを修正し、プロフィールの変更を正常に保存できるようにしました。',
         details: [
-          'バックエンド：validateUpdateProfile 検証ルールを修正し、カスタム検証関数を使用して null 値フィールドを許可',
-          'フロントエンド：変更されたフィールドのみを送信し、空の値を null に変換して未変更のデータを送信しない',
-          'フィールドが変更されていない場合、リクエストを送信せずにモーダルを直接閉じる',
-          'null 値フィールドが正常に処理されることを保証',
+          'リクエストパラメータ検証エラーを修正',
+          'null値フィールドの保存をサポート',
+          'リクエストロジックを最適化、変更されたフィールドのみ送信',
         ],
       },
     },
@@ -239,36 +307,33 @@ export const fixes = [
     issue: 35,
     translations: {
       zh: {
-        title: 'startsWith 方法调用错误',
+        title: '字符串方法调用错误修复',
         description:
-          '修复用户界面报错 "s.startsWith is not a function" 的问题，确保所有字符串方法调用前都进行类型转换。',
+          '修复用户界面出现的 "s.startsWith is not a function" 错误，确保所有字符串方法调用正常。',
         details: [
-          '在所有调用 startsWith 方法前，使用 String() 将值转换为字符串',
-          '修复 AuthContext、LoginModal、RegisterModal 等组件中的类型转换问题',
-          '修复 UserProfile、dailyTasks、api、EditProfileModal 中的 startsWith 调用',
-          '确保所有字符串方法调用前都进行类型转换，防止类似错误',
+          '修复字符串方法调用前的类型转换问题',
+          '确保所有组件中的字符串方法调用正常',
+          '防止类似类型错误再次发生',
         ],
       },
       en: {
-        title: 'startsWith Method Call Error',
+        title: 'String Method Call Error Fix',
         description:
-          'Fixed the "s.startsWith is not a function" error in user interface, ensuring all string method calls perform type conversion before execution.',
+          'Fixed the "s.startsWith is not a function" error in user interface, ensuring proper string method calls.',
         details: [
-          'Use String() to convert values to strings before calling startsWith method',
-          'Fixed type conversion issues in AuthContext, LoginModal, RegisterModal components',
-          'Fixed startsWith calls in UserProfile, dailyTasks, api, EditProfileModal',
-          'Ensure all string method calls perform type conversion to prevent similar errors',
+          'Fixed type conversion issues before string method calls',
+          'Ensured proper string method functionality across all components',
+          'Prevented similar type errors from occurring again',
         ],
       },
       ja: {
-        title: 'startsWith メソッド呼び出しエラー',
+        title: '文字列メソッド呼び出しエラーの修正',
         description:
-          'ユーザーインターフェースで発生する "s.startsWith is not a function" エラーを修正し、すべての文字列メソッド呼び出し前に型変換を実行するようにしました。',
+          'ユーザーインターフェースの "s.startsWith is not a function" エラーを修正し、正しい文字列メソッド呼び出しを確保しました。',
         details: [
-          'startsWith メソッドを呼び出す前に、String() を使用して値を文字列に変換',
-          'AuthContext、LoginModal、RegisterModal などのコンポーネントの型変換問題を修正',
-          'UserProfile、dailyTasks、api、EditProfileModal の startsWith 呼び出しを修正',
-          'すべての文字列メソッド呼び出し前に型変換を実行し、類似のエラーを防止',
+          '文字列メソッド呼び出し前の型変換問題を修正',
+          'すべてのコンポーネントで正しい文字列メソッド機能を確保',
+          '類似の型エラーが再発するのを防止',
         ],
       },
     },
@@ -279,36 +344,36 @@ export const fixes = [
     issue: 34,
     translations: {
       zh: {
-        title: '经验值条显示不正确',
+        title: '经验值条显示优化',
         description:
-          '修复当数据库修改用户等级后，用户资料页面的经验值条仍然显示旧经验值的问题，确保经验值从服务器实时获取。',
+          '修复经验值条显示不正确的问题，确保经验值从服务器实时获取并正确显示。',
         details: [
-          '修改 getUserExp 函数优先使用用户对象中的 exp，而不是从 localStorage 读取',
-          '修复 UserProfile 组件中的经验值获取逻辑，确保正确显示用户等级和经验值',
-          '70级用户现在正确显示满级状态（100%进度条）',
+          '经验值条现在显示实时更新的经验值',
+          '70级用户正确显示满级状态（100%进度条）',
+          '优化用户资料页面的经验值获取逻辑',
           '经验值从服务器实时获取，不再使用本地缓存',
         ],
       },
       en: {
-        title: 'Experience Progress Bar Display Incorrect',
+        title: 'Experience Progress Bar Display Optimization',
         description:
-          'Fixed the issue where the experience progress bar still displayed old experience values after modifying user level in database, ensuring experience values are fetched in real-time from server.',
+          'Fixed experience progress bar display issues, ensuring experience values are fetched in real-time from server and displayed correctly.',
         details: [
-          'Modified getUserExp function to prioritize exp from user object instead of reading from localStorage',
-          'Fixed experience value retrieval logic in UserProfile component to correctly display user level and exp',
-          'Level 70 users now correctly display max level status (100% progress bar)',
-          'Experience values are fetched in real-time from server, no longer using local cache',
+          'Experience bar now shows real-time updated experience values',
+          'Level 70 users correctly display max level status (100% progress bar)',
+          'Optimized experience value retrieval logic for user profile pages',
+          'Experience values fetched in real-time from server, no longer using local cache',
         ],
       },
       ja: {
-        title: '経験値プログレスバーの表示が正しくない',
+        title: '経験値プログレスバーの表示最適化',
         description:
-          'データベースでユーザーレベルを変更した後、ユーザープロフィールページの経験値プログレスバーが古い経験値を表示し続ける問題を修正し、経験値をサーバーからリアルタイムで取得するようにしました。',
+          '経験値プログレスバーの表示問題を修正し、経験値がサーバーからリアルタイムで取得され正しく表示されるようにしました。',
         details: [
-          'getUserExp 関数を修正し、localStorage から読み取るのではなく、ユーザーオブジェクトの exp を優先的に使用',
-          'UserProfile コンポーネントの経験値取得ロジックを修正し、ユーザーレベルと経験値を正しく表示',
-          '70レベルのユーザーは、満レベル状態（100%プログレスバー）を正しく表示',
-          '経験値はサーバーからリアルタイムで取得され、ローカルキャッシュを使用しない',
+          '経験値バーはリアルタイムで更新された経験値を表示',
+          '70レベルのユーザーは満レベル状態（100%プログレスバー）を正しく表示',
+          'ユーザープロフィールページの経験値取得ロジックを最適化',
+          '経験値はサーバーからリアルタイムで取得、ローカルキャッシュを使用しない',
         ],
       },
     },
@@ -319,36 +384,36 @@ export const fixes = [
     issue: 33,
     translations: {
       zh: {
-        title: '帖子中作者等级不更新',
+        title: '帖子作者等级更新修复',
         description:
-          '修复当数据库修改用户等级后，已发布帖子中显示的作者等级没有更新的问题，确保帖子中的作者信息实时更新。',
+          '修复已发布帖子中作者等级不更新的问题，确保帖子显示最新的作者信息。',
         details: [
-          '后端 Post 模型在查询帖子时包含作者的 exp 和 tag 字段',
-          '添加向后兼容性处理，数据库迁移未执行时自动回退到基本查询',
-          '修复 PostCard 和 PostDetail 组件，确保正确显示作者等级',
+          '帖子中显示最新的作者等级和经验值',
+          '修复 PostCard 和 PostDetail 组件，正确显示作者等级',
           '使用帖子作者的经验值，而不是当前登录用户的经验值',
+          '添加向后兼容性处理，确保数据库迁移未执行时也能正常显示',
         ],
       },
       en: {
-        title: 'Author Level Not Updating in Posts',
+        title: 'Post Author Level Update Fix',
         description:
-          'Fixed the issue where author level displayed in published posts did not update after modifying user level in database, ensuring author information in posts updates in real-time.',
+          'Fixed author level not updating in published posts, ensuring posts display the latest author information.',
         details: [
-          'Backend Post model now includes author exp and tag fields when querying posts',
-          'Added backward compatibility handling, automatically fallback to basic queries when database migration not executed',
+          'Posts now show the latest author level and experience',
           'Fixed PostCard and PostDetail components to correctly display author level',
-          'Use post author experience value instead of current logged-in user experience value',
+          'Uses post authors experience instead of current users experience',
+          'Added backward compatibility to ensure normal display when database migration not executed',
         ],
       },
       ja: {
-        title: '投稿内の作成者レベルが更新されない',
+        title: '投稿内の作成者レベル更新修復',
         description:
-          'データベースでユーザーレベルを変更した後、公開された投稿に表示される作成者レベルが更新されない問題を修正し、投稿内の作成者情報がリアルタイムで更新されるようにしました。',
+          '公開された投稿に表示される作成者レベルが更新されない問題を修正し、投稿に最新の作成者情報が表示されるようにしました。',
         details: [
-          'バックエンド Post モデルが投稿をクエリする際に、作成者の exp と tag フィールドを含める',
-          '後方互換性処理を追加し、データベース移行が実行されていない場合に基本クエリに自動的にフォールバック',
-          'PostCard と PostDetail コンポーネントを修正し、作成者レベルを正しく表示',
-          '現在ログインしているユーザーの経験値ではなく、投稿作成者の経験値を使用',
+          '投稿に最新の作成者レベルと経験値を表示',
+          'PostCard と PostDetail コンポーネントを修正、作成者レベルを正しく表示',
+          '現在のユーザーの経験値ではなく、投稿作成者の経験値を使用',
+          'データベース移行が実行されていない場合でも正常に表示できるように後方互換性を追加',
         ],
       },
     },
@@ -359,36 +424,36 @@ export const fixes = [
     issue: 32,
     translations: {
       zh: {
-        title: '编辑资料弹窗中访问 null 对象的 daysRemaining 属性导致错误',
+        title: '编辑资料弹窗错误修复',
         description:
-          '修复点击编辑资料按钮时出现的 "Cannot read properties of null (reading \'daysRemaining\')" 错误。',
+          '修复点击编辑资料按钮时出现的错误，确保弹窗正常显示和功能正常。',
         details: [
-          '在访问 daysRemaining 属性前添加对象存在性检查',
-          '在 useEffect 中添加错误处理，确保计算失败时设置默认值',
-          '当用户数据为 null 时，重置状态为 null',
-          '确保编辑资料弹窗正常显示和功能正常',
+          '修复访问 null 对象属性导致的错误',
+          '添加对象存在性检查，防止类似错误再次发生',
+          '优化错误处理，确保计算失败时设置默认值',
+          '确保编辑资料弹窗正常显示和使用',
         ],
       },
       en: {
-        title: 'Error Accessing daysRemaining Property of Null Object in Edit Profile Modal',
+        title: 'Edit Profile Modal Error Fix',
         description:
-          'Fixed the "Cannot read properties of null (reading \'daysRemaining\')" error when clicking the edit profile button.',
+          'Fixed the error when clicking the edit profile button, ensuring the modal displays and functions correctly.',
         details: [
-          'Added object existence check before accessing daysRemaining property',
-          'Added error handling in useEffect to set default values when calculation fails',
-          'Reset state to null when user data is null',
+          'Fixed error caused by accessing null object properties',
+          'Added object existence checks to prevent similar errors',
+          'Optimized error handling to set default values when calculation fails',
           'Ensured edit profile modal displays and functions correctly',
         ],
       },
       ja: {
-        title: 'プロフィール編集モーダルで null オブジェクトの daysRemaining プロパティにアクセスする際のエラー',
+        title: 'プロフィール編集モーダルエラーの修復',
         description:
-          'プロフィール編集ボタンをクリックした際に発生する "Cannot read properties of null (reading \'daysRemaining\')" エラーを修正しました。',
+          'プロフィール編集ボタンをクリックした際のエラーを修正し、モーダルが正常に表示され機能するようにしました。',
         details: [
-          'daysRemaining プロパティにアクセスする前にオブジェクトの存在チェックを追加',
-          'useEffect にエラーハンドリングを追加し、計算が失敗した場合にデフォルト値を設定',
-          'ユーザーデータが null の場合、状態を null にリセット',
-          'プロフィール編集モーダルが正常に表示され、機能することを保証',
+          'null オブジェクトのプロパティにアクセスすることで発生するエラーを修正',
+          'オブジェクトの存在チェックを追加、類似エラーを防止',
+          'エラーハンドリングを最適化、計算が失敗した場合にデフォルト値を設定',
+          'プロフィール編集モーダルが正常に表示され機能することを保証',
         ],
       },
     },
@@ -399,36 +464,36 @@ export const fixes = [
     issue: 31,
     translations: {
       zh: {
-        title: '登录后刷新页面自动退出登录和用户资料显示"用户不存在"',
+        title: '登录状态保持与用户资料访问修复',
         description:
-          '修复登录后刷新页面自动退出登录的问题，以及登录后点击"我的资料"显示"用户不存在"的错误。',
+          '修复登录后刷新页面自动退出登录的问题，以及访问用户资料时显示"用户不存在"的错误。',
         details: [
-          '修复 startsWith 方法调用错误，确保 id 和 token 在调用前转换为字符串',
-          '修改错误处理逻辑，只有 401/403 错误才清除登录状态，500 错误不清除',
-          '后端添加向后兼容性，数据库迁移未执行时自动回退到基本查询',
-          '修复用户资料查询失败的问题，确保即使数据库迁移未执行也能正常显示',
+          '修复登录状态在页面刷新后丢失的问题',
+          '修复访问用户资料时出现的"用户不存在"错误',
+          '优化错误处理逻辑，避免误清除登录状态',
+          '添加向后兼容性处理，确保数据库迁移未执行时也能正常显示',
         ],
       },
       en: {
-        title: 'Auto Logout After Page Refresh and "User Not Found" Error',
+        title: 'Login State Persistence and User Profile Access Fix',
         description:
-          'Fixed the issue where users are automatically logged out after page refresh, and the "User not found" error when accessing profile page.',
+          'Fixed auto-logout after page refresh and "User not found" error when accessing profile page.',
         details: [
-          'Fixed startsWith method call error by converting id and token to strings before calling',
-          'Modified error handling logic to only clear login state on 401/403 errors, not on 500 errors',
-          'Added backward compatibility to backend, automatically fallback to basic queries when database migration not executed',
-          'Fixed user profile query failure, ensuring normal display even when database migration not executed',
+          'Fixed login state being lost after page refresh',
+          'Fixed "User not found" error when accessing user profile',
+          'Optimized error handling to avoid accidental login state clearing',
+          'Added backward compatibility for normal display when database migration not executed',
         ],
       },
       ja: {
-        title: 'ページリフレッシュ後の自動ログアウトと「ユーザーが見つかりません」エラー',
+        title: 'ログイン状態の保持とユーザープロフィールアクセスの修復',
         description:
-          'ページリフレッシュ後に自動的にログアウトされる問題と、プロフィールページにアクセスした際の「ユーザーが見つかりません」エラーを修正しました。',
+          'ページリフレッシュ後の自動ログアウトとプロフィールページアクセス時の「ユーザーが見つかりません」エラーを修正しました。',
         details: [
-          'startsWith メソッド呼び出しエラーを修正し、呼び出し前に id と token を文字列に変換',
-          'エラー処理ロジックを変更し、401/403 エラーのみでログイン状態をクリア、500 エラーではクリアしない',
-          'バックエンドに後方互換性を追加し、データベース移行が実行されていない場合に基本クエリに自動的にフォールバック',
-          'ユーザープロフィールクエリの失敗を修正し、データベース移行が実行されていなくても正常に表示されることを保証',
+          'ページリフレッシュ後にログイン状態が失われる問題を修正',
+          'ユーザープロフィールアクセス時の「ユーザーが見つかりません」エラーを修正',
+          '誤ったログイン状態のクリアを回避するためにエラーハンドリングを最適化',
+          'データベース移行が実行されていない場合に正常に表示できるように後方互換性を追加',
         ],
       },
     },
@@ -439,30 +504,30 @@ export const fixes = [
     issue: 30,
     translations: {
       zh: {
-        title: '问题修复页面日期标签渐变背景样式',
+        title: '问题修复页面日期标签样式优化',
         description:
-          '优化问题修复页面"最新修复"旁边日期标签的背景样式，将渐变背景改为淡红色纯色背景。',
+          '优化问题修复页面日期标签的背景样式，提升视觉效果。',
         details: [
-          '日期标签背景从渐变改为淡红色纯色背景，视觉效果更简洁统一',
-          '保持其他样式不变，仅优化背景颜色',
+          '将日期标签背景从渐变改为淡红色纯色背景',
+          '视觉效果更简洁统一，保持其他样式不变',
         ],
       },
       en: {
-        title: 'Fixes Page Date Label Gradient Background Style',
+        title: 'Fixes Page Date Label Style Optimization',
         description:
-          'Optimized the background style of the date label next to "Latest Fixes" on the fixes page, changed from gradient to light red solid background.',
+          'Optimized the background style of date labels on the fixes page for better visual effect.',
         details: [
-          'Date label background changed from gradient to light red solid background for cleaner, more unified visual effect',
-          'Other styles remain unchanged, only background color optimized',
+          'Changed date label background from gradient to light red solid color',
+          'Cleaner, more unified visual effect, other styles remain unchanged',
         ],
       },
       ja: {
-        title: '問題修正ページの日付ラベルのグラデーション背景スタイル',
+        title: '問題修正ページの日付ラベルスタイルの最適化',
         description:
-          '問題修正ページの「最新修正」の横の日付ラベルの背景スタイルを最適化し、グラデーション背景を淡い赤の単色背景に変更しました。',
+          '問題修正ページの日付ラベルの背景スタイルを最適化し、視覚効果を向上させました。',
         details: [
-          '日付ラベルの背景をグラデーションから淡い赤の単色背景に変更し、視覚効果をよりシンプルで統一されたものに',
-          '他のスタイルは変更せず、背景色のみを最適化',
+          '日付ラベルの背景をグラデーションから淡い赤の単色背景に変更',
+          'よりシンプルで統一された視覚効果、他のスタイルは変更なし',
         ],
       },
     },

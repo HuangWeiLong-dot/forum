@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
 import { userAPI, postAPI } from '../services/api'
 import PostCard from '../components/PostCard'
 import EditProfileModal from '../components/EditProfileModal'
-import { FaTrash, FaEdit } from 'react-icons/fa'
+import { FaTrash, FaEdit, FaSignOutAlt } from 'react-icons/fa'
 import { isOfficialTag, getOfficialTagText } from '../utils/tagUtils'
 import { getUserExp } from '../utils/dailyTasks'
 import { getLevelFromExp } from '../utils/levelSystem'
@@ -17,13 +17,19 @@ import './UserProfile.css'
 
 const UserProfile = () => {
   const { userId } = useParams()
-  const { user: currentUser, isAuthenticated } = useAuth()
+  const { user: currentUser, isAuthenticated, logout } = useAuth()
   const { t, language } = useLanguage()
+  const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(null)
   const [showEditModal, setShowEditModal] = useState(false)
+  
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+  }
 
   useEffect(() => {
     fetchUserData()
@@ -289,14 +295,24 @@ const UserProfile = () => {
               )}
             </div>
             {isOwnProfile && (
-              <button
-                className="edit-profile-button"
-                onClick={() => setShowEditModal(true)}
-                title={t('profile.edit.title')}
-              >
-                <FaEdit />
-                <span>{t('profile.edit.button')}</span>
-              </button>
+              <div className="profile-actions">
+                <button
+                  className="edit-profile-button"
+                  onClick={() => setShowEditModal(true)}
+                  title={t('profile.edit.title')}
+                >
+                  <FaEdit />
+                  <span>{t('profile.edit.button')}</span>
+                </button>
+                <button
+                  className="logout-button"
+                  onClick={handleLogout}
+                  title={t('header.logout')}
+                >
+                  <FaSignOutAlt />
+                  <span>{t('header.logout')}</span>
+                </button>
+              </div>
             )}
           </div>
           {user.bio && <p className="profile-bio">{user.bio}</p>}

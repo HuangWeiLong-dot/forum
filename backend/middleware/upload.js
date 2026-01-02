@@ -25,26 +25,12 @@ const storage = multer.diskStorage({
   },
 });
 
-// 文件过滤器：只允许图片
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif|webp/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb(new Error('只允许上传图片文件（JPEG、PNG、GIF、WebP）'));
-  }
-};
-
 // 配置 multer
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
+    fileSize: 30 * 1024 * 1024, // 30MB
   },
-  fileFilter: fileFilter,
 });
 
 export default upload;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { Link } from 'react-router-dom'
-import { FaBell, FaTimes } from 'react-icons/fa'
+import { Link, useLocation } from 'react-router-dom'
+import { FaEnvelope, FaTimes } from 'react-icons/fa'
 import { formatDistanceToNow } from 'date-fns'
 import zhCN from 'date-fns/locale/zh-CN'
 import enUS from 'date-fns/locale/en-US'
@@ -20,6 +20,7 @@ const formatLocale = {
 const Inbox = ({ showLabel = false }) => {
   const { isAuthenticated } = useAuth()
   const { t, language } = useLanguage()
+  const location = useLocation()
   const [showDropdown, setShowDropdown] = useState(false)
   const [notifications, setNotifications] = useState([])
   const [unreadCount, setUnreadCount] = useState(0)
@@ -275,21 +276,39 @@ const Inbox = ({ showLabel = false }) => {
   )
 
   return (
-    <div className={`inbox-container ${showLabel ? 'with-label' : ''}`}>
-      <button
-        className={`inbox-button ${showLabel ? 'with-label' : ''}`}
-        onClick={() => setShowDropdown(!showDropdown)}
-        title={t('header.inbox') || '通知'}
-        aria-label={t('header.inbox') || '通知'}
-      >
-        {showLabel && <span className="inbox-button-label">{t('header.inbox')}</span>}
-        <FaBell />
-        {unreadCount > 0 && (
-          <span className={`inbox-badge ${showLabel ? 'inline' : ''}`}>
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </span>
-        )}
-      </button>
+    <>
+      {isMobile ? (
+        // 移动端底部导航栏样式
+        <button
+          className={`actions-toggle-button ${location.pathname === '/inbox' ? 'active' : ''}`}
+          onClick={() => setShowDropdown(!showDropdown)}
+          title={t('bottomNav.inbox') || '通知'}
+          aria-label={t('bottomNav.inbox') || '通知'}
+        >
+          <FaEnvelope />
+          {unreadCount > 0 && (
+            <span className="inbox-badge">
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </span>
+          )}
+          <span className="actions-toggle-label">{t('bottomNav.inbox')}</span>
+        </button>
+      ) : (
+        // 桌面端header按钮样式 - 与其他工具按钮保持一致，只显示图标
+        <button
+          className="inbox-button"
+          onClick={() => setShowDropdown(!showDropdown)}
+          title={t('header.inbox') || '通知'}
+          aria-label={t('header.inbox') || '通知'}
+        >
+          <FaEnvelope />
+          {unreadCount > 0 && (
+            <span className="inbox-badge">
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </span>
+          )}
+        </button>
+      )}
 
       {showDropdown &&
         (isMobile
@@ -302,7 +321,7 @@ const Inbox = ({ showLabel = false }) => {
               document.body
             )
           : dropdownPanel)}
-    </div>
+    </>
   )
 }
 

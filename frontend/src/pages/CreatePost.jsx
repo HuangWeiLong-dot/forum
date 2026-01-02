@@ -17,7 +17,7 @@ const CreatePost = () => {
     categoryId: '',
     tags: '',
   })
-  const [images, setImages] = useState([])
+  const [files, setFiles] = useState([])
   const [error, setError] = useState('')
   const [errorKey, setErrorKey] = useState(null) // 存储错误键而不是翻译后的文本
   const [submitting, setSubmitting] = useState(false)
@@ -47,35 +47,92 @@ const CreatePost = () => {
     })
   }
 
+  // 上传单个图片到服务器
+  const uploadImage = async (file) => {
+    const formData = new FormData()
+    formData.append('image', file)
+
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || '/api'}/upload/image`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: formData,
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || '上传失败')
+    }
+
+    const data = await response.json()
+    // 确保URL是完整的
+    let imageUrl = data.url
+    if (imageUrl.startsWith('/uploads/')) {
+      // 开发环境：使用相对路径，通过 Vite 代理
+      if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
+        imageUrl = data.url  // 直接使用相对路径，Vite 会代理
+      } else {
+        // 生产环境：根据 API 基础地址解析出 origin，避免出现 "https://uploads" 之类的错误
+        const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
+        let origin
+        try {
+          origin = new URL(apiBase, window.location.origin).origin
+        } catch {
+          origin = window.location.origin
+        }
+        imageUrl = `${origin}${data.url}`
+      }
+    }
+    
+    return imageUrl
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
 
-    if (!formData.title || !formData.content || !formData.categoryId) {
+    if (!formData.title || !formData.categoryId) {
       setError(t('create.errorRequired'))
       return
     }
 
     setSubmitting(true)
     try {
-      // 将图片URL插入到内容中
-      let contentWithImages = formData.content.trim()
-      if (images.length > 0) {
-        const imageUrls = images
-          .filter(img => img.url) // 只包含已上传的图片
-          .map(img => `![图片](${img.url})`)
+      // 先上传所有文件
+      let uploadedFileUrls = []
+      if (files.length > 0) {
+        uploadedFileUrls = await Promise.all(
+          files.map(file => uploadImage(file.file))
+        )
+      }
+
+      // 将文件URL插入到内容中
+      let contentWithFiles = formData.content.trim()
+      if (uploadedFileUrls.length > 0) {
+        const fileUrls = uploadedFileUrls
+          .map(url => {
+            const file = files[uploadedFileUrls.indexOf(url)]
+            if (file.type.startsWith('image/')) {
+              // 图片文件，使用图片标记
+              return `![${file.name}](${url})`
+            } else {
+              // 非图片文件，使用链接
+              return `[${file.name}](${url})`
+            }
+          })
           .join('\n\n')
         
-        if (imageUrls) {
-          contentWithImages = contentWithImages 
-            ? `${contentWithImages}\n\n${imageUrls}`
-            : imageUrls
+        if (fileUrls) {
+          contentWithFiles = contentWithFiles 
+            ? `${contentWithFiles}\n\n${fileUrls}`
+            : fileUrls
         }
       }
 
       const postData = {
         title: formData.title.trim(),
-        content: contentWithImages,
+        content: contentWithFiles,
         categoryId: parseInt(formData.categoryId, 10),
         tags: formData.tags
           ? formData.tags
@@ -159,7 +216,7 @@ const CreatePost = () => {
               value={formData.title}
               onChange={handleChange}
               required
-              minLength={5}
+              minLength={1}
               maxLength={200}
               placeholder={t('create.placeholderTitle')}
               className="form-input"
@@ -192,8 +249,7 @@ const CreatePost = () => {
               name="content"
               value={formData.content}
               onChange={handleChange}
-              required
-              minLength={10}
+              minLength={0}
               rows={10}
               placeholder={t('create.placeholderContent')}
               className="form-textarea"
@@ -202,9 +258,9 @@ const CreatePost = () => {
 
           <div className="form-group">
             <ImageUpload
-              images={images}
-              onChange={setImages}
-              maxImages={10}
+              images={files}
+              onChange={setFiles}
+              maxImages={1}
             />
           </div>
 

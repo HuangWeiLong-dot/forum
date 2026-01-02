@@ -447,7 +447,40 @@ CMD ["node", "server.js"]
   return posts
 }
 
-export const mockPosts = generateMockPosts()
+// 生成带音频的假帖子数据
+export const generateMockAudioPost = () => {
+  const category = mockCategories[0] // 技术讨论分类
+  const author = mockUsers[0] // 开发者小明
+  
+  return {
+    id: 26,
+    title: '音频示例帖子：测试音频播放功能',
+    content: `# 音频测试帖子\n\n这是一个测试音频播放功能的示例帖子。\n\n## 测试音频文件\n\n以下是一个音频文件，您可以直接在首页播放：\n\n![音频文件](/test/04 Sierra Leone.m4a)\n\n## 音频功能说明\n\n- 支持多种音频格式：MP3、WAV、OGG、M4A、AAC、FLAC\n- 可以直接在首页帖子卡片中播放\n- 无需进入帖子详情页\n- 支持播放、暂停、音量控制\n- 支持进度条拖动\n\n希望您喜欢这个功能！`,
+    excerpt: '这是一个测试音频播放功能的示例帖子。以下是一个音频文件，您可以直接在首页播放...',
+    author: {
+      id: author.id,
+      username: author.username,
+      avatar: author.avatar,
+      tag: author.tag || '',
+    },
+    category: {
+      id: category.id,
+      name: category.name,
+      description: category.description,
+      color: category.color,
+    },
+    tags: [mockTags[0], mockTags[1]], // React 和 Vue 标签
+    viewCount: 156,
+    commentCount: 23,
+    likeCount: 42,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    liked: false,
+  }
+}
+
+// 生成假帖子数据并添加音频帖子
+export const mockPosts = [...generateMockPosts(), generateMockAudioPost()];
 
 // 模拟帖子API
 export const mockPostAPI = {

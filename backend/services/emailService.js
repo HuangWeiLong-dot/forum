@@ -195,36 +195,58 @@ class EmailService {
       const postUrl = `${postUrlBase}/post/${postId}`;
       const previewText = excerpt ? excerpt.slice(0, 160) : '点击查看详情';
 
-      const results = await Promise.allSettled(
-        recipients.map(async ({ email, username }) => {
-          const displayName = username || 'REForum 用户';
-          const { error } = await resend.emails.send({
-            from: 'REForum <noreply@reforum.space>',
-            to: email,
-            subject: `${authorUsername} 发布了新帖子：${postTitle}`,
-            html: `
-              <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; padding: 20px;">
-                <p style="color: #6b7280; font-size: 12px; margin: 0 0 12px;">${previewText}</p>
-                <h1 style="color: #111827; font-size: 22px; margin: 0 0 16px;">${postTitle}</h1>
-                <p style="color: #374151; margin: 0 0 16px;">您好，${displayName}！</p>
-                <p style="color: #374151; margin: 0 0 16px;">${authorUsername} 刚刚发布了新的帖子，快来看看：</p>
-                <div style="margin: 12px 0 20px;">
-                  <a href="${postUrl}" style="display: inline-block; padding: 12px 20px; background-color: #2563eb; color: #fff; text-decoration: none; border-radius: 6px;">查看帖子</a>
-                </div>
-                ${excerpt ? `<p style="color: #4b5563; margin: 0 0 12px;">${excerpt}</p>` : ''}
-                <p style="color: #6b7280; font-size: 12px; margin-top: 24px;">如果按钮无法点击，请复制链接到浏览器：<br /><span style="word-break: break-all;">${postUrl}</span></p>
-                <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
-                <p style="color: #9ca3af; font-size: 12px;">此邮件由 REForum 系统自动发送，请勿回复。</p>
-              </div>
-            `,
-          });
+      // 实现请求节流，确保每秒最多发送2个请求
+      const sendEmailWithThrottle = async () => {
+        const results = [];
+        // 将收件人分成每批2个
+        for (let i = 0; i < recipients.length; i += 2) {
+          const batch = recipients.slice(i, i + 2);
+          // 并行发送当前批次的邮件
+          const batchResults = await Promise.allSettled(
+            batch.map(async ({ email, username }) => {
+              const displayName = username || 'REForum 用户';
+              try {
+                const { error } = await resend.emails.send({
+                  from: 'REForum <noreply@reforum.space>',
+                  to: email,
+                  subject: `${authorUsername} 发布了新帖子：${postTitle}`,
+                  html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; padding: 20px;">
+                      <p style="color: #6b7280; font-size: 12px; margin: 0 0 12px;">${previewText}</p>
+                      <h1 style="color: #111827; font-size: 22px; margin: 0 0 16px;">${postTitle}</h1>
+                      <p style="color: #374151; margin: 0 0 16px;">您好，${displayName}！</p>
+                      <p style="color: #374151; margin: 0 0 16px;">${authorUsername} 刚刚发布了新的帖子，快来看看：</p>
+                      <div style="margin: 12px 0 20px;">
+                        <a href="${postUrl}" style="display: inline-block; padding: 12px 20px; background-color: #2563eb; color: #fff; text-decoration: none; border-radius: 6px;">查看帖子</a>
+                      </div>
+                      ${excerpt ? `<p style="color: #4b5563; margin: 0 0 12px;">${excerpt}</p>` : ''}
+                      <p style="color: #6b7280; font-size: 12px; margin-top: 24px;">如果按钮无法点击，请复制链接到浏览器：<br /><span style="word-break: break-all;">${postUrl}</span></p>
+                      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
+                      <p style="color: #9ca3af; font-size: 12px;">此邮件由 REForum 系统自动发送，请勿回复。</p>
+                    </div>
+                  `,
+                });
 
-          if (error) {
-            throw new Error(error.message || '发送失败');
+                if (error) {
+                  throw new Error(error.message || '发送失败');
+                }
+                return { status: 'fulfilled' };
+              } catch (error) {
+                return { status: 'rejected', reason: error };
+              }
+            })
+          );
+          results.push(...batchResults);
+          
+          // 如果不是最后一批，等待1秒后再发送下一批
+          if (i + 2 < recipients.length) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
           }
-        })
-      );
+        }
+        return results;
+      };
 
+      const results = await sendEmailWithThrottle();
       const successCount = results.filter(r => r.status === 'fulfilled').length;
       const failureCount = results.length - successCount;
 

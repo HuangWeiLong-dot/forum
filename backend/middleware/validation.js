@@ -118,12 +118,11 @@ export const validateUpdateProfile = [
 export const validateCreatePost = [
   body('title')
     .trim()
-    .isLength({ min: 5, max: 200 })
-    .withMessage('标题长度必须在5-200个字符之间'),
+    .isLength({ min: 1, max: 200 })
+    .withMessage('标题长度必须在1-200个字符之间'),
   body('content')
-    .trim()
-    .isLength({ min: 10 })
-    .withMessage('内容长度至少为10个字符'),
+    .optional()
+    .trim(),
   body('categoryId')
     .custom((value) => {
       const num = parseInt(value, 10);
@@ -154,13 +153,11 @@ export const validateUpdatePost = [
   body('title')
     .optional()
     .trim()
-    .isLength({ min: 5, max: 200 })
-    .withMessage('标题长度必须在5-200个字符之间'),
+    .isLength({ min: 1, max: 200 })
+    .withMessage('标题长度必须在1-200个字符之间'),
   body('content')
     .optional()
-    .trim()
-    .isLength({ min: 10 })
-    .withMessage('内容长度至少为10个字符'),
+    .trim(),
   body('categoryId')
     .optional()
     .isInt({ min: 1 })

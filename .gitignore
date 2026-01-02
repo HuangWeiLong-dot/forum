@@ -44,5 +44,9 @@ docker-compose.override.yml
 backend/uploads/
 uploads/
 
+# Test directories
+frontend/public/test/
+test/
+
 
 

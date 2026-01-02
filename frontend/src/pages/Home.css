@@ -37,7 +37,8 @@
 
 .home-page {
   flex: 1;
-  max-width: 800px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .posts-header {
@@ -88,6 +89,23 @@
 .posts-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+/* 确保日历容器占据整个宽度 */
+.calendar-container {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+/* 确保日历网格占据整个宽度 */
+.calendar-grid {
+  width: 100%;
+}
+
+/* 确保日历天数容器占据整个宽度 */
+.calendar-days {
+  width: 100%;
 }
 
 .loading,

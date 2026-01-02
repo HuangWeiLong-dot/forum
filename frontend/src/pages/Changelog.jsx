@@ -12,59 +12,110 @@ import './Fixes.css'
 const changelogCopy = {
   zh: {
     title: '更新日志',
-    intro: '这里记录了 REForum 每一次迭代。我们会持续改进社区体验，欢迎关注。',
-    footer: '感谢使用 REForum！如有建议，欢迎通过“联系我们”页面反馈。',
+    intro: '这里记录了 REForum 的每次更新，我们会持续改进社区体验。',
+    footer: '感谢使用 REForum！如有建议，欢迎反馈。',
   },
   en: {
     title: 'Changelog',
-    intro:
-      'Every notable change in REForum is documented here. Thanks for following our progress.',
-    footer: 'Thanks for being here! Reach out via Contact if you spot issues or have ideas.',
+    intro: 'All REForum updates are documented here. We continuously improve the community experience.',
+    footer: 'Thanks for using REForum! Feel free to provide feedback.',
   },
   ja: {
     title: '更新履歴',
-    intro: 'REForum のアップデート内容をここにまとめています。これからも改善を続けます。',
-    footer: 'いつもご利用ありがとうございます。ご意見は「お問い合わせ」からお寄せください。',
+    intro: 'REForum の更新内容をまとめています。コミュニティ体験を継続的に改善します。',
+    footer: 'REForum をご利用いただきありがとうございます！ご意見はお寄せください。',
   },
 }
 
 const updates = [
+  {
+    date: '2026-01-02',
+    version: '1.10.0',
+    type: 'update',
+    translations: {
+      zh: {
+        title: '音频功能优化与布局修复',
+        description:
+          '优化音频播放体验，修复帖子布局，改进移动端侧边栏和文件上传功能。',
+        details: [
+          '支持多种音频格式，可直接在首页播放，无需进入详情页',
+          '音频文件名自动去掉扩展名，界面更简洁',
+          '移动端侧边栏从左侧滑出，覆盖整个屏幕',
+          '修复帖子左右边距不一致问题',
+          '只有发布帖子时才上传文件，支持所有文件类型，最大30MB',
+          '标题只需至少1个字符，内容可选',
+          '优化邮件发送，避免速率限制问题',
+          '修复帖子日期显示不完整问题',
+        ],
+      },
+      en: {
+        title: 'Audio Feature Optimization and Layout Fixes',
+        description:
+          'Improved audio playback, fixed post layouts, enhanced mobile sidebar and file upload functionality.',
+        details: [
+          'Supports multiple audio formats, playable directly on homepage',
+          'Audio filenames display without extensions for cleaner interface',
+          'Mobile sidebar slides from left, covering entire screen',
+          'Fixed inconsistent post padding',
+          'Files upload only when publishing posts, supports all file types, max 30MB',
+          'Title needs only 1 character, content is optional',
+          'Optimized email sending to avoid rate limits',
+          'Fixed incomplete date display on posts',
+        ],
+      },
+      ja: {
+        title: 'オーディオ機能最適化とレイアウト修正',
+        description:
+          'オーディオ再生体験を最適化、投稿レイアウトを修正、モバイルサイドバーとファイルアップロード機能を改善しました。',
+        details: [
+          '複数のオーディオ形式をサポート、ホームページで直接再生可能',
+          'オーディオファイル名から拡張子を削除、インターフェースをシンプルに',
+          'モバイルサイドバーが左からスライドし、画面全体を覆う',
+          '投稿の左右パディングを修正',
+          '投稿公開時にのみファイルをアップロード、すべてのファイル形式をサポート、最大30MB',
+          'タイトルは1文字以上、内容は任意',
+          'メール送信を最適化、レート制限を回避',
+          '投稿の日付表示が完全になるよう修正',
+        ],
+      },
+    },
+  },
   {
     date: '2025-12-09',
     version: '1.9.5',
     type: 'fix',
     translations: {
       zh: {
-        title: '每日任务多端同步、签到与骨架屏补齐',
+        title: '每日任务多端同步与签到功能',
         description:
-          '新增每日任务服务端同步与签到任务，所有任务奖励统一 +30；补齐列表/搜索骨架屏，移动端资料页留白更舒适；迁移文档精简为 Docker 执行版。',
+          '新增每日任务和签到功能，所有任务奖励统一为+30经验值；优化页面加载效果和移动端显示。',
         details: [
-          '后端新增 daily_tasks 表与接口，写入经验、防止重复领取；前端 DailyTasks 调用后端，测试账号保留本地兜底',
-          '新增签到任务，发布/点赞/评论/签到奖励均为 +30，并即时同步经验到用户对象',
-          '补齐 Home/Search 的骨架屏样式，加载中有统一占位；移动端资料卡片增加左右内边距避免贴边',
-          '迁移指南精简为 Docker 场景，新增 v1.9.5 脚本（add_daily_tasks_table.sql）',
+          '新增签到任务，发布帖子、点赞、评论和签到均可获得+30经验值',
+          '每日任务数据在多端同步，防止重复领取奖励',
+          '优化首页和搜索页加载骨架屏，提升视觉体验',
+          '移动端资料页增加左右边距，避免内容贴边',
         ],
       },
       en: {
-        title: 'Daily task sync, check-in, and skeletons completed',
+        title: 'Daily Tasks Sync and Check-in Feature',
         description:
-          'Added server-synced daily tasks with check-in; unified rewards to +30; filled list/search skeletons; added mobile padding; migration guide simplified to Docker.',
+          'Added daily tasks and check-in feature with unified +30 exp rewards; improved loading effects and mobile display.',
         details: [
-          'Backend daily_tasks table + APIs write exp and prevent double rewards; frontend DailyTasks calls backend with test-user fallback',
-          'Added check-in task; post/like/comment/check-in all grant +30 exp with instant sync to user object',
-          'Completed skeleton styles for Home/Search loading; added horizontal padding to mobile profile card to avoid edge clinging',
-          'Migration guide trimmed to Docker-only and includes v1.9.5 script add_daily_tasks_table.sql',
+          'Added check-in task, post/like/comment/check-in all grant +30 exp',
+          'Daily tasks sync across devices, preventing duplicate rewards',
+          'Improved Home and Search page loading skeletons for better visual experience',
+          'Added side padding to mobile profile pages to avoid edge clinging',
         ],
       },
       ja: {
-        title: 'デイリータスク同期・チェックイン・スケルトン補完',
+        title: 'デイリータスク同期とチェックイン機能',
         description:
-          'デイリータスクをサーバー同期しチェックインを追加、報酬を+30に統一。リスト/検索のスケルトンを整備し、モバイルに余白を追加。移行ガイドは Docker に簡素化。',
+          'デイリータスクとチェックイン機能を追加、全てのタスク報酬を+30経験値に統一。ローディング効果とモバイル表示を改善。',
         details: [
-          'バックエンドの daily_tasks テーブルと API で経験値を書き込み重複受取を防止。フロントは DailyTasks でバックエンドを呼び出し、テストユーザーはローカルフォールバック',
-          'チェックインを追加し、投稿/いいね/コメント/チェックインは全て +30 の報酬で即時同期',
-          'Home/Search のスケルトンスタイルを整備し、読み込み中に統一プレースホルダーを表示。モバイルプロフィールカードに横余白を追加し、縁への密着を防止',
-          '移行ガイドを Docker 専用に簡素化し、v1.9.5 の add_daily_tasks_table.sql を追記',
+          'チェックインタスクを追加、投稿/いいね/コメント/チェックインで+30経験値獲得',
+          'デイリータスクはデバイス間で同期、重複報酬を防止',
+          'ホームページと検索ページのローディングスケルトンを改善',
+          'モバイルプロフィールページに余白を追加、端に貼り付くのを防止',
         ],
       },
     },
@@ -75,39 +126,36 @@ const updates = [
     type: 'fix',
     translations: {
       zh: {
-        title: '编辑资料验证和响应式布局修复',
+        title: '编辑资料验证和布局优化',
         description:
-          '修复编辑资料时请求参数验证失败、响应式设备上布局间距冲突以及测试登录环境变量逻辑问题。',
+          '修复编辑资料时的验证问题和响应式布局间距冲突，优化测试登录功能。',
         details: [
-          '修复编辑资料时请求参数验证失败问题：优化后端验证规则，允许空值字段',
-          '前端只发送有变化的字段，空值转换为 null，避免发送未修改的数据',
-          '修复响应式设备上用户名、称号和编辑按钮间距冲突问题',
-          '修复 VITE_ENABLE_TEST_LOGIN 环境变量逻辑，确保只在测试环境中生效',
-          '添加调试信息帮助诊断测试登录问题',
+          '修复编辑资料时保存失败的问题，支持空值字段',
+          '优化编辑资料请求，只发送有变化的字段',
+          '修复移动端用户名、称号和编辑按钮的间距问题',
+          '优化测试登录功能，确保只在测试环境中生效',
         ],
       },
       en: {
-        title: 'Edit Profile Validation and Responsive Layout Fix',
+        title: 'Edit Profile Validation and Layout Optimization',
         description:
-          'Fixed request parameter validation failure when editing profile, layout spacing conflicts on responsive devices, and test login environment variable logic issues.',
+          'Fixed profile editing validation issues and responsive layout spacing conflicts, optimized test login functionality.',
         details: [
-          'Fixed request parameter validation failure when editing profile: Optimized backend validation rules to allow null value fields',
-          'Frontend only sends changed fields, converts empty values to null, avoids sending unmodified data',
-          'Fixed spacing conflicts between username, tag and edit button on responsive devices',
-          'Fixed VITE_ENABLE_TEST_LOGIN environment variable logic to ensure it only works in test environments',
-          'Added debug information to help diagnose test login issues',
+          'Fixed profile save failure issues, supporting null value fields',
+          'Optimized profile editing requests to only send changed fields',
+          'Fixed spacing issues between username, tag and edit button on mobile',
+          'Optimized test login to only work in test environments',
         ],
       },
       ja: {
-        title: 'プロフィール編集検証とレスポンシブレイアウトの修正',
+        title: 'プロフィール編集検証とレイアウト最適化',
         description:
-          'プロフィール編集時のリクエストパラメータ検証エラー、レスポンシブデバイスでのレイアウト間隔の競合、テストログイン環境変数のロジックの問題を修正しました。',
+          'プロフィール編集時の検証問題とレスポンシブレイアウトの間隔競合を修正、テストログイン機能を最適化。',
         details: [
-          'プロフィール編集時のリクエストパラメータ検証エラーを修正：バックエンド検証ルールを最適化し、null 値フィールドを許可',
-          'フロントエンドは変更されたフィールドのみを送信し、空の値を null に変換して未変更のデータを送信しない',
-          'レスポンシブデバイスでのユーザー名、称号、編集ボタン間の間隔の競合を修正',
-          'VITE_ENABLE_TEST_LOGIN 環境変数のロジックを修正し、テスト環境でのみ機能することを保証',
-          'テストログインの問題を診断するためのデバッグ情報を追加',
+          'プロフィール保存失敗の問題を修正、null値フィールドをサポート',
+          'プロフィール編集リクエストを最適化、変更されたフィールドのみ送信',
+          'モバイル端末でのユーザー名、称号、編集ボタンの間隔問題を修正',
+          'テストログインをテスト環境でのみ機能するよう最適化',
         ],
       },
     },
@@ -118,36 +166,33 @@ const updates = [
     type: 'fix',
     translations: {
       zh: {
-        title: 'startsWith 方法调用错误修复',
+        title: '字符串方法调用错误修复',
         description:
-          '修复用户界面报错 "s.startsWith is not a function" 的问题，确保所有字符串方法调用前都进行类型转换。',
+          '修复用户界面出现的 "s.startsWith is not a function" 错误，确保所有字符串方法调用前都进行类型转换。',
         details: [
-          '在所有调用 startsWith 方法前，使用 String() 将值转换为字符串',
-          '修复 AuthContext、LoginModal、RegisterModal 等组件中的类型转换问题',
-          '修复 UserProfile、dailyTasks、api、EditProfileModal 中的 startsWith 调用',
-          '确保所有字符串方法调用前都进行类型转换，防止类似错误',
+          '修复字符串方法调用前的类型转换问题',
+          '确保所有组件中的字符串方法调用正常',
+          '防止类似类型错误再次发生',
         ],
       },
       en: {
-        title: 'startsWith Method Call Error Fix',
+        title: 'String Method Call Error Fix',
         description:
-          'Fixed the "s.startsWith is not a function" error in user interface, ensuring all string method calls perform type conversion before execution.',
+          'Fixed the "s.startsWith is not a function" error in user interface by ensuring proper type conversion before string method calls.',
         details: [
-          'Use String() to convert values to strings before calling startsWith method',
-          'Fixed type conversion issues in AuthContext, LoginModal, RegisterModal components',
-          'Fixed startsWith calls in UserProfile, dailyTasks, api, EditProfileModal',
-          'Ensure all string method calls perform type conversion to prevent similar errors',
+          'Fixed type conversion issues before string method calls',
+          'Ensured proper string method functionality across all components',
+          'Prevented similar type errors from occurring again',
         ],
       },
       ja: {
-        title: 'startsWith メソッド呼び出しエラーの修正',
+        title: '文字列メソッド呼び出しエラーの修正',
         description:
-          'ユーザーインターフェースで発生する "s.startsWith is not a function" エラーを修正し、すべての文字列メソッド呼び出し前に型変換を実行するようにしました。',
+          'ユーザーインターフェースの "s.startsWith is not a function" エラーを修正し、文字列メソッド呼び出し前に適切な型変換を実行するようにしました。',
         details: [
-          'startsWith メソッドを呼び出す前に、String() を使用して値を文字列に変換',
-          'AuthContext、LoginModal、RegisterModal などのコンポーネントの型変換問題を修正',
-          'UserProfile、dailyTasks、api、EditProfileModal の startsWith 呼び出しを修正',
-          'すべての文字列メソッド呼び出し前に型変換を実行し、類似のエラーを防止',
+          '文字列メソッド呼び出し前の型変換問題を修正',
+          'すべてのコンポーネントで正しい文字列メソッド機能を確保',
+          '類似の型エラーが再発するのを防止',
         ],
       },
     },
@@ -160,37 +205,34 @@ const updates = [
       zh: {
         title: '帖子作者等级和经验值显示修复',
         description:
-          '修复帖子中作者等级不更新和经验值条显示不正确的问题，确保用户等级和经验值从服务器实时获取并正确显示。',
+          '修复帖子中作者等级不更新和经验值条显示不正确的问题，确保等级和经验值实时更新。',
         details: [
-          '修复帖子中作者等级不更新问题：后端Post模型在查询帖子时包含作者的exp和tag字段',
-          '添加向后兼容性处理，数据库迁移未执行时自动回退到基本查询',
-          '修复经验值条显示不正确问题：修改getUserExp函数优先使用用户对象中的exp',
-          '修复PostCard和PostDetail组件，确保正确显示作者等级和经验值',
+          '修复帖子中作者等级不更新的问题，实时显示最新等级',
+          '修复经验值条显示问题，确保进度条正确反映经验值',
           '70级用户现在正确显示满级状态（100%进度条）',
+          '优化PostCard和PostDetail组件，正确显示作者等级和经验值',
         ],
       },
       en: {
         title: 'Post Author Level and Experience Display Fix',
         description:
-          'Fixed issues where author level in posts did not update and experience progress bar displayed incorrectly, ensuring user level and experience values are fetched in real-time from server and displayed correctly.',
+          'Fixed issues where author level in posts did not update and experience progress bar displayed incorrectly, ensuring real-time updates.',
         details: [
-          'Fixed author level not updating in posts: Backend Post model now includes author exp and tag fields when querying posts',
-          'Added backward compatibility handling, automatically fallback to basic queries when database migration not executed',
-          'Fixed experience progress bar display issue: Modified getUserExp function to prioritize exp from user object',
-          'Fixed PostCard and PostDetail components to correctly display author level and experience values',
+          'Fixed author level not updating in posts, now showing latest level in real-time',
+          'Fixed experience progress bar display to correctly reflect experience values',
           'Level 70 users now correctly display max level status (100% progress bar)',
+          'Optimized PostCard and PostDetail components for accurate level and exp display',
         ],
       },
       ja: {
         title: '投稿作成者レベルと経験値表示の修正',
         description:
-          '投稿内の作成者レベルが更新されない問題と経験値プログレスバーの表示が正しくない問題を修正し、ユーザーレベルと経験値がサーバーからリアルタイムで取得され、正しく表示されるようにしました。',
+          '投稿内の作成者レベルが更新されない問題と経験値プログレスバーの表示が正しくない問題を修正し、リアルタイムで更新されるようにしました。',
         details: [
-          '投稿内の作成者レベルが更新されない問題を修正：バックエンドPostモデルが投稿をクエリする際に作成者のexpとtagフィールドを含める',
-          '後方互換性処理を追加し、データベース移行が実行されていない場合に基本クエリに自動的にフォールバック',
-          '経験値プログレスバーの表示が正しくない問題を修正：getUserExp関数を修正し、ユーザーオブジェクトのexpを優先的に使用',
-          'PostCardとPostDetailコンポーネントを修正し、作成者レベルと経験値を正しく表示',
+          '投稿内の作成者レベルが更新されない問題を修正、最新レベルをリアルタイム表示',
+          '経験値プログレスバーの表示を修正、経験値を正しく反映',
           '70レベルのユーザーは、満レベル状態（100%プログレスバー）を正しく表示',
+          'PostCardとPostDetailコンポーネントを最適化、正確なレベルと経験値表示',
         ],
       },
     },
@@ -201,63 +243,48 @@ const updates = [
     type: 'update',
     translations: {
       zh: {
-        title: 'PWA支持、用户资料页面重新设计、等级系统与经验值功能',
+        title: 'PWA支持、用户资料全新设计与等级系统',
         description:
-          '完整实现PWA功能，重新设计用户资料页面布局，新增用户等级系统、经验值系统、用户标签功能、每日任务系统和获赞数统计。',
+          '实现PWA功能，重新设计用户资料页面，新增等级系统、经验值和每日任务功能。',
         details: [
-          '完整实现PWA（渐进式Web应用）功能，支持安装到主屏幕、离线访问、自动更新',
-          '新增PWA安装提示组件，智能提示用户安装，支持多语言，用户可选择安装或稍后提醒',
-          '配置Service Worker自动更新和离线缓存策略，提升用户体验',
-          '用户资料页面采用左右分栏布局，左侧显示头像、等级和经验进度条，右侧显示用户名、称号、简介和统计数据',
+          '支持PWA安装到主屏幕，离线访问和自动更新',
+          '用户资料页面采用全新左右分栏布局，展示等级和经验进度',
           '新增1-70级等级系统，每10级一个颜色区间，70级显示彩虹渐变动画',
-          '实现经验值系统，用户通过每日任务获得经验值，经验进度条实时显示升级进度',
-          '新增用户标签/称号功能，用户可以自定义标签，支持特殊"官方"标签样式',
-          '经验进度条在桌面端从左侧延伸到右侧，显示当前经验进度和到下一级所需经验',
-          '新增每日任务系统（发布帖子、点赞、评论），每个任务完成获得5经验值',
-          '统计数据通过手风琴组件展示，默认收起，点击展开查看',
-          '新增获赞数统计，统计用户所有帖子收到的点赞总数',
-          '完善头像上传和用户简介编辑功能',
-          '后端API新增经验值和获赞数字段，创建数据库迁移脚本',
+          '经验值系统：通过发布帖子、点赞、评论获得经验值，实时显示升级进度',
+          '用户标签/称号功能，支持自定义和特殊"官方"标签样式',
+          '新增每日任务系统，完成任务获得经验值',
+          '新增获赞数统计，显示用户所有帖子收到的点赞总数',
+          '优化头像上传和用户简介编辑功能',
         ],
       },
       en: {
-        title: 'PWA Support, User Profile Redesign, Level System & Experience Points',
+        title: 'PWA Support, User Profile Redesign & Level System',
         description:
-          'Full PWA implementation, redesigned user profile layout, added level system, experience points, user tags, daily tasks, and received likes statistics.',
+          'Implemented PWA functionality, redesigned user profile, and added level system, experience points, and daily tasks.',
         details: [
-          'Full PWA (Progressive Web App) implementation with install to home screen, offline access, and auto-update support',
-          'Added PWA install prompt component with smart prompting, multi-language support, user can choose to install or dismiss',
-          'Configured Service Worker auto-update and offline caching strategies for better user experience',
-          'User profile page uses left-right column layout: avatar, level, and exp progress on left; username, tag, bio, and stats on right',
-          'Added 1-70 level system with color ranges every 10 levels, level 70 displays rainbow gradient animation',
-          'Implemented experience point system: users gain exp through daily tasks, progress bar shows upgrade progress',
-          'Added user tag/title feature: users can customize tags with special "official" tag styling',
-          'Experience progress bar extends from left to right on desktop, showing current progress and exp needed for next level',
-          'Added daily task system (post, like, comment), each task completion grants 5 exp',
-          'Statistics displayed in accordion component, collapsed by default, click to expand',
-          'Added received likes statistics, counting total likes received on all user posts',
+          'PWA support with install to home screen, offline access, and auto-updates',
+          'Redesigned user profile with left-right column layout showing level and experience progress',
+          '1-70 level system with color-coded ranges, level 70 displays rainbow animation',
+          'Experience points system: gain exp through posting, liking, and commenting, with real-time progress display',
+          'User tags/title feature with custom and special "official" tag styles',
+          'Added daily task system with exp rewards',
+          'New received likes statistics showing total likes across all posts',
           'Enhanced avatar upload and bio editing functionality',
-          'Backend API added exp and receivedLikes fields, created database migration script',
         ],
       },
       ja: {
-        title: 'PWAサポート・ユーザープロフィールページの再設計・レベルシステム・経験値機能',
+        title: 'PWAサポート・ユーザープロフィールの再設計・レベルシステム',
         description:
-          'PWA機能を完全実装し、ユーザープロフィールページのレイアウトを再設計し、レベルシステム、経験値システム、ユーザータグ機能、デイリータスクシステム、受信いいね統計を追加しました。',
+          'PWA機能を実装、ユーザープロフィールを再設計、レベルシステム、経験値、デイリータスクを追加しました。',
         details: [
-          'PWA（プログレッシブWebアプリ）機能を完全実装、ホーム画面へのインストール、オフラインアクセス、自動更新をサポート',
-          'PWAインストールプロンプトコンポーネントを追加、スマートなプロンプト、多言語対応、ユーザーはインストールまたは後でを選択可能',
-          'Service Workerの自動更新とオフラインキャッシュ戦略を設定し、ユーザー体験を向上',
-          'ユーザープロフィールページは左右カラムレイアウト：左側にアバター、レベル、経験値プログレスバー、右側にユーザー名、タグ、自己紹介、統計データ',
-          '1-70レベルのレベルシステムを追加、10レベルごとに色の範囲があり、70レベルは虹グラデーションアニメーションを表示',
-          '経験値システムを実装：ユーザーはデイリータスクで経験値を獲得、プログレスバーがアップグレード進捗を表示',
-          'ユーザータグ/称号機能を追加：ユーザーはタグをカスタマイズでき、特別な「公式」タグスタイルをサポート',
-          '経験値プログレスバーはデスクトップで左から右に延び、現在の進捗と次のレベルに必要な経験値を表示',
-          'デイリータスクシステム（投稿、いいね、コメント）を追加、各タスク完了で5経験値を獲得',
-          '統計データはアコーディオンコンポーネントで表示、デフォルトで折りたたみ、クリックで展開',
-          '受信いいね統計を追加、ユーザーのすべての投稿で受け取ったいいねの合計をカウント',
+          'ホーム画面へのインストール、オフラインアクセス、自動更新をサポートするPWA機能',
+          'レベルと経験値の進行状況を表示する左右カラムレイアウトの新しいユーザープロフィール',
+          '1-70レベルのレベルシステム、10レベルごとに色分け、70レベルは虹グラデーションアニメーション',
+          '投稿、いいね、コメントで経験値を獲得し、リアルタイムで進捗を表示する経験値システム',
+          'カスタムと特別な"公式"タグスタイルをサポートするユーザータグ/称号機能',
+          '経験値報酬付きのデイリータスクシステムを追加',
+          'すべての投稿で受け取ったいいねの合計を表示する新しい統計',
           'アバターアップロードと自己紹介編集機能を強化',
-          'バックエンドAPIに経験値と受信いいねフィールドを追加、データベース移行スクリプトを作成',
         ],
       },
     },
@@ -1785,7 +1812,7 @@ const Changelog = () => {
       {latestItem && (
         <div className="changelog-latest">
           <div className="changelog-latest-header">
-          <h2 className="changelog-latest-title">{latestLabel.title}</h2>
+            <h2 className="changelog-latest-title">{latestLabel.title}</h2>
             {latestFormattedDate && (
               <span className="changelog-latest-date" title={latestItem.date}>
                 {latestFormattedDate}
