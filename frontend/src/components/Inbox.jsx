@@ -282,15 +282,6 @@ const Inbox = ({ showLabel = false }) => {
                     </div>
                   </div>
                   <div className="inbox-item-actions">
-                    {!notification.is_read && (
-                      <button
-                        className="inbox-item-mark-read"
-                        onClick={(e) => handleMarkAsRead(notification.id, e)}
-                        title={t('header.markAsRead') || '标记为已读'}
-                      >
-                        <FaTimes />
-                      </button>
-                    )}
                     <button
                       className="inbox-item-delete"
                       onClick={(e) => handleDelete(notification.id, e)}

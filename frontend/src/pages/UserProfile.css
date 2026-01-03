@@ -453,7 +453,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
+    margin-bottom: 0;
     width: 100%;
   }
 
@@ -466,7 +467,8 @@
   }
 
   .edit-profile-button,
-  .change-password-button {
+  .change-password-button,
+  .logout-button {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -485,24 +487,18 @@
     justify-content: center;
   }
   
+  .edit-profile-button {
+    background: var(--primary-color, #2563eb);
+    color: white;
+  }
+
+  .change-password-button {
+    background: var(--secondary-color, #64748b);
+    color: white;
+  }
+
   .logout-button {
     grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1.25rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    height: 3rem;
-    min-height: 3rem;
-    line-height: 1;
-    width: 100%;
-    justify-content: center;
     background: var(--primary-dark, #1e40af);
     color: white;
   }
@@ -513,7 +509,26 @@
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
   }
 
+  .edit-profile-button:hover {
+    background: var(--primary-color-hover, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
+  .change-password-button:hover {
+    background: var(--secondary-hover, #475569);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
+  }
+
+  .logout-button:hover {
+    background: var(--primary-hover, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
   .edit-profile-button svg,
+  .change-password-button svg,
   .logout-button svg {
     width: 16px;
     height: 16px;
@@ -584,13 +599,6 @@
     gap: 1rem;
   }
 
-  .profile-username-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0;
-  }
-
   .profile-username-wrapper {
     display: flex;
     align-items: center;
@@ -630,59 +638,6 @@
     box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-  }
-
-  .edit-profile-button,
-  .logout-button {
-    width: auto;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1.25rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 0;
-    height: 3rem;
-    min-height: 3rem;
-    line-height: 1;
-  }
-
-  .edit-profile-button {
-    background: var(--primary-color, #2563eb);
-    color: white;
-  }
-
-  .change-password-button {
-    background: var(--secondary-color, #64748b);
-    color: white;
-  }
-
-  .logout-button {
-    background: var(--primary-dark, #1e40af);
-    color: white;
-  }
-
-  .edit-profile-button:hover {
-    background: var(--primary-color-hover, #1d4ed8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-  }
-
-  .change-password-button:hover {
-    background: var(--secondary-hover, #475569);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
-  }
-
-  .logout-button:hover {
-    background: var(--primary-hover, #1d4ed8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   }
 
   .profile-bio {
