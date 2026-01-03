@@ -13,6 +13,7 @@ import {
   FaTimes,
 } from 'react-icons/fa'
 import { useLanguage } from '../context/LanguageContext'
+import { useLoader } from '../context/LoaderContext'
 import { categoryAPI } from '../services/api'
 import { mockCategoryAPI, mockCategories } from '../data/mockData'
 import './Sidebar.css'
@@ -25,8 +26,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { t, getCategoryName } = useLanguage()
+  const { markResourceLoaded } = useLoader()
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
+  const [categoriesLoaded, setCategoriesLoaded] = useState(false)
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false
     return window.innerWidth <= 768
@@ -63,8 +66,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         const response = await mockCategoryAPI.getCategories()
         setCategories(response.data.slice(0, 5))
       } else {
-        // 使用真实API
-        const response = await categoryAPI.getCategories()
+        // 使用真实API，添加超时机制
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), 3000) // 3秒超时
+        })
+        
+        const response = await Promise.race([
+          categoryAPI.getCategories(),
+          timeoutPromise
+        ])
         setCategories(response.data.slice(0, 5))
       }
     } catch (error) {
@@ -75,6 +85,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       }
     } finally {
       setLoading(false)
+      // 首次加载完成，标记categories资源已加载
+      if (!categoriesLoaded) {
+        setCategoriesLoaded(true)
+        markResourceLoaded('categories')
+      }
     }
   }
 

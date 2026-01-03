@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom'
 import { postAPI } from '../services/api'
 import PostCard from '../components/PostCard'
 import { useLanguage } from '../context/LanguageContext'
+import { useLoader } from '../context/LoaderContext'
 import { debounce } from '../utils/debounce'
 import './Home.css'
 
@@ -194,6 +195,7 @@ const calculateHotScore = (post) => {
 
 const Home = () => {
   const { t, language } = useLanguage()
+  const { markResourceLoaded } = useLoader()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [posts, setPosts] = useState([])
@@ -208,6 +210,7 @@ const Home = () => {
   const [sort, setSort] = useState('time')
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [error, setError] = useState(null)
+  const [postsLoaded, setPostsLoaded] = useState(false)
   
   // 初始化日历日期状态，添加错误处理
   const getInitialDate = () => {
@@ -293,11 +296,11 @@ const Home = () => {
         const dateParam = searchParams.get('date')
         
         const params = {
-          page: pagination.page,
-          // 如果有日期筛选，显示该日期的所有帖子；否则最新和热门模式都只显示3条
-          limit: dateParam ? pagination.limit : 3,
-          sort,
-        }
+        page: pagination.page,
+        // 如果有日期筛选，显示该日期的所有帖子；否则最多显示10条
+        limit: dateParam ? 100 : 10, // 日期筛选时使用较大值获取所有帖子，否则显示10条
+        sort,
+      }
         if (selectedCategory) {
           params.category = selectedCategory
         }
@@ -305,15 +308,23 @@ const Home = () => {
           params.date = dateParam
         }
 
-        const response = await postAPI.getPosts(params)
+        // 添加超时机制，避免一直等待API响应
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), 5000) // 5秒超时
+        })
+        
+        const response = await Promise.race([
+          postAPI.getPosts(params),
+          timeoutPromise
+        ])
         let processedPosts = response.data.data || []
         
         // 如果是热门模式，需要获取更多帖子来计算热门分数并排序
         if (sort === 'hot' && !dateParam) {
-          // 获取更多帖子用于热门排序（获取前50条来计算）
+          // 获取更多帖子用于热门排序（获取前100条来计算）
           const hotParams = {
             page: 1,
-            limit: 50,
+            limit: 100,
             sort: 'time', // 先按时间获取
           }
           if (selectedCategory) {
@@ -331,7 +342,7 @@ const Home = () => {
                 hotScore: calculateHotScore(post)
               }))
               .sort((a, b) => b.hotScore - a.hotScore)
-              .slice(0, 3) // 只取前3条
+              .slice(0, 10) // 只取前10条
           } catch (error) {
             console.error('Failed to fetch posts for hot sorting:', error)
             // 如果失败，使用原来的数据
@@ -358,6 +369,12 @@ const Home = () => {
         
         // 同时获取所有帖子用于日期分组
         await fetchAllPostsForGrouping()
+        
+        // 首次加载成功，标记posts资源已加载
+        if (!postsLoaded) {
+          setPostsLoaded(true)
+          markResourceLoaded('posts')
+        }
       } catch (error) {
         console.error('Failed to fetch posts:', error)
         // 设置更详细的错误信息（存储错误键而不是翻译后的文本）
@@ -385,6 +402,12 @@ const Home = () => {
         }
         setPosts([]) // 清空帖子列表
         setAllPosts([])
+        
+        // 即使加载失败，也标记posts资源已尝试加载
+        if (!postsLoaded) {
+          setPostsLoaded(true)
+          markResourceLoaded('posts')
+        }
       } finally {
         setLoading(false)
       }
@@ -432,6 +455,8 @@ const Home = () => {
 
   // 获取当前选中的日期
   const selectedDate = searchParams.get('date')
+  // 日期筛选参数，用于渲染部分的条件判断
+  const dateParam = selectedDate
   
   // 获取日期分组（用于日历上的总量分布）
   const postsByDate = groupPostsByDate(allPosts)
@@ -659,7 +684,7 @@ const Home = () => {
       <div className="posts-container">
         {loading ? (
           <>
-            {[1, 2, 3].map((index) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => (
               <article key={index} className="post-card post-card-skeleton">
                 <div className="post-content">
                   <div className="post-skeleton-header">
@@ -732,8 +757,8 @@ const Home = () => {
             {posts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
-            {/* 最新模式只显示3条，不显示加载更多 */}
-            {sort !== 'time' && pagination.totalPages > pagination.page && (
+            {/* 日期筛选时有足够多帖子才显示加载更多 */}
+            {dateParam && pagination.totalPages > pagination.page && (
               <div className="load-more-container">
                 <button
                   className="load-more-button"

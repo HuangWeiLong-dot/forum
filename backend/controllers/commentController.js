@@ -1,5 +1,7 @@
 import Comment from '../models/Comment.js';
 import Post from '../models/Post.js';
+import Notification from '../models/Notification.js';
+import { query } from '../config/database.js';
 
 class CommentController {
   // 获取帖子评论列表
@@ -86,6 +88,37 @@ class CommentController {
 
       const formattedComment = Comment.formatComment(comment);
 
+      // 获取帖子作者ID和评论者用户名
+      const [authorResult, commenterResult] = await Promise.all([
+        query('SELECT author_id FROM posts WHERE id = $1', [parseInt(postId)]),
+        query('SELECT username FROM users WHERE id = $1', [userId])
+      ]);
+      
+      const postAuthorId = authorResult.rows[0]?.author_id;
+      const commenterUsername = commenterResult.rows[0]?.username || '用户';
+      
+      // 如果评论者不是帖子作者，创建通知
+      if (postAuthorId && postAuthorId !== userId) {
+        try {
+          // 获取帖子标题
+          const postResult = await query('SELECT title FROM posts WHERE id = $1', [parseInt(postId)]);
+          const postTitle = postResult.rows[0]?.title || '帖子';
+          
+          // 创建评论通知
+          await Notification.create({
+            userId: postAuthorId,
+            type: 'comment',
+            title: `${commenterUsername} 评论了你的帖子`,
+            content: postTitle,
+            relatedPostId: parseInt(postId),
+            relatedUserId: userId
+          });
+        } catch (error) {
+          console.error('创建评论通知失败:', error.message);
+          // 通知创建失败不影响评论功能
+        }
+      }
+
       return res.status(201).json(formattedComment);
     } catch (error) {
       console.error('创建评论错误:', error);
@@ -156,6 +189,48 @@ class CommentController {
       });
 
       const formattedComment = Comment.formatComment(comment);
+
+      // 为被回复的评论作者创建通知
+      try {
+        // 获取被回复评论的作者ID和回复者用户名
+        const [parentCommentResult, commenterResult, postResult] = await Promise.all([
+          query('SELECT author_id, post_id FROM comments WHERE id = $1', [parseInt(commentId)]),
+          query('SELECT username FROM users WHERE id = $1', [userId]),
+          query('SELECT title, author_id FROM posts WHERE id = $1', [parentComment.post_id])
+        ]);
+        
+        const parentAuthorId = parentCommentResult.rows[0]?.author_id;
+        const commenterUsername = commenterResult.rows[0]?.username || '用户';
+        const postTitle = postResult.rows[0]?.title || '帖子';
+        const postAuthorId = postResult.rows[0]?.author_id;
+        
+        // 如果回复者不是被回复评论的作者，创建通知
+        if (parentAuthorId && parentAuthorId !== userId) {
+          await Notification.create({
+            userId: parentAuthorId,
+            type: 'comment_reply',
+            title: `${commenterUsername} 回复了你的评论`,
+            content: postTitle,
+            relatedPostId: parentComment.post_id,
+            relatedUserId: userId
+          });
+        }
+        
+        // 如果回复者不是帖子作者，也为帖子作者创建通知
+        if (postAuthorId && postAuthorId !== userId && postAuthorId !== parentAuthorId) {
+          await Notification.create({
+            userId: postAuthorId,
+            type: 'comment',
+            title: `${commenterUsername} 评论了你的帖子`,
+            content: postTitle,
+            relatedPostId: parentComment.post_id,
+            relatedUserId: userId
+          });
+        }
+      } catch (error) {
+        console.error('创建回复通知失败:', error.message);
+        // 通知创建失败不影响回复功能
+      }
 
       return res.status(201).json(formattedComment);
     } catch (error) {

@@ -229,6 +229,85 @@ class UserController {
       });
     }
   }
+
+  // 修改密码
+  static async changePassword(req, res) {
+    try {
+      const userId = req.userId;
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          error: 'MISSING_FIELDS',
+          message: '当前密码和新密码不能为空',
+        });
+      }
+
+      // 验证新密码长度
+      if (newPassword.length < 8) {
+        return res.status(400).json({
+          error: 'PASSWORD_TOO_SHORT',
+          message: '新密码长度不能少于8个字符',
+        });
+      }
+
+      // 修改密码
+      const updatedUser = await User.changePassword(userId, currentPassword, newPassword);
+
+      if (!updatedUser) {
+        return res.status(404).json({
+          error: 'USER_NOT_FOUND',
+          message: '用户不存在',
+        });
+      }
+
+      // 获取用户统计信息
+      const stats = await User.getStats(userId);
+      const userProfile = {
+        id: updatedUser.id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        avatar: updatedUser.avatar,
+        bio: updatedUser.bio,
+        tag: updatedUser.tag,
+        exp: parseInt(updatedUser.exp) || 0,
+        joinDate: updatedUser.join_date,
+        postCount: parseInt(stats.post_count) || 0,
+        commentCount: parseInt(stats.comment_count) || 0,
+        receivedLikes: parseInt(stats.received_likes) || 0,
+        usernameUpdatedAt: updatedUser.username_updated_at,
+        tagUpdatedAt: updatedUser.tag_updated_at,
+        passwordUpdatedAt: updatedUser.password_updated_at,
+      };
+
+      return res.status(200).json(userProfile);
+    } catch (error) {
+      console.error('修改密码错误:', error);
+      
+      if (error.message === 'INVALID_CURRENT_PASSWORD') {
+        return res.status(400).json({
+          error: 'INVALID_CURRENT_PASSWORD',
+          message: '当前密码不正确',
+        });
+      } else if (error.message === 'PASSWORD_UPDATE_LIMIT') {
+        return res.status(400).json({
+          error: 'PASSWORD_UPDATE_LIMIT',
+          message: `密码只能每30天修改一次，还需等待 ${error.daysRemaining} 天`,
+          daysRemaining: error.daysRemaining,
+        });
+      } else if (error.message === 'USER_NOT_FOUND') {
+        return res.status(404).json({
+          error: 'USER_NOT_FOUND',
+          message: '用户不存在',
+        });
+      }
+      
+      return res.status(500).json({
+        error: 'INTERNAL_ERROR',
+        message: '修改密码失败',
+      });
+    }
+  }
 }
 
 export default UserController;

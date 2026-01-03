@@ -1,5 +1,5 @@
 .sidebar {
-  width: 260px;
+  width: 220px;
   background-color: transparent;
   padding: 0;
   position: sticky;
@@ -122,9 +122,9 @@
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 0.85rem;
-  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  padding: 0.75rem 0.65rem;
+  margin-bottom: 0.35rem;
   border-radius: var(--radius-lg);
   background: transparent;
   color: var(--text-secondary);
@@ -324,8 +324,8 @@
 .category-bubble-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 0.85rem;
+  gap: 0.5rem;
+  padding: 0.75rem 0.65rem;
   background: transparent;
   border: none;
   border-radius: var(--radius-lg);
@@ -355,8 +355,9 @@
 
 
 .category-color-dot {
-  width: 6px;
-  height: 6px;
+  display: none;
+  width: 0;
+  height: 0;
   border-radius: var(--radius-full);
   flex-shrink: 0;
   box-shadow: none;
@@ -409,16 +410,16 @@
   .sidebar {
     z-index: 999; /* 确保侧边栏显示在覆盖层之上 */
   }
-  /* 左侧边缘的抽屉触发器 - 透明样式 */
+  /* 左侧边缘的抽屉触发器 - 始终显示背景色和主题色 */
   .sidebar-trigger {
     position: fixed;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    width: 30px;
+    width: 35px;
     height: 80px;
-    background-color: transparent; /* 背景色改为透明 */
-    color: var(--text-primary); /* 图标颜色改为文本主色，确保可见 */
+    background-color: rgba(0, 0, 0, 0.1); /* 始终显示轻微背景色 */
+    color: var(--primary-color); /* 始终显示主题色 */
     border: none;
     border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
     cursor: pointer;
@@ -438,9 +439,9 @@
   }
 
   .sidebar-trigger:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* 悬停时显示轻微背景色 */
-    width: 35px;
-    color: var(--primary-color); /* 悬停时图标颜色变为主题色 */
+    background-color: rgba(0, 0, 0, 0.15); /* 悬停时加深背景色 */
+    width: 40px;
+    color: var(--primary-color); /* 保持主题色 */
   }
 
   .sidebar-trigger svg {

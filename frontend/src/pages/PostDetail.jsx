@@ -10,6 +10,8 @@ import { useLanguage } from '../context/LanguageContext'
 import { isOfficialTag, getOfficialTagText } from '../utils/tagUtils'
 import { updateTask } from '../utils/dailyTasks'
 import LevelBadge from '../components/LevelBadge'
+import LoginModal from '../components/LoginModal'
+import RegisterModal from '../components/RegisterModal'
 import './PostDetail.css'
 
 const PostDetail = () => {
@@ -23,6 +25,8 @@ const PostDetail = () => {
   const [submitting, setSubmitting] = useState(false)
   const [liked, setLiked] = useState(false)
   const [liking, setLiking] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
 
   useEffect(() => {
     fetchPost()
@@ -167,7 +171,8 @@ const PostDetail = () => {
   }
 
   return (
-    <div className="post-detail">
+    <>
+      <div className="post-detail">
       <article className="post-detail-card">
         <div className="post-content">
           <div className="post-header">
@@ -370,7 +375,7 @@ const PostDetail = () => {
         <div className="comment-login-prompt">
           <p>
             {t('post.loginToComment')}
-            <a href="/login">{t('post.loginLink')}</a>
+            <button onClick={() => setShowLoginModal(true)}>{t('post.loginLink')}</button>
             {t('post.loginSuffix')}
           </p>
         </div>
@@ -383,6 +388,25 @@ const PostDetail = () => {
         <CommentList comments={comments} onUpdate={fetchComments} postId={postId} />
       </div>
     </div>
+    {showLoginModal && (
+      <LoginModal
+        onClose={() => setShowLoginModal(false)}
+        onSwitchToRegister={() => {
+          setShowLoginModal(false)
+          setShowRegisterModal(true)
+        }}
+      />
+    )}
+    {showRegisterModal && (
+      <RegisterModal
+        onClose={() => setShowRegisterModal(false)}
+        onSwitchToLogin={() => {
+          setShowRegisterModal(false)
+          setShowLoginModal(true)
+        }}
+      />
+    )}
+    </>
   )
 }
 

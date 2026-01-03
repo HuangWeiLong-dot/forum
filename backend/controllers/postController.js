@@ -287,6 +287,36 @@ class PostController {
 
       const result = await Post.toggleLike(parseInt(postId), userId);
 
+      // 如果是点赞操作，创建通知
+      if (result.liked) {
+        try {
+          // 获取帖子作者ID和点赞者用户名
+          const [postResult, likerResult] = await Promise.all([
+            query('SELECT author_id, title FROM posts WHERE id = $1', [parseInt(postId)]),
+            query('SELECT username FROM users WHERE id = $1', [userId])
+          ]);
+          
+          const postAuthorId = postResult.rows[0]?.author_id;
+          const postTitle = postResult.rows[0]?.title || '帖子';
+          const likerUsername = likerResult.rows[0]?.username || '用户';
+          
+          // 如果点赞者不是帖子作者，创建通知
+          if (postAuthorId && postAuthorId !== userId) {
+            await Notification.create({
+              userId: postAuthorId,
+              type: 'like',
+              title: `${likerUsername} 点赞了你的帖子`,
+              content: postTitle,
+              relatedPostId: parseInt(postId),
+              relatedUserId: userId
+            });
+          }
+        } catch (error) {
+          console.error('创建点赞通知失败:', error.message);
+          // 通知创建失败不影响点赞功能
+        }
+      }
+
       return res.status(200).json({
         message: result.liked ? '点赞成功' : '已取消点赞',
         liked: result.liked,

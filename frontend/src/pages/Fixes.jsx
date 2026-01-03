@@ -9,6 +9,142 @@ import './Fixes.css'
 
 export const fixes = [
   {
+    date: '2026-01-04',
+    version: '1.11.0',
+    issue: 47,
+    translations: {
+      zh: {
+        title: '用户资料下帖子删除按钮与帖子内容重叠',
+        description:
+          '调整用户资料下帖子边距，解决帖子删除按钮与帖子内容重叠问题。',
+        details: [
+          '调整用户资料下的帖子边距',
+          '确保帖子删除按钮与帖子内容不重叠',
+        ],
+      },
+      en: {
+        title: 'Post Delete Button Overlaps With Post Content on User Profile',
+        description:
+          'Adjusted post margins on user profile to fix issue where post delete button overlapped with post content.',
+        details: [
+          'Adjusted post margins on user profile',
+          'Ensured post delete button does not overlap with post content',
+        ],
+      },
+      ja: {
+        title: 'ユーザープロフィールの投稿削除ボタンが投稿内容と重なる',
+        description:
+          'ユーザープロフィールの投稿マージンを調整し、投稿削除ボタンが投稿内容と重なる問題を解決しました。',
+        details: [
+          'ユーザープロフィールの投稿マージンを調整',
+          '投稿削除ボタンが投稿内容と重ならないようにする',
+        ],
+      },
+    },
+  },
+  {
+    date: '2026-01-04',
+    version: '1.11.0',
+    issue: 46,
+    translations: {
+      zh: {
+        title: '桌面端退出登录后没有登录注册入口',
+        description:
+          '修复桌面端退出登录后或在未登录状态下，页面上没有明显的登录注册入口的问题。',
+        details: [
+          '修复桌面端登录注册按钮的显示逻辑',
+          '确保在未登录状态下，页面上有明显的登录注册入口',
+        ],
+      },
+      en: {
+        title: 'No Login/Register Entry on Desktop After Logout',
+        description:
+          'Fixed issue where there was no obvious login/register entry on desktop after logout or when not logged in.',
+        details: [
+          'Fixed display logic for desktop login/register buttons',
+          'Ensured obvious login/register entry on page when not logged in',
+        ],
+      },
+      ja: {
+        title: 'デスクトップ版でログアウト後にログイン/登録エントリがない',
+        description:
+          'デスクトップ版でログアウト後またはログインしていない状態で、ページに明確なログイン/登録エントリがない問題を修正しました。',
+        details: [
+          'デスクトップ版のログイン/登録ボタンの表示ロジックを修正',
+          'ログインしていない状態で、ページに明確なログイン/登録エントリがあることを確認',
+        ],
+      },
+    },
+  },
+  {
+    date: '2026-01-04',
+    version: '1.11.0',
+    issue: 45,
+    translations: {
+      zh: {
+        title: '音频时间显示在夜间模式下看不清',
+        description:
+          '修复音频时间显示在夜间模式下对比度不足，难以看清的问题。',
+        details: [
+          '为音频时间显示添加夜间模式的颜色样式',
+          '确保在夜间模式下时间显示具有足够的对比度',
+        ],
+      },
+      en: {
+        title: 'Audio Time Display Hard to See in Dark Mode',
+        description:
+          'Fixed issue where audio time display had insufficient contrast and was hard to see in dark mode.',
+        details: [
+          'Added dark mode color styles for audio time display',
+          'Ensured sufficient contrast for time display in dark mode',
+        ],
+      },
+      ja: {
+        title: 'ダークモードでオーディオ時間が見にくい',
+        description:
+          'ダークモードでオーディオ時間の表示がコントラスト不足で見にくい問題を修正しました。',
+        details: [
+          'オーディオ時間表示にダークモード用のカラースタイルを追加',
+          'ダークモードで時間表示が十分なコントラストを持つようにする',
+        ],
+      },
+    },
+  },
+  {
+    date: '2026-01-04',
+    version: '1.11.0',
+    issue: 44,
+    translations: {
+      zh: {
+        title: '未登录状态下评论区登录按钮不能跳转',
+        description:
+          '修复未登录状态下点击评论区的登录按钮不能跳转的错误。',
+        details: [
+          '修复评论区登录按钮的点击事件处理逻辑',
+          '确保点击登录按钮时能够正确跳转到登录页面',
+        ],
+      },
+      en: {
+        title: 'Login Button in Comment Section Can\'t Redirect When Not Logged In',
+        description:
+          'Fixed issue where login button in comment section couldn\'t redirect when not logged in.',
+        details: [
+          'Fixed click event handling logic for login button in comment section',
+          'Ensured proper redirection to login page when login button is clicked',
+        ],
+      },
+      ja: {
+        title: 'ログインしていない状態でコメントセクションのログインボタンがリダイレクトできない',
+        description:
+          'ログインしていない状態でコメントセクションのログインボタンをクリックしてもリダイレクトできないエラーを修正しました。',
+        details: [
+          'コメントセクションのログインボタンのクリックイベント処理ロジックを修正',
+          'ログインボタンをクリックしたときにログインページに正しくリダイレクトできるようにする',
+        ],
+      },
+    },
+  },
+  {
     date: '2026-01-02',
     version: '1.10.0',
     issue: 42,

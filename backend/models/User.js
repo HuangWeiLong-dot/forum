@@ -199,6 +199,67 @@ class User {
     return await bcrypt.compare(password, user.password_hash);
   }
 
+  // 修改密码
+  static async changePassword(userId, currentPassword, newPassword) {
+    // 1. 获取用户信息
+    const result = await query(
+      'SELECT id, username, email, password_hash, password_updated_at FROM users WHERE id = $1',
+      [userId]
+    );
+    const user = result.rows[0];
+    if (!user) {
+      throw new Error('USER_NOT_FOUND');
+    }
+
+    // 2. 验证当前密码
+    const isPasswordValid = await this.verifyPassword(user, currentPassword);
+    if (!isPasswordValid) {
+      throw new Error('INVALID_CURRENT_PASSWORD');
+    }
+
+    // 3. 检查密码修改限制（30天）
+    if (user.password_updated_at) {
+      const passwordCheck = this.canModifyUsernameOrTag(user.password_updated_at);
+      if (!passwordCheck.canModify) {
+        const error = new Error('PASSWORD_UPDATE_LIMIT');
+        error.daysRemaining = passwordCheck.daysRemaining;
+        throw error;
+      }
+    }
+
+    // 4. 加密新密码
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
+    // 5. 更新密码和修改时间
+    try {
+      // 尝试使用包含新字段的完整更新
+      const updateResult = await query(
+        'UPDATE users SET password_hash = $1, password_updated_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id, username, email, avatar, bio, tag, exp, join_date, created_at, updated_at, username_updated_at, tag_updated_at, password_updated_at',
+        [passwordHash, userId]
+      );
+      return updateResult.rows[0];
+    } catch (error) {
+      // 如果新字段不存在，使用基本更新
+      if (error.code === '42703' || error.message.includes('column') || error.message.includes('does not exist')) {
+        console.warn('password_updated_at 字段不存在，使用基本密码更新:', error.message);
+        const updateResult = await query(
+          'UPDATE users SET password_hash = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id, username, email, avatar, bio, tag, join_date, created_at, updated_at',
+          [passwordHash, userId]
+        );
+        const updatedUser = updateResult.rows[0] || null;
+        if (updatedUser) {
+          // 为缺失的字段设置默认值
+          updatedUser.exp = 0;
+          updatedUser.username_updated_at = null;
+          updatedUser.tag_updated_at = null;
+          updatedUser.password_updated_at = new Date().toISOString();
+        }
+        return updatedUser;
+      }
+      throw error;
+    }
+  }
+
   // 获取用户统计信息（帖子数、评论数和获赞数）
   static async getStats(userId) {
     try {

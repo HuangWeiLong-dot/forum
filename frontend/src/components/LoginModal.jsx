@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
+import { authAPI } from '../services/api'
 import TermsContent from './TermsContent'
 import PrivacyContent from './PrivacyContent'
 import './Modal.css'
@@ -12,15 +13,65 @@ const LoginModal = ({ onClose, onSwitchToRegister }) => {
     login: '',
     password: '',
   })
+  const [resetPasswordEmail, setResetPasswordEmail] = useState('')
+  const [resetPasswordCode, setResetPasswordCode] = useState('')
   const [error, setError] = useState('')
   const [errorKey, setErrorKey] = useState(null) // 存储错误键而不是翻译后的文本
   const [loading, setLoading] = useState(false)
+  const [resetPasswordLoading, setResetPasswordLoading] = useState(false)
+  const [resetPasswordSuccess, setResetPasswordSuccess] = useState(false)
+  const [resetPasswordStep, setResetPasswordStep] = useState(1) // 1: 输入邮箱, 2: 输入验证码
   const [consentChecked, setConsentChecked] = useState(false)
   const [showAgreementModal, setShowAgreementModal] = useState(false)
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false)
   const [modalType, setModalType] = useState('terms') // 'terms' | 'privacy'
   const { login } = useAuth()
   const { t } = useLanguage()
   const navigate = useNavigate()
+  
+  // 发送重置密码验证码
+  const handleSendResetPasswordCode = async (e) => {
+    e.preventDefault()
+    setError('')
+    setErrorKey(null)
+    setResetPasswordLoading(true)
+    
+    try {
+      await authAPI.sendResetPasswordCode(resetPasswordEmail)
+      setResetPasswordStep(2) // 进入第二步：输入验证码
+    } catch (err) {
+      const errorStr = String(err.response?.data?.message || err.message || '')
+      if (errorStr.startsWith('error.')) {
+        setErrorKey(errorStr)
+      } else {
+        setError(errorStr)
+      }
+    } finally {
+      setResetPasswordLoading(false)
+    }
+  }
+
+  // 验证重置密码验证码
+  const handleVerifyResetPasswordCode = async (e) => {
+    e.preventDefault()
+    setError('')
+    setErrorKey(null)
+    setResetPasswordLoading(true)
+    
+    try {
+      await authAPI.verifyResetPasswordCode(resetPasswordEmail, resetPasswordCode)
+      setResetPasswordSuccess(true) // 显示成功消息
+    } catch (err) {
+      const errorStr = String(err.response?.data?.message || err.message || '')
+      if (errorStr.startsWith('error.')) {
+        setErrorKey(errorStr)
+      } else {
+        setError(errorStr)
+      }
+    } finally {
+      setResetPasswordLoading(false)
+    }
+  }
 
   React.useEffect(() => {
     // 打开弹窗时锁定背景滚动
@@ -225,7 +276,16 @@ const LoginModal = ({ onClose, onSwitchToRegister }) => {
           </div>
 
           <div className="form-actions">
-            <a href="#" className="forgot-password">{t('auth.forgotPassword')}</a>
+            <button 
+              type="button" 
+              className="forgot-password" 
+              onClick={(e) => {
+                e.preventDefault()
+                setShowResetPasswordModal(true)
+              }}
+            >
+              {t('auth.forgotPassword')}
+            </button>
           </div>
 
           <button
@@ -253,10 +313,112 @@ const LoginModal = ({ onClose, onSwitchToRegister }) => {
     </div>
   )
 
+  // 忘记密码模态框
+  const resetPasswordModalContent = (
+    <div className="modal-overlay" onClick={() => setShowResetPasswordModal(false)}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={() => setShowResetPasswordModal(false)}>
+          ×
+        </button>
+        
+        <h2 className="modal-title">{t('auth.resetPasswordTitle')}</h2>
+        
+        {(error || errorKey) && (
+          <div className="modal-error">
+            {errorKey ? t(errorKey) : error}
+          </div>
+        )}
+        
+        {resetPasswordSuccess ? (
+          <div className="reset-password-success">
+            <p>{t('auth.resetPasswordSuccess')}</p>
+            <button 
+              type="button" 
+              className="modal-submit-button" 
+              onClick={() => setShowResetPasswordModal(false)}
+            >
+              {t('common.ok')}
+            </button>
+          </div>
+        ) : resetPasswordStep === 1 ? (
+          <form onSubmit={handleSendResetPasswordCode} className="modal-form">
+            <div className="form-group">
+              <label htmlFor="resetEmail">{t('auth.email')}</label>
+              <input
+                type="email"
+                id="resetEmail"
+                name="resetEmail"
+                value={resetPasswordEmail}
+                onChange={(e) => setResetPasswordEmail(e.target.value)}
+                required
+                placeholder={t('auth.emailPlaceholder')}
+              />
+            </div>
+            
+            <p className="reset-password-description">
+              {t('auth.resetPasswordDescription')}
+            </p>
+            
+            <button
+              type="submit"
+              className="modal-submit-button"
+              disabled={resetPasswordLoading}
+            >
+              {resetPasswordLoading ? t('auth.sendingEmail') : t('auth.sendResetEmail')}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyResetPasswordCode} className="modal-form">
+            <div className="form-group">
+              <label htmlFor="resetCode">{t('auth.verificationCode')}</label>
+              <input
+                type="text"
+                id="resetCode"
+                name="resetCode"
+                value={resetPasswordCode}
+                onChange={(e) => setResetPasswordCode(e.target.value)}
+                required
+                placeholder={t('auth.verificationCodePlaceholder')}
+                maxLength={6}
+              />
+            </div>
+            
+            <p className="reset-password-description">
+              {t('auth.enterVerificationCode')}
+            </p>
+            
+            <button
+              type="submit"
+              className="modal-submit-button"
+              disabled={resetPasswordLoading}
+            >
+              {resetPasswordLoading ? t('auth.verifying') : t('auth.verifyCode')}
+            </button>
+            
+            <button
+              type="button"
+              className="modal-secondary-button"
+              onClick={() => {
+                setResetPasswordStep(1);
+                setResetPasswordCode('');
+                setError('');
+                setErrorKey(null);
+              }}
+              disabled={resetPasswordLoading}
+            >
+              {t('auth.backToEmail')}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+
   return typeof document !== 'undefined' ? (
     <>
       {createPortal(mainModalContent, document.body)}
       {AgreementModal}
+      {showResetPasswordModal && createPortal(resetPasswordModalContent, document.body)}
     </>
   ) : null
 }

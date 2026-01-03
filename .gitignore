@@ -48,5 +48,8 @@ uploads/
 frontend/public/test/
 test/
 
+# Example templates
+example-templates/
+
 
 

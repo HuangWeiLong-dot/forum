@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext'
 
 const EnglishPrivacyContent = () => (
   <div className="privacy-content-modal">
-    <p className="privacy-updated">Last updated: 2025</p>
+    <p className="privacy-updated">Last updated: 2026</p>
 
     <section className="privacy-section">
       <h2>1. Information We Collect</h2>
@@ -134,19 +134,13 @@ const EnglishPrivacyContent = () => (
       </p>
     </section>
 
-    <section className="privacy-section">
-      <h2>10. Contact Us</h2>
-      <p>
-        If you have any questions or concerns about this privacy policy, please contact us
-        via the <a href="/contact">Contact</a> page.
-      </p>
-    </section>
+    
   </div>
 )
 
 const JapanesePrivacyContent = () => (
   <div className="privacy-content-modal">
-    <p className="privacy-updated">最終更新日：2025年</p>
+    <p className="privacy-updated">最終更新日：2026年</p>
 
     <section className="privacy-section">
       <h2>1. 収集する情報</h2>
@@ -260,19 +254,12 @@ const JapanesePrivacyContent = () => (
       </p>
     </section>
 
-    <section className="privacy-section">
-      <h2>10. お問い合わせ</h2>
-      <p>
-        本プライバシーポリシーに関するご質問やご不明点がございましたら、
-        <a href="/contact">お問い合わせ</a>ページよりご連絡ください。
-      </p>
-    </section>
   </div>
 )
 
 const ChinesePrivacyContent = () => (
   <div className="privacy-content-modal">
-    <p className="privacy-updated">最后更新：2025年</p>
+    <p className="privacy-updated">最后更新：2026年</p>
 
     <section className="privacy-section">
       <h2>1. 信息收集</h2>
@@ -383,12 +370,7 @@ const ChinesePrivacyContent = () => (
       </p>
     </section>
 
-    <section className="privacy-section">
-      <h2>10. 联系我们</h2>
-      <p>
-        如果您对本隐私政策有任何疑问或担忧，请通过 <a href="/contact">联系我们</a> 页面与我们取得联系。
-      </p>
-    </section>
+    
   </div>
 )
 

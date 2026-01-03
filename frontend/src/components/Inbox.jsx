@@ -179,24 +179,45 @@ const Inbox = ({ showLabel = false }) => {
 
   // 格式化通知标题（根据通知类型和语言）
   const formatNotificationTitle = (notification) => {
-    // 如果通知类型是 new_post，根据语言生成标题
-    if (notification.type === 'new_post' && notification.related_username) {
-      const username = notification.related_username
-      const translationKey = 'notification.newPost'
-      const template = t(translationKey)
-      return template.replace('{username}', username)
+    const username = notification.related_username || 
+      (notification.title ? notification.title.split(' ')[0] : '用户')
+    
+    // 根据通知类型获取对应的翻译键
+    let translationKey = ''
+    switch (notification.type) {
+      case 'new_post':
+        translationKey = 'notification.newPost'
+        break
+      case 'comment':
+        translationKey = 'notification.comment'
+        break
+      case 'comment_reply':
+        translationKey = 'notification.comment_reply'
+        break
+      case 'like':
+        translationKey = 'notification.like'
+        break
+      default:
+        // 尝试根据标题内容自动判断类型
+        if (notification.title && notification.title.includes('评论')) {
+          if (notification.title.includes('回复')) {
+            translationKey = 'notification.comment_reply'
+          } else {
+            translationKey = 'notification.comment'
+          }
+        } else if (notification.title && notification.title.includes('点赞')) {
+          translationKey = 'notification.like'
+        } else if (notification.title && (notification.title.includes('发布') || notification.title.includes('posted'))) {
+          translationKey = 'notification.newPost'
+        } else {
+          // 无法识别的类型，直接返回原始标题
+          return notification.title
+        }
     }
     
-    // 如果标题包含"发布了新帖子"（中文），尝试替换为多语言版本
-    if (notification.title && notification.title.includes('发布了新帖子')) {
-      const username = notification.related_username || notification.title.split(' ')[0]
-      const translationKey = 'notification.newPost'
-      const template = t(translationKey)
-      return template.replace('{username}', username)
-    }
-    
-    // 其他情况直接返回原始标题
-    return notification.title
+    // 使用翻译模板生成标题
+    const template = t(translationKey)
+    return template.replace('{username}', username)
   }
 
   const dropdownPanel = (
@@ -267,6 +288,13 @@ const Inbox = ({ showLabel = false }) => {
                         <FaTimes />
                       </button>
                     )}
+                    <button
+                      className="inbox-item-delete"
+                      onClick={(e) => handleDelete(notification.id, e)}
+                      title={t('header.delete') || '删除'}
+                    >
+                      <FaTimes />
+                    </button>
                   </div>
                 </Link>
               ))

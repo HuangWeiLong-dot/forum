@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import { useAuth } from './context/AuthContext'
 import { useLanguage } from './context/LanguageContext'
+import { useLoader } from './context/LoaderContext'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import CookieConsent from './components/CookieConsent'
@@ -22,52 +23,36 @@ import IntroLoader from './components/IntroLoader'
 import './App.css'
 
 function App() {
-  const { loading } = useAuth()
+  const { loading: authLoading } = useAuth()
   const { t } = useLanguage()
-  const [showIntro, setShowIntro] = useState(true)
-  const [progress, setProgress] = useState(0)
+  const { isLoading, progress } = useLoader()
   const [appReady, setAppReady] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
-    if (!showIntro) return
-
-    const duration = 1000
-    const interval = 30
-    const increment = 100 / (duration / interval)
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const nextValue = Math.min(prev + increment, 100)
-        if (nextValue === 100) {
-          clearInterval(timer)
-        }
-        return nextValue
-      })
-    }, interval)
-
-    return () => clearInterval(timer)
-  }, [showIntro])
-
-  useEffect(() => {
-    if (!showIntro || loading || progress < 100) return
-
-    const timeout = setTimeout(() => {
-      setShowIntro(false)
-      setAppReady(true)
-    }, 350)
-
-    return () => clearTimeout(timeout)
-  }, [loading, progress, showIntro])
-
-  if (showIntro || loading) {
-    return <IntroLoader label="LOADING" progress={Math.round(progress)} />
-  }
+    if (!isLoading) {
+      const timeout = setTimeout(() => {
+        setAppReady(true)
+      }, 350)
+      return () => clearTimeout(timeout)
+    }
+  }, [isLoading])
 
   return (
       <>
-        <div className={`app ${appReady ? 'app-enter' : ''} ${sidebarOpen ? 'sidebar-open' : ''}`}>
+        {/* 始终渲染IntroLoader，根据isLoading状态控制显示/隐藏 */}
+        {isLoading || authLoading ? (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'white', zIndex: 9999 }}>
+            <IntroLoader label="LOADING" progress={progress} />
+          </div>
+        ) : null}
+        
+        {/* 始终渲染主应用内容，但在加载时隐藏 */}
+        <div className={`app ${appReady ? 'app-enter' : ''} ${sidebarOpen ? 'sidebar-open' : ''}`} style={{
+          opacity: isLoading || authLoading ? 0 : 1,
+          pointerEvents: isLoading || authLoading ? 'none' : 'auto'
+        }}>
           <AgeVerification />
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           
@@ -88,6 +73,9 @@ function App() {
                   <Route path="/fixes" element={<Fixes />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
+                  
+                  {/* 重定向/profile到首页，避免404 */}
+                  <Route path="/profile" element={<Navigate to="/" replace />} />
                 </Routes>
               </div>
             </div>

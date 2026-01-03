@@ -12,9 +12,11 @@ const ThemeColorPicker = ({ showLabel = false }) => {
   const [hue, setHue] = useState(0)
   const [saturation, setSaturation] = useState(100)
   const [lightness, setLightness] = useState(50)
+  const wrapperRef = useRef(null)
   const pickerRef = useRef(null)
   const hueSliderRef = useRef(null)
   const slSliderRef = useRef(null)
+  const isDragging = useRef(false)
   const isInternalUpdate = useRef(false)
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false
@@ -109,12 +111,14 @@ const ThemeColorPicker = ({ showLabel = false }) => {
   useEffect(() => {
     if (!isOpen || isMobile) return
     const handleClickOutside = (event) => {
-      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+      // 如果正在拖动，则不关闭
+      if (isDragging.current) return
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setIsOpen(false)
       }
     }
 
-      document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
@@ -206,6 +210,40 @@ const ThemeColorPicker = ({ showLabel = false }) => {
                   className="hue-slider"
                   style={{ background: hueGradient }}
                   ref={hueSliderRef}
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                    isDragging.current = true
+                    // 处理初始点击位置
+                    if (hueSliderRef.current) {
+                      const rect = hueSliderRef.current.getBoundingClientRect()
+                      const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left))
+                      const newHue = Math.max(0, Math.min(360, (x / rect.width) * 360))
+                      setHue(newHue)
+                      const newColor = hslToHex(newHue, saturation, lightness)
+                      isInternalUpdate.current = true
+                      setThemeColor(newColor)
+                    }
+                    // 添加鼠标移动和释放事件
+                    const handleMouseMove = (moveEvent) => {
+                      moveEvent.preventDefault()
+                      if (hueSliderRef.current) {
+                        const rect = hueSliderRef.current.getBoundingClientRect()
+                        const x = Math.max(0, Math.min(rect.width, moveEvent.clientX - rect.left))
+                        const newHue = Math.max(0, Math.min(360, (x / rect.width) * 360))
+                        setHue(newHue)
+                        const newColor = hslToHex(newHue, saturation, lightness)
+                        isInternalUpdate.current = true
+                        setThemeColor(newColor)
+                      }
+                    }
+                    const handleMouseUp = () => {
+                      isDragging.current = false
+                      document.removeEventListener('mousemove', handleMouseMove)
+                      document.removeEventListener('mouseup', handleMouseUp)
+                    }
+                    document.addEventListener('mousemove', handleMouseMove)
+                    document.addEventListener('mouseup', handleMouseUp)
+                  }}
                 >
                   <input
                     type="range"
@@ -228,12 +266,14 @@ const ThemeColorPicker = ({ showLabel = false }) => {
                   ref={slSliderRef}
                   onMouseDown={(e) => {
                     e.preventDefault()
+                    isDragging.current = true
                     handleSLChange(e)
                     const handleMouseMove = (moveEvent) => {
                       moveEvent.preventDefault()
                       handleSLChange(moveEvent)
                     }
                     const handleMouseUp = () => {
+                      isDragging.current = false
                       document.removeEventListener('mousemove', handleMouseMove)
                       document.removeEventListener('mouseup', handleMouseUp)
                     }
@@ -283,7 +323,7 @@ const ThemeColorPicker = ({ showLabel = false }) => {
   }
 
   return (
-    <div className="theme-color-picker-wrapper" ref={pickerRef}>
+    <div className="theme-color-picker-wrapper" ref={wrapperRef}>
       <button
         className={`theme-color-button icon-button ${showLabel ? 'with-label' : ''}`}
         onClick={() => setIsOpen(!isOpen)}

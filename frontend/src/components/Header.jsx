@@ -428,7 +428,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
       exact: true
     },
     {
-      path: isAuthenticated ? `/user/${user.id}` : '/login',
+      path: isAuthenticated ? `/user/${user.id}` : '/',
       icon: <FaUserCircle />,
       label: t('bottomNav.profile')
     }
@@ -457,7 +457,13 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
         <button
           type="button"
           className={`actions-toggle-button ${location.pathname.startsWith('/user/') ? 'active' : ''}`}
-          onClick={() => navigate(isAuthenticated ? `/user/${user.id}` : '/login')}
+          onClick={() => {
+            if (isAuthenticated) {
+              navigate(`/user/${user.id}`)
+            } else {
+              setShowLoginModal(true)
+            }
+          }}
           title={t('bottomNav.profile')}
         >
           <FaUserCircle />

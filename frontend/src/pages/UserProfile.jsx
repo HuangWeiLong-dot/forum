@@ -5,7 +5,8 @@ import { useLanguage } from '../context/LanguageContext'
 import { userAPI, postAPI } from '../services/api'
 import PostCard from '../components/PostCard'
 import EditProfileModal from '../components/EditProfileModal'
-import { FaTrash, FaEdit, FaSignOutAlt } from 'react-icons/fa'
+import ChangePasswordModal from '../components/ChangePasswordModal'
+import { FaTrash, FaEdit, FaSignOutAlt, FaLock } from 'react-icons/fa'
 import { isOfficialTag, getOfficialTagText } from '../utils/tagUtils'
 import { getUserExp } from '../utils/dailyTasks'
 import { getLevelFromExp } from '../utils/levelSystem'
@@ -25,6 +26,7 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(null)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false)
   
   const handleLogout = async () => {
     await logout()
@@ -275,12 +277,6 @@ const UserProfile = () => {
             </div>
           )}
           </div>
-          <div className="profile-level-row">
-            {(() => {
-              const userExp = getUserExp(user)
-              return <LevelBadge exp={userExp} size="large" />
-            })()}
-          </div>
         </div>
         <div className="profile-info">
           <div className="profile-username-row">
@@ -305,6 +301,14 @@ const UserProfile = () => {
                   <span>{t('profile.edit.button')}</span>
                 </button>
                 <button
+                  className="change-password-button"
+                  onClick={() => setShowChangePasswordModal(true)}
+                  title={t('password.change.title')}
+                >
+                  <FaLock />
+                  <span>{t('password.change.button')}</span>
+                </button>
+                <button
                   className="logout-button"
                   onClick={handleLogout}
                   title={t('header.logout')}
@@ -318,6 +322,12 @@ const UserProfile = () => {
           {user.bio && <p className="profile-bio">{user.bio}</p>}
         </div>
         <div className="profile-exp-section">
+          <div className="profile-level-row">
+            {(() => {
+              const userExp = getUserExp(user)
+              return <LevelBadge exp={userExp} size="large" />
+            })()}
+          </div>
           <ExpProgressBar user={user} />
         </div>
       </div>
@@ -365,6 +375,12 @@ const UserProfile = () => {
           user={user}
           onClose={() => setShowEditModal(false)}
           onUpdate={handleProfileUpdate}
+        />
+      )}
+      {showChangePasswordModal && (
+        <ChangePasswordModal
+          user={user}
+          onClose={() => setShowChangePasswordModal(false)}
         />
       )}
     </div>

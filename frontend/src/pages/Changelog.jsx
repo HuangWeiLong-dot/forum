@@ -29,6 +29,82 @@ const changelogCopy = {
 
 const updates = [
   {
+    date: '2026-01-04',
+    version: '1.11.0',
+    type: 'update',
+    translations: {
+      zh: {
+        title: '功能完善与用户体验优化',
+        description:
+          '完善多项功能，修复已知问题，提升整体用户体验。',
+        details: [
+          '优化桌面端登录注册按钮，提升视觉效果和交互体验',
+          '改进站外邮箱通知设计，提升用户体验',
+          '优化首屏加载逻辑，提升首页加载速度',
+          '改进侧边栏的视觉效果和交互体验',
+          '修复未登录状态下评论区登录按钮不能跳转的错误',
+          '修复音频时间显示在夜间模式下看不清的问题',
+          '修复桌面端退出登录后没有登录注册入口的问题',
+          '调整用户资料下帖子边距，解决删除按钮与帖子内容重叠问题',
+          '实现修改密码功能，允许用户修改密码',
+          '实现忘记密码功能，支持密码重置',
+          '更新协议日期',
+          '优化移动端侧边栏触发器',
+          '完善站内通知功能',
+          '调整用户资料的排版问题',
+          '调整首页帖子展示的逻辑',
+          '简化音频样式',
+        ],
+      },
+      en: {
+        title: 'Feature Enhancement and User Experience Optimization',
+        description:
+          'Improved multiple features, fixed known issues, and enhanced overall user experience.',
+        details: [
+          'Optimized desktop login/register buttons for better visual effect and interaction',
+          'Improved off-site email notification design for better user experience',
+          'Optimized first screen loading logic to improve homepage loading speed',
+          'Enhanced sidebar visual effect and interaction experience',
+          'Fixed issue where login button in comment section couldn\'t redirect when not logged in',
+          'Fixed audio time display being hard to see in dark mode',
+          'Fixed missing login/register entry on desktop after logout or when not logged in',
+          'Adjusted post margins on user profiles to fix delete button overlap issue',
+          'Implemented password change feature allowing users to modify their passwords',
+          'Implemented password reset feature for forgotten passwords',
+          'Updated agreement dates',
+          'Optimized mobile sidebar trigger',
+          'Enhanced in-site notification functionality',
+          'Adjusted user profile layout issues',
+          'Adjusted homepage post display logic',
+          'Simplified audio styles',
+        ],
+      },
+      ja: {
+        title: '機能強化とユーザーエクスペリエンスの最適化',
+        description:
+          '複数の機能を改善し、既知の問題を修正し、全体的なユーザーエクスペリエンスを強化しました。',
+        details: [
+          'デスクトップ版のログイン/登録ボタンを最適化、視覚効果とインタラクションを向上',
+          '外部メール通知のデザインを改善、ユーザーエクスペリエンスを向上',
+          'ファーストスクリーンのロードロジックを最適化、ホームページのロード速度を向上',
+          'サイドバーの視覚効果とインタラクションを強化',
+          'ログインしていない状態でコメントセクションのログインボタンがリダイレクトできない問題を修正',
+          'ダークモードでオーディオ時間が見にくい問題を修正',
+          'デスクトップ版でログアウト後またはログインしていない状態でログイン/登録エントリがない問題を修正',
+          'ユーザープロフィールの投稿マージンを調整、削除ボタンと投稿内容の重なり問題を解決',
+          'パスワード変更機能を実装、ユーザーがパスワードを変更できるように',
+          'パスワードを忘れた場合の機能を実装、パスワードリセットをサポート',
+          '契約日を更新',
+          'モバイルサイドバーのトリガーを最適化',
+          'サイト内通知機能を強化',
+          'ユーザープロフィールのレイアウト問題を調整',
+          'ホームページの投稿表示ロジックを調整',
+          'オーディオスタイルを簡素化',
+        ],
+      },
+    },
+  },
+  {
     date: '2026-01-02',
     version: '1.10.0',
     type: 'update',
@@ -1628,7 +1704,6 @@ const Changelog = () => {
     return {
       date: entry.date,
       version: entry.version,
-      type: 'update',
       type: entry.type || 'update',
       ...translation,
     }

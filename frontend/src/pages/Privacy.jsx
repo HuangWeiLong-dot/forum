@@ -7,7 +7,7 @@ const EnglishPrivacy = () => (
     <div className="privacy-container">
       <h1 className="privacy-title">Privacy Policy</h1>
       <div className="privacy-content">
-        <p className="privacy-updated">Last updated: 2025</p>
+        <p className="privacy-updated">Last updated: 2026</p>
 
             <section className="privacy-section">
               <h2>1. Information We Collect</h2>
@@ -105,10 +105,6 @@ const EnglishPrivacy = () => (
                   <strong>Withdraw consent</strong>: withdraw consent to processing where applicable
                 </li>
               </ul>
-              <p>
-                To exercise these rights, please contact us via the{' '}
-                <a href="/contact">Contact</a> page.
-              </p>
             </section>
 
             <section className="privacy-section">
@@ -139,14 +135,6 @@ const EnglishPrivacy = () => (
             </section>
 
             <section className="privacy-section">
-              <h2>10. Contact Us</h2>
-              <p>
-                If you have any questions or concerns about this privacy policy, please contact us
-                via the <a href="/contact">Contact</a> page.
-              </p>
-            </section>
-
-            <section className="privacy-section">
               <h2>User Agreement</h2>
               <p>
                 For rules about account use, content posting, and responsibilities, please review our{' '}
@@ -163,7 +151,7 @@ const JapanesePrivacy = () => (
     <div className="privacy-container">
       <h1 className="privacy-title">プライバシーポリシー</h1>
       <div className="privacy-content">
-        <p className="privacy-updated">最終更新日：2025年</p>
+        <p className="privacy-updated">最終更新日：2026年</p>
 
             <section className="privacy-section">
               <h2>1. 収集する情報</h2>
@@ -249,9 +237,6 @@ const JapanesePrivacy = () => (
                   <strong>同意の撤回</strong>：同意に基づく処理について同意を撤回する権利
                 </li>
               </ul>
-              <p>
-                これらの権利を行使したい場合は、<a href="/contact">お問い合わせ</a>ページよりご連絡ください。
-              </p>
             </section>
 
             <section className="privacy-section">
@@ -278,14 +263,6 @@ const JapanesePrivacy = () => (
             </section>
 
             <section className="privacy-section">
-              <h2>10. お問い合わせ</h2>
-              <p>
-                本プライバシーポリシーに関するご質問やご不明点がございましたら、
-                <a href="/contact">お問い合わせ</a>ページよりご連絡ください。
-              </p>
-            </section>
-
-            <section className="privacy-section">
               <h2>利用規約</h2>
               <p>
                 アカウントの利用、投稿、責任に関するルールは
@@ -303,7 +280,7 @@ const ChinesePrivacy = () => (
     <div className="privacy-container">
       <h1 className="privacy-title">隐私政策</h1>
       <div className="privacy-content">
-        <p className="privacy-updated">最后更新：2025年</p>
+        <p className="privacy-updated">最后更新：2026年</p>
 
           <section className="privacy-section">
             <h2>1. 信息收集</h2>
@@ -385,9 +362,6 @@ const ChinesePrivacy = () => (
               <li><strong>删除权</strong>：请求删除您的个人信息</li>
               <li><strong>撤回同意</strong>：撤回您对信息处理的同意</li>
             </ul>
-            <p>
-              如需行使这些权利，请通过 <a href="/contact">联系我们</a> 页面与我们联系。
-            </p>
           </section>
 
           <section className="privacy-section">
@@ -411,13 +385,6 @@ const ChinesePrivacy = () => (
             <p>
               我们可能会不时更新本隐私政策。更新后的政策将在平台上公布，并更新"最后更新"日期。
               继续使用本平台即表示您接受更新后的政策。
-            </p>
-          </section>
-
-          <section className="privacy-section">
-            <h2>10. 联系我们</h2>
-            <p>
-              如果您对本隐私政策有任何疑问或担忧，请通过 <a href="/contact">联系我们</a> 页面与我们取得联系。
             </p>
           </section>
 

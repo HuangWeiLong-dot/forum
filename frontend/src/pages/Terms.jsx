@@ -7,7 +7,7 @@ const EnglishTerms = () => (
     <div className="terms-container">
       <h1 className="terms-title">Terms of Service</h1>
       <div className="terms-content">
-        <p className="terms-updated">Last updated: 2025</p>
+        <p className="terms-updated">Last updated: 2026</p>
 
             <section className="terms-section">
               <h2>1. Acceptance of Terms</h2>
@@ -110,14 +110,6 @@ const EnglishTerms = () => (
                 platform. Continued use of the platform means you accept the updated terms.
               </p>
             </section>
-
-            <section className="terms-section">
-              <h2>9. Contact Us</h2>
-              <p>
-                If you have any questions about these terms, please contact us via the{' '}
-                <a href="/contact">Contact</a> page.
-              </p>
-            </section>
       </div>
     </div>
   </div>
@@ -128,7 +120,7 @@ const JapaneseTerms = () => (
     <div className="terms-container">
       <h1 className="terms-title">利用規約</h1>
       <div className="terms-content">
-        <p className="terms-updated">最終更新日：2025年</p>
+        <p className="terms-updated">最終更新日：2026年</p>
 
             <section className="terms-section">
               <h2>1. 規約への同意</h2>
@@ -211,13 +203,6 @@ const JapaneseTerms = () => (
                 引き続き本サービスを利用することにより、変更後の規約に同意したものとみなされます。
               </p>
             </section>
-
-            <section className="terms-section">
-              <h2>9. お問い合わせ</h2>
-              <p>
-                本規約に関するご質問がある場合は、<a href="/contact">お問い合わせ</a>ページよりご連絡ください。
-              </p>
-            </section>
       </div>
     </div>
   </div>
@@ -228,7 +213,7 @@ const ChineseTerms = () => (
     <div className="terms-container">
       <h1 className="terms-title">用户协议</h1>
       <div className="terms-content">
-        <p className="terms-updated">最后更新：2025年</p>
+        <p className="terms-updated">最后更新：2026年</p>
 
           <section className="terms-section">
             <h2>1. 接受协议</h2>
@@ -316,12 +301,7 @@ const ChineseTerms = () => (
             </p>
           </section>
 
-          <section className="terms-section">
-            <h2>9. 联系我们</h2>
-            <p>
-              如果您对本协议有任何疑问，请通过 <a href="/contact">联系我们</a> 页面与我们取得联系。
-            </p>
-          </section>
+          
       </div>
     </div>
   </div>

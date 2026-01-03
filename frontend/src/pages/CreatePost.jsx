@@ -25,7 +25,7 @@ const CreatePost = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login')
+      navigate('/')
       return
     }
     fetchCategories()

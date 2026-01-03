@@ -76,6 +76,8 @@ export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
   logout: () => api.post('/auth/logout'),
+  sendResetPasswordCode: (email) => api.post('/auth/reset-password/send-code', { email }),
+  verifyResetPasswordCode: (email, code) => api.post('/auth/reset-password/verify-code', { email, code }),
 }
 
 // 检查是否是测试用户ID
@@ -118,6 +120,7 @@ export const userAPI = {
     return api.get('/users/profile')
   },
   updateProfile: (data) => api.put('/users/profile', data),
+  changePassword: (data) => api.post('/users/change-password', data),
   getDailyTasks: () => api.get('/users/daily-tasks'),
   completeDailyTask: (data) => api.post('/users/daily-tasks/complete', data),
   getUser: (userId) => {

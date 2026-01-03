@@ -13,6 +13,9 @@ router.post('/daily-tasks/complete', authenticate, UserController.completeDailyT
 // 更新当前用户资料（需要认证）
 router.put('/profile', authenticate, validateUpdateProfile, UserController.updateProfile);
 
+// 修改密码（需要认证）
+router.post('/change-password', authenticate, UserController.changePassword);
+
 // 获取指定用户公开资料（不需要认证）
 router.get('/:userId', validateUserId, UserController.getPublicProfile);
 

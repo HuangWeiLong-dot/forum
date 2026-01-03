@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react'
 import { authAPI, userAPI } from '../services/api'
+import { useLoader } from './LoaderContext'
 
 const AuthContext = createContext()
 
@@ -12,6 +13,7 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
+  const { markResourceLoaded } = useLoader()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState(localStorage.getItem('token'))
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         setToken(null)
         setUser(null)
         setLoading(false)
+        markResourceLoaded('auth')
         return
       }
       
@@ -54,6 +57,7 @@ export const AuthProvider = ({ children }) => {
             setToken(null)
             setUser(null)
             setLoading(false)
+            markResourceLoaded('auth')
             return
           }
           setUser(parsedUser)
@@ -69,12 +73,14 @@ export const AuthProvider = ({ children }) => {
         setToken(storedToken)
         // 立即停止加载，让界面先显示出来
         setLoading(false)
+        markResourceLoaded('auth')
         
         // 异步验证 token（不阻塞界面）
         userAPI.getProfile()
           .then((response) => {
             setUser(response.data)
             localStorage.setItem('user', JSON.stringify(response.data))
+            markResourceLoaded('user')
           })
           .catch((error) => {
             // API 失败不影响界面显示
@@ -90,10 +96,14 @@ export const AuthProvider = ({ children }) => {
                 setUser(null)
               }
             }
+            // 即使验证失败，auth 流程也已完成
+            markResourceLoaded('user')
           })
       } else {
         // 没有 token，直接停止加载
         setLoading(false)
+        markResourceLoaded('auth')
+        markResourceLoaded('user')
       }
     }
 

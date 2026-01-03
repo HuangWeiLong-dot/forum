@@ -34,6 +34,7 @@ const translations = {
     'bottomNav.inbox': '通知',
     'bottomNav.explore': '探索',
     'bottomNav.profile': '我的',
+    'bottomNav.login': '登录',
     'sidebar.home': '首页',
 
     'sidebar.privacy': '隐私政策',
@@ -123,6 +124,15 @@ const translations = {
     'auth.error.passwordMismatch': '两次输入的密码不一致',
     'auth.error.passwordTooShort': '密码长度至少为6位',
     'auth.error.codeNotSent': '请先获取验证码',
+    'auth.resetPasswordTitle': '重置密码',
+    'auth.resetPasswordDescription': '请输入您的邮箱，我们将发送验证码到您的邮箱',
+    'auth.sendResetEmail': '发送验证码',
+    'auth.sendingEmail': '发送中...',
+    'auth.resetPasswordSuccess': '新密码已发送到您的邮箱，请查收',
+    'auth.enterVerificationCode': '请输入发送到您邮箱的6位验证码',
+    'auth.verifyCode': '验证验证码',
+    'auth.verifying': '验证中...',
+    'auth.backToEmail': '返回邮箱输入',
     'create.title': '发布新帖子',
     'create.fieldTitle': '标题 *',
     'create.fieldCategory': '版块 *',
@@ -269,6 +279,9 @@ const translations = {
 
     // 通知消息
     'notification.newPost': '{username} 发布了新帖子',
+    'notification.comment': '{username} 评论了你的帖子',
+    'notification.comment_reply': '{username} 回复了你的评论',
+    'notification.like': '{username} 点赞了你的帖子',
 
     'age.description': '根据相关法律法规，您需要确认您已年满 18 岁才能访问本网站。',
     'age.birthDate': '出生日期',
@@ -280,6 +293,25 @@ const translations = {
     'age.error.required': '请填写完整的出生日期',
     'age.error.invalid': '请输入有效的日期',
     'age.error.underage': '抱歉，您必须年满 18 岁才能访问本网站',
+    
+    // 密码修改功能
+    'password.change.title': '修改密码',
+    'password.change.button': '修改密码',
+    'password.change.currentPassword': '当前密码',
+    'password.change.currentPasswordPlaceholder': '请输入当前密码',
+    'password.change.newPassword': '新密码',
+    'password.change.newPasswordPlaceholder': '请输入新密码',
+    'password.change.passwordHint': '密码长度至少8个字符',
+    'password.change.confirmPassword': '确认新密码',
+    'password.change.confirmPasswordPlaceholder': '请再次输入新密码',
+    'password.change.cancel': '取消',
+    'password.change.save': '保存',
+    'password.change.success': '密码修改成功',
+    'password.change.failed': '密码修改失败',
+    'password.change.passwordTooShort': '新密码长度不能少于8个字符',
+    'password.change.passwordMismatch': '两次输入的密码不一致',
+    'password.change.sameAsCurrent': '新密码不能与当前密码相同',
+    'password.change.passwordLimit': '密码只能每30天修改一次，还需等待 {days} 天',
   },
   en: {
     'common.ok': 'OK',
@@ -312,6 +344,7 @@ const translations = {
     'bottomNav.inbox': 'Inbox',
     'bottomNav.explore': 'Explore',
     'bottomNav.profile': 'Profile',
+    'bottomNav.login': 'Login',
     'sidebar.home': 'Home',
 
     'sidebar.privacy': 'Privacy Policy',
@@ -401,6 +434,11 @@ const translations = {
     'auth.error.passwordMismatch': 'Passwords do not match',
     'auth.error.passwordTooShort': 'Password must be at least 6 characters',
     'auth.error.codeNotSent': 'Please get the verification code first',
+    'auth.resetPasswordTitle': 'Reset Password',
+    'auth.resetPasswordDescription': 'Please enter your email address, and we will send you a password reset link',
+    'auth.sendResetEmail': 'Send Reset Email',
+    'auth.sendingEmail': 'Sending...',
+    'auth.resetPasswordSuccess': 'Password reset email has been sent to your email address. Please check your inbox',
     'create.title': 'Create a new post',
     'create.fieldTitle': 'Title *',
     'create.fieldCategory': 'Category *',
@@ -547,6 +585,9 @@ const translations = {
 
     // Notification messages
     'notification.newPost': '{username} posted a new post',
+    'notification.comment': '{username} commented on your post',
+    'notification.comment_reply': '{username} replied to your comment',
+    'notification.like': '{username} liked your post',
 
     'age.description': 'According to applicable laws and regulations, you must confirm that you are at least 18 years old to access this website.',
     'age.birthDate': 'Date of Birth',
@@ -558,6 +599,25 @@ const translations = {
     'age.error.required': 'Please enter your complete date of birth',
     'age.error.invalid': 'Please enter a valid date',
     'age.error.underage': 'Sorry, you must be at least 18 years old to access this website',
+    
+    // Password change functionality
+    'password.change.title': 'Change Password',
+    'password.change.button': 'Change Password',
+    'password.change.currentPassword': 'Current Password',
+    'password.change.currentPasswordPlaceholder': 'Enter your current password',
+    'password.change.newPassword': 'New Password',
+    'password.change.newPasswordPlaceholder': 'Enter your new password',
+    'password.change.passwordHint': 'Password must be at least 8 characters',
+    'password.change.confirmPassword': 'Confirm New Password',
+    'password.change.confirmPasswordPlaceholder': 'Re-enter your new password',
+    'password.change.cancel': 'Cancel',
+    'password.change.save': 'Save',
+    'password.change.success': 'Password changed successfully',
+    'password.change.failed': 'Failed to change password',
+    'password.change.passwordTooShort': 'New password must be at least 8 characters',
+    'password.change.passwordMismatch': 'Passwords do not match',
+    'password.change.sameAsCurrent': 'New password cannot be the same as current password',
+    'password.change.passwordLimit': 'Password can only be changed once every 30 days. Please wait {days} more days.',
   },
   ja: {
     'common.ok': 'OK',
@@ -590,6 +650,7 @@ const translations = {
     'bottomNav.inbox': '通知',
     'bottomNav.explore': '探索',
     'bottomNav.profile': 'プロフィール',
+    'bottomNav.login': 'ログイン',
     'sidebar.home': 'ホーム',
 
     'sidebar.privacy': 'プライバシーポリシー',
@@ -679,6 +740,11 @@ const translations = {
     'auth.error.passwordMismatch': 'パスワードが一致しません',
     'auth.error.passwordTooShort': 'パスワードは少なくとも6文字である必要があります',
     'auth.error.codeNotSent': 'まず確認コードを取得してください',
+    'auth.resetPasswordTitle': 'パスワードリセット',
+    'auth.resetPasswordDescription': 'メールアドレスを入力してください。パスワードリセットリンクをメールで送信します',
+    'auth.sendResetEmail': 'リセットメールを送信',
+    'auth.sendingEmail': '送信中...',
+    'auth.resetPasswordSuccess': 'パスワードリセットメールが送信されました。メールを確認してください',
     'create.title': '新規投稿',
     'create.fieldTitle': 'タイトル *',
     'create.fieldCategory': 'カテゴリー *',
@@ -824,6 +890,9 @@ const translations = {
 
     // 通知メッセージ
     'notification.newPost': '{username} が新しい投稿をしました',
+    'notification.comment': '{username} があなたの投稿にコメントしました',
+    'notification.comment_reply': '{username} があなたのコメントに返信しました',
+    'notification.like': '{username} があなたの投稿にいいねしました',
 
     'age.title': '年齢確認',
     'age.description': '関連する法律および規制に基づき、本サイトにアクセスするには 18 歳以上であることを確認する必要があります。',
@@ -836,6 +905,25 @@ const translations = {
     'age.error.required': '生年月日をすべて入力してください',
     'age.error.invalid': '有効な日付を入力してください',
     'age.error.underage': '申し訳ございませんが、本サイトにアクセスするには 18 歳以上である必要があります',
+    
+    // パスワード変更機能
+    'password.change.title': 'パスワード変更',
+    'password.change.button': 'パスワード変更',
+    'password.change.currentPassword': '現在のパスワード',
+    'password.change.currentPasswordPlaceholder': '現在のパスワードを入力',
+    'password.change.newPassword': '新しいパスワード',
+    'password.change.newPasswordPlaceholder': '新しいパスワードを入力',
+    'password.change.passwordHint': 'パスワードは8文字以上で入力してください',
+    'password.change.confirmPassword': '新しいパスワード確認',
+    'password.change.confirmPasswordPlaceholder': '新しいパスワードを再入力',
+    'password.change.cancel': 'キャンセル',
+    'password.change.save': '保存',
+    'password.change.success': 'パスワードが変更されました',
+    'password.change.failed': 'パスワード変更に失敗しました',
+    'password.change.passwordTooShort': '新しいパスワードは8文字以上で入力してください',
+    'password.change.passwordMismatch': 'パスワードが一致しません',
+    'password.change.sameAsCurrent': '新しいパスワードは現在のパスワードと同じにできません',
+    'password.change.passwordLimit': 'パスワードは30日に1回しか変更できません。あと {days} 日お待ちください。',
   },
 }
 

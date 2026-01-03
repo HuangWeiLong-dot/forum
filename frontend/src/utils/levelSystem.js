@@ -110,17 +110,56 @@ export const getLevelColor = (level) => {
   return `rgb(${r}, ${g}, ${b})`
 }
 
-// 生成70级的彩虹渐变CSS（动态）
-export const getRainbowGradient = (time = Date.now()) => {
-  // 使用时间创建动态彩虹效果，每16.67ms改变1度，约6秒完成一次360度循环，单向变化
-  const hue = (time / 16.67) % 360
+// 生成70级的主题色渐变CSS
+export const getRainbowGradient = (themeColor = '#2563eb') => {
+  // 辅助函数：RGB转HSL
+  const rgbToHsl = (r, g, b) => {
+    r /= 255
+    g /= 255
+    b /= 255
+    
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    let h, s, l = (max + min) / 2
+    
+    if (max === min) {
+      h = s = 0
+    } else {
+      const d = max - min
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+      
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break
+        case g: h = ((b - r) / d + 2) / 6; break
+        case b: h = ((r - g) / d + 4) / 6; break
+        default: h = 0
+      }
+    }
+    
+    return [h, s, l]
+  }
+  
+  // 解析主题色的HSL值
+  const hex = themeColor.replace('#', '')
+  const r = parseInt(hex.substring(0, 2), 16)
+  const g = parseInt(hex.substring(2, 4), 16)
+  const b = parseInt(hex.substring(4, 6), 16)
+  const hsl = rgbToHsl(r, g, b)
+  const themeHue = hsl[0] * 360
+  
+  // 基于主题色生成深浅变体
+  // 颜色1：主题色的浅色变体（亮度+20%）
+  // 颜色2：主题色本身
+  // 颜色3：主题色的深色变体（亮度-20%）
+  const lightColor = `hsl(${themeHue}, 100%, 70%)` // 浅色变体
+  const mainColor = `hsl(${themeHue}, 100%, 50%)`  // 主题色本身
+  const darkColor = `hsl(${themeHue}, 100%, 30%)`  // 深色变体
+  
+  // 创建平滑的深浅变化渐变，固定135度角
   return `linear-gradient(135deg, 
-    hsl(${hue}, 100%, 50%), 
-    hsl(${(hue + 60) % 360}, 100%, 50%), 
-    hsl(${(hue + 120) % 360}, 100%, 50%), 
-    hsl(${(hue + 180) % 360}, 100%, 50%), 
-    hsl(${(hue + 240) % 360}, 100%, 50%), 
-    hsl(${(hue + 300) % 360}, 100%, 50%))`
+    ${lightColor}, 
+    ${mainColor}, 
+    ${darkColor})`
 }
 
 // 任务经验值奖励

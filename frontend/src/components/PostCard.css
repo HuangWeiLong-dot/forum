@@ -316,46 +316,33 @@
 /* 音频预览样式 */
 .post-audio-preview {
   margin: 0.75rem 0;
-  border-radius: var(--radius-md);
-  background-color: var(--background-alt);
-  padding: 1rem;
   max-width: 100%;
 }
 
 .post-audio-player {
   width: 100%;
-  height: 40px;
-  background-color: var(--background-primary);
-  border-radius: var(--radius-md);
   outline: none;
-  margin-bottom: 0.5rem;
 }
 
-/* 自定义音频播放器样式 */
-.post-audio-player::-webkit-media-controls {
-  background-color: var(--background-primary);
-  border-radius: var(--radius-md);
+/* 夜间模式音频播放器样式 */
+.theme-dark .post-audio-player {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: var(--background-alt);
+  border-radius: 4px;
 }
 
-.post-audio-player::-webkit-media-controls-play-button,
-.post-audio-player::-webkit-media-controls-pause-button,
-.post-audio-player::-webkit-media-controls-volume-slider-container,
-.post-audio-player::-webkit-media-controls-current-time-display,
-.post-audio-player::-webkit-media-controls-time-remaining-display,
-.post-audio-player::-webkit-media-controls-timeline,
-.post-audio-player::-webkit-media-controls-volume-slider {
+/* 确保音频控件在夜间模式下有合适的背景 */
+.theme-dark .post-audio-player::-webkit-media-controls-panel {
+  background-color: var(--background-alt);
+}
+
+/* 确保音频时长和进度条文本在夜间模式下清晰可见 */
+.theme-dark .post-audio-player::-webkit-media-controls-current-time-display,
+.theme-dark .post-audio-player::-webkit-media-controls-time-remaining-display {
   color: var(--text-primary);
 }
 
-.audio-title {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  text-align: center;
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+
 
 @media (max-width: 768px) {
   .post-card {
