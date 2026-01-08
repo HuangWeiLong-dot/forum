@@ -287,9 +287,65 @@ const PostCard = ({ post }) => {
                   )
                 }
                 
+                // 检查是否是Markdown文件链接（非图片、非音频）
+                const fileMatch = line.match(/\[([^\]]*)\]\(([^)]+)(?<!\.(mp3|wav|ogg|m4a|aac|flac|jpg|jpeg|png|gif|webp|svg))\)/i)
+                if (fileMatch) {
+                  const [, alt, url] = fileMatch
+                  // 处理文件URL
+                  let fileUrl = url
+                  if (url.startsWith('/uploads/')) {
+                    // 开发环境：使用相对路径，通过 Vite 代理
+                    if (import.meta.env.MODE === 'development' || import.meta.env.DEV) {
+                      fileUrl = url
+                    } else {
+                      // 生产环境：使用 URL 解析保证得到正确的 origin
+                      const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
+                      let origin
+                      try {
+                        origin = new URL(apiBase, window.location.origin).origin
+                      } catch {
+                        origin = window.location.origin
+                      }
+                      fileUrl = `${origin}${url}`
+                    }
+                  }
+                  
+                  // 检测文件类型
+                  let fileType = 'unknown'
+                  const pdfExtensions = /\.pdf$/i
+                  const docExtensions = /\.(doc|docx)$/i
+                  const archiveExtensions = /\.(zip|rar|7z|tar|gz)$/i
+                  const codeExtensions = /\.(js|jsx|ts|tsx|html|css|scss|json|md|txt|py|java|cpp|c)$/i
+                  
+                  if (pdfExtensions.test(fileUrl)) fileType = 'pdf'
+                  else if (docExtensions.test(fileUrl)) fileType = 'doc'
+                  else if (archiveExtensions.test(fileUrl)) fileType = 'archive'
+                  else if (codeExtensions.test(fileUrl)) fileType = 'code'
+                  
+                  return (
+                    <div key={index} className="post-file-preview">
+                      <div className="post-file-card" data-file-type={fileType}>
+                        <div className="post-file-icon">
+                          <span className="file-type-badge">
+                            {fileType === 'archive' ? 'ARC' : fileType.toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="post-file-info">
+                          <div className="post-file-name">{alt || fileUrl.split('/').pop()}</div>
+                          <div className="post-file-url">
+                            <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="post-file-link">
+                              {t('common.download')}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
+                
                 // 普通文本行
                 if (line.trim()) {
-                  return <p key={index} className="post-excerpt">{line}</p>
+                  return <p key={index} className="post-excerpt">{line.replace(/<[^>]*>/g, '')}</p>
                 }
                 return null
               })}
