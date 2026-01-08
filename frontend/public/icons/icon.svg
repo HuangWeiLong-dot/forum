@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- 蓝色的 R -->
+  <text x="180" y="256" font-family="Arial, sans-serif" font-size="256" font-weight="bold" fill="#2563eb" text-anchor="middle" dominant-baseline="middle">R</text>
+  <!-- 紫色的 E -->
+  <text x="332" y="256" font-family="Arial, sans-serif" font-size="256" font-weight="bold" fill="#7c3aed" text-anchor="middle" dominant-baseline="middle">E</text>
+</svg>
