@@ -176,7 +176,17 @@ class EmailService {
 
       const postUrlBase = process.env.FRONTEND_URL || process.env.APP_URL || '';
       const postUrl = `${postUrlBase}/post/${postId}`;
-      const previewText = excerpt ? excerpt.slice(0, 160) : '点击查看详情';
+      
+      // 清理预览文本中的Markdown链接，只保留纯文本
+      const cleanPreviewText = excerpt ? excerpt.replace(/!?\[(.*?)\]\((.*?)\)/g, '') : '点击查看详情';
+      const previewText = cleanPreviewText.slice(0, 160);
+      
+      // 清理正文摘要中的Markdown链接，只保留纯文本
+      const cleanExcerpt = excerpt ? excerpt.replace(/!?\[(.*?)\]\((.*?)\)/g, '') : '';
+      
+      // 清理帖子标题中的Markdown链接，只保留纯文本
+      const cleanPostTitle = postTitle.replace(/!?\[(.*?)\]\((.*?)\)/g, '$1');
+      
 
       // 实现请求节流，确保每秒最多发送2个请求
       const sendEmailWithThrottle = async () => {
@@ -248,25 +258,25 @@ class EmailService {
                 const { error } = await resend.emails.send({
                   from: 'REForum <noreply@reforum.space>',
                   to: email,
-                  subject: `${authorUsername} 发布了新帖子：${postTitle}`,
+                  subject: `${authorUsername} 发布了新帖子：${cleanPostTitle}`,
                   html: `
                     <!DOCTYPE html>
                     <html lang="${language}">
                     <head>
                       <meta charset="UTF-8">
                       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                      <title>${authorUsername} 发布了新帖子：${postTitle}</title>
+                      <title>${authorUsername} 发布了新帖子：${cleanPostTitle}</title>
                     </head>
                     <body>
                       <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; padding: 20px; text-align: center;">
                         <p style="color: #6b7280; font-size: 12px; margin: 0 0 12px;">${previewText}</p>
-                        <h1 style="color: ${authorThemeColor}; font-size: 22px; margin: 0 0 16px;">${postTitle}</h1>
+                        <h1 style="color: ${authorThemeColor}; font-size: 22px; margin: 0 0 16px;">${cleanPostTitle}</h1>
                         <p style="color: #374151; margin: 0 0 16px;">您好，${displayName}！</p>
                         <p style="color: #374151; margin: 0 0 16px;">${authorUsername} 刚刚发布了新的帖子，快来看看：</p>
                         <div style="margin: 12px 0 20px;">
                           <a href="${postUrl}" style="display: inline-block; padding: 12px 20px; background-color: ${authorThemeColor}; color: #fff; text-decoration: none; border-radius: 6px;">查看帖子</a>
                         </div>
-                        ${excerpt ? `<p style="color: #4b5563; margin: 0 0 12px;">${excerpt}</p>` : ''}
+                        ${cleanExcerpt ? `<p style="color: #4b5563; margin: 0 0 12px;">${cleanExcerpt}</p>` : ''}
                         ${imagesHtml}
                         ${filesHtml}
                         <p style="color: #6b7280; font-size: 12px; margin-top: 24px;">如果按钮无法点击，请复制链接到浏览器：<br /><span style="word-break: break-all;">${postUrl}</span></p>

@@ -310,9 +310,7 @@ const Inbox = ({ showLabel = false }) => {
           <div style={{ position: 'relative', display: 'inline-block' }}>
             <FaEnvelope />
             {unreadCount > 0 && (
-              <span className="inbox-badge">
-                {unreadCount > 99 ? '99+' : unreadCount}
-              </span>
+              <span className="inbox-badge"></span>
             )}
           </div>
           <span className="actions-toggle-label">{t('bottomNav.inbox')}</span>
@@ -327,9 +325,7 @@ const Inbox = ({ showLabel = false }) => {
         >
           <FaEnvelope />
           {unreadCount > 0 && (
-            <span className="inbox-badge">
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
+            <span className="inbox-badge"></span>
           )}
         </button>
       )}

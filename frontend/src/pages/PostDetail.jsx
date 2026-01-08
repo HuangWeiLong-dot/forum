@@ -309,13 +309,6 @@ const PostDetail = () => {
                         />
                       </div>
                     )
-                  } else if (!line.startsWith('![')) {
-                    // 普通链接，直接显示为文本行
-                    return (
-                      <div key={index} className="post-text-line">
-                        {line}
-                      </div>
-                    )
                   } else {
                     // 其他文件类型，显示文件卡片
                     let fileType = 'unknown'
